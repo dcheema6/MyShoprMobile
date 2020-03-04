@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>547105815213-1832orsl6g6nstdi4782t8sbge17qk3v.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.547105815213-1832orsl6g6nstdi4782t8sbge17qk3v</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCDPHxuxYLrbPHHSCj_rUXrJJPrTg2dD9Y</string>
+	<key>GCM_SENDER_ID</key>
+	<string>547105815213</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.nativescript.MyShoprMobile</string>
+	<key>PROJECT_ID</key>
+	<string>myshoprmobile</string>
+	<key>STORAGE_BUCKET</key>
+	<string>myshoprmobile.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:547105815213:ios:ac3441b3d4c81090606424</string>
+	<key>DATABASE_URL</key>
+	<string>https://myshoprmobile.firebaseio.com</string>
+</dict>
+</plist>
