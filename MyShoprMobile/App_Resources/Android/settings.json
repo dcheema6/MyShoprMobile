@@ -1,1 +1,1 @@
-{"appId":"org.nativescript.MyShoprMobile","minSdkVersion":null,"targetSdkVersion":null}
+{"appId":"org.nativescript.MyShoprMobile","minSdkVersion":null,"targetSdkVersion":null,"multiDexEnabled": true}

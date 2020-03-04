@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { User } from "../models/user.model";
-const firebase = require("nativescript-plugin-firebase");
 
 @Injectable()
 export class UserService {
@@ -16,14 +15,7 @@ export class UserService {
     }
 
     firebaseLogin(email, password) {
-        return firebase.login(
-            {
-              type: firebase.LoginType.PASSWORD,
-              passwordOptions: {
-                email: email,
-                password: password
-              }
-            });
+        return true;
     }
 
     logout() {

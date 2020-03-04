@@ -3,7 +3,6 @@ import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { User } from "../models/user.model";
 import { UserService } from "../services/user.service";
-const firebase = require("nativescript-plugin-firebase");
 
 @Component({
     selector: "Login",
@@ -31,8 +30,6 @@ export class LoginComponent implements OnInit {
     }
 
     attemptLogin(){
-        this.userService.firebaseLogin(this.creds.email, this.creds.password)
-            .then(result => console.log(JSON.stringify(result)))
-            .catch(error => console.log(error));
+       return null;
     }
 }
