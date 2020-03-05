@@ -1,24 +1,31 @@
-require('dotenv').config()
+const mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
+const itemsRouter = require('./routes/items.js');
+const userRouter = require('./routes/user.js');
+const recipesRouter = require('./routes/recipes.js');
 
-const express = require('express')
 const app = express()
-const mongoose = require('mongoose')
-
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-const db = mongoose.connection
-db.on('error', (error) => console.error(error))
-db.once('open', () => console.log('connected to database'))
 
 app.use(express.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const uri = "mongodb+srv://dbAdmin:admin@cluster0-bwtlq.gcp.mongodb.net/MyShopr?retryWrites=true&w=majority"
 
 // Route Imports
-const itemsRouter = require('./routes/items')
 app.use('/items', itemsRouter)
-
-const recipesRouter = require('./routes/recipes')
 app.use('/recipes', recipesRouter)
-
-const userRouter = require('./routes/user')
 app.use('/user', userRouter)
 
-app.listen(3000, () => console.log('API Listening on 3000'))
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+    console.log("mongo connected")
+}).catch(err => {
+    console.log(err);
+});
+
+const PORT = (process.env.PORT || 8080)
+
+app.listen(PORT, () => {
+    console.log('API Listening on ' + PORT)
+    
+});

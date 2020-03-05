@@ -1,0 +1,5 @@
+{
+    "mongoHost": "cluster0-bwtlq.gcp.mongodb.net/test?retryWrites=true&w=majority",
+    "mongoUser": "dbAdmin",
+    "mongoPass": "admin"
+  }

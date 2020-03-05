@@ -1,24 +1,19 @@
 const express = require('express')
-const router = express.Router()
+const app = express.Router()
+const user = require('../models/userModel')
 
 // Get all subscribers
-router.get('/', (req, res) => {
-})
+app.get('/', (req,res) => {
+    const allUsers = user.find({'email': 'user@mdmj.com '}, function(err, doc) {
+        if (doc) {
+            res.send(doc);
+        }
+    }).catch(err => {
+        if(err) {
+            throw err;
+        }
+    });
+});
 
-// Get one subscriber
-router.get('/:id', (req, res) => {
-})
 
-// Create one subscriber
-router.post('/', (req, res) => {
-})
-
-// Update one subscriber
-router.patch('/:id', (req, res) => {
-})
-
-// Delete one subscriber
-router.delete('/:id', (req, res) => {
-})
-
-module.exports = router
+module.exports = app;
