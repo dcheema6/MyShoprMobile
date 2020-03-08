@@ -4,7 +4,6 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
 import { filter } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
-const firebase = require("nativescript-plugin-firebase");
 
 @Component({
     selector: "ns-app",
