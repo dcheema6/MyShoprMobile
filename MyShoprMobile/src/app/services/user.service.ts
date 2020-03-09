@@ -14,10 +14,6 @@ export class UserService {
         }
     }
 
-    firebaseLogin(email, password) {
-        return true;
-    }
-
     logout() {
         return null;
     }

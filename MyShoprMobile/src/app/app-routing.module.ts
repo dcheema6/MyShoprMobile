@@ -8,9 +8,9 @@ const routes: Routes = [
     { path: "browse", loadChildren: () => import("~/app/browse/browse.module").then((m) => m.BrowseModule) },
     { path: "search", loadChildren: () => import("~/app/search/search.module").then((m) => m.SearchModule) },
     { path: "featured", loadChildren: () => import("~/app/featured/featured.module").then((m) => m.FeaturedModule) },
+    { path: "goshop", loadChildren: () => import("~/app/go-shopping/go-shopping.module").then((m) => m.GoShoppingModule) },
     { path: "settings", loadChildren: () => import("~/app/settings/settings.module").then((m) => m.SettingsModule) },
-    { path: "login", loadChildren: () => import("~/app/login/login.module").then((m) => m.LoginModule) },
-    { path: "goshop", loadChildren: () => import("~/app/go-shopping/go-shopping.module").then((m) => m.GoShoppingModule) }
+    { path: "login", loadChildren: () => import("~/app/login/login.module").then((m) => m.LoginModule) }
 ];
 
 @NgModule({
