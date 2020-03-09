@@ -15,6 +15,7 @@
     <Label text="Shop"></Label>
 </ActionBar>
 <StackLayout class="page">
-    <Placeholder creatingView="creatingView">
-    </Placeholder>
+    <!--<Placeholder (creatingView)="creatingView($event)">
+    </Placeholder>-->
+    <CanvasView width="100" height="100" (draw)="draw($event)"></CanvasView>
 </StackLayout>

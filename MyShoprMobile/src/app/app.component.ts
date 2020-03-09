@@ -18,12 +18,14 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._activatedUrl = "/home";
+        this._activatedUrl = "/goshop";
         this._sideDrawerTransition = new SlideInOnTopTransition();
 
         this.router.events
             .pipe(filter((event: any) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
+
+        this.onNavItemTap("/goshop");
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {
