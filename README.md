@@ -34,6 +34,9 @@ Install the angular cli using the following:
 4. Running Local Android:
 > `tns run android`
 
+## Hosted Environments
+MongoDB Atlas (Cloud Database): https://cloud.mongodb.com/
+Google Cloud (App Engine): https://console.cloud.google.com/home/dashboard
 
 ## Documentation
 
