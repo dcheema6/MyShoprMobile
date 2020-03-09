@@ -23,6 +23,8 @@ app.use(express.json());
 // Route Imports
 var envStatusRoute = require('./routes/envStatusRoute.js');
 app.use(envStatusRoute);
+var storesRoute = require('./routes/storesRoute.js');
+app.use(storesRoute);
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
     console.log("mongo connected");
