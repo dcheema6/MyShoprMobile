@@ -38,6 +38,11 @@ Install the angular cli using the following:
 MongoDB Atlas (Cloud Database): https://cloud.mongodb.com/
 Google Cloud (App Engine): https://console.cloud.google.com/home/dashboard
 
+## API EndPoints
+API Base (Host) Url: https://myshopr-api.appspot.com
+Environment Health Status Check: https://myshopr-api.appspot.com/env_status
+
+
 ## Documentation
 
 > Angular Docs: https://angular.io/docs

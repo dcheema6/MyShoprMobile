@@ -1,42 +1,35 @@
 {
   "project_info": {
-    "project_number": "547105815213",
-    "firebase_url": "https://myshoprmobile.firebaseio.com",
-    "project_id": "myshoprmobile",
-    "storage_bucket": "myshoprmobile.appspot.com"
+    "project_number": "472783354156",
+    "firebase_url": "https://myshopr-api.firebaseio.com",
+    "project_id": "myshopr-api",
+    "storage_bucket": "myshopr-api.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:547105815213:android:6b0219c7d8265e8f606424",
+        "mobilesdk_app_id": "1:472783354156:android:35fb4f0e806587e9c2d489",
         "android_client_info": {
           "package_name": "org.nativescript.MyShoprMobile"
         }
       },
       "oauth_client": [
         {
-          "client_id": "547105815213-vqe9c3brauv3dk72hqampoc103u5hju8.apps.googleusercontent.com",
+          "client_id": "472783354156-cg2bbidmh74gpt3nuut403mb09oellre.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAZ5RLmtep9bqps3ST4o7p-LItTghrBhaA"
+          "current_key": "AIzaSyAT-ZQr5Aep9PRpnX5Afiz7M-Fgmxyyt1M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "547105815213-vqe9c3brauv3dk72hqampoc103u5hju8.apps.googleusercontent.com",
+              "client_id": "472783354156-cg2bbidmh74gpt3nuut403mb09oellre.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "547105815213-1832orsl6g6nstdi4782t8sbge17qk3v.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "org.nativescript.MyShoprMobile"
-              }
             }
           ]
         }

@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
-import { User } from "../models/user.model";
+import { User, APP_ROLES } from "../models/user.model";
 import { UserService } from "../services/user.service";
+import { RouterExtensions } from "nativescript-angular/router";
+
 
 @Component({
     selector: "Login",
@@ -10,18 +12,17 @@ import { UserService } from "../services/user.service";
 })
 export class LoginComponent implements OnInit {
 
-    isUserLoggedIn = false;
-    userInSession: User = null;
+    isLoginSuccess = false;
     creds: User;
-    
 
-    constructor(public userService: UserService) {
+    constructor(public userService: UserService, private routerExtensions: RouterExtensions) {
     }
 
     ngOnInit(): void {
         this.creds = new User();
-        this.creds.email = null;
-        this.creds.password = null;
+        this.creds.email = '';
+        this.creds.password = '';
+        this.creds.permissionRole = APP_ROLES.Visitor;
     }
 
     onDrawerButtonTap(): void {
@@ -30,6 +31,8 @@ export class LoginComponent implements OnInit {
     }
 
     attemptLogin(){
-       return null;
+        // This will be false if creds dont align
+        this.isLoginSuccess = this.userService.mockLogin(this.creds); // Can replace with real login if needed but not necessary for demo as its not about login
+        console.log(this.isLoginSuccess);
     }
 }
