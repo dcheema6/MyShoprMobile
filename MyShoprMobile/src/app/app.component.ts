@@ -5,6 +5,7 @@ import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nat
 import { filter } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
 
+
 @Component({
     selector: "ns-app",
     templateUrl: "app.component.html"

@@ -20,7 +20,7 @@
     <Stacklayout class="form">
         <GridLayout rows="auto, auto, auto">
             <StackLayout row="0" class="input-field">
-                <TextField class="input" hint="Email" keyboardType="email" autocorrect="false"
+                <TextField #email class="input" hint="Email" keyboardType="email" autocorrect="false"
                     autocapitalizationType="none" [(ngModel)]="creds.email" returnKeyType="next"></TextField>
                 <StackLayout class="hr-light"></StackLayout>
             </StackLayout>
@@ -31,8 +31,7 @@
             </StackLayout>
         </GridLayout>
         <GridLayout>
-            <Button text="Cancel" (tap)="clearAndBackHome()" class="btn btn-primary m-t-20"></Button>
-            <Button text="Continue" (tap)="attemptLogin()" class="btn btn-primary m-t-20"></Button>
+            <Button text="Continue" (tap)="attemptLogin()" [nsRouterLink]="['/browse']" class="btn btn-primary m-t-20"></Button>
         </GridLayout>
     </Stacklayout>
 </FlexboxLayout>

@@ -9,8 +9,8 @@
     }
   },
   "description": "NativeScript Application",
-  "license": "SEE LICENSE IN <your-license-filename>",
-  "repository": "<fill-your-repository-here>",
+  "license": "UNLICENSED",
+  "repository": "https://github.com/MrNorthmore/MyShoprMobile.git",
   "scripts": {
     "lint": "tslint \"src/**/*.ts\""
   },
@@ -28,13 +28,12 @@
     "nativescript-canvas": "^2.1.24",
     "nativescript-ui-sidedrawer": "~8.0.0",
     "reflect-metadata": "~0.1.12",
-    "rxjs": "^6.4.0",
+    "rxjs": "^6.5.4",
     "tns-core-modules": "~6.4.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular/compiler-cli": "~8.2.0",
-    "@ngtools/webpack": "~8.2.0",
     "codelyzer": "~4.5.0",
     "nativescript-dev-webpack": "~1.5.0",
     "node-sass": "^4.7.1",
@@ -42,5 +41,6 @@
     "typescript": "~3.5.3"
   },
   "gitHead": "d8bdf0799a219051f28f8abd7c258d2bf2fce6e1",
-  "readme": "NativeScript Application"
+  "readme": "README.md",
+  "author": "MDMJ Capstone Group 2020"
 }
