@@ -1,0 +1,37 @@
+<ActionBar>
+    <!-- 
+    Use the NavigationButton as a side-drawer button in Android
+    because ActionItems are shown on the right side of the ActionBar
+    -->
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <!-- 
+    Use the ActionItem for IOS with position set to left. Using the
+    NavigationButton as a side-drawer button in iOS is not possible,
+    because its function is to always navigate back in the application.
+    -->
+    <ActionItem icon="res://menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+    </ActionItem>
+    <Label text="Select A Store"></Label>
+</ActionBar>
+
+<GridLayout rows="auto, auto, *, auto">
+    <Label row="0" class="m-t-10 m-b-10 text-center" text="Available Stores: "></Label>
+    <StackLayout row="1" class="hr"></StackLayout>
+    <ListView row="2" [items]="availableStoresList" (itemTap)="onSelectItem($event)">
+        <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+            <StackLayout [ngClass]=" (item.selected === true) ? 'selectedItem' : '' ">
+                <Label [text]="item.name" class="list-group-item"></Label>
+                <Label [text]="item.address" class="list-group-item"></Label>
+            </StackLayout>
+        </ng-template>
+        <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+            <StackLayout>
+                <Label [text]="item.name" class="list-group-item"></Label>
+                <Label [text]="item.address" class="list-group-item"></Label>
+            </StackLayout>
+        </ng-template>
+    </ListView>
+    <StackLayout row="3">
+        <Button text="Save" class="-outline -rounded-lg" verticalAlignment="bottom" isEnabled="true"></Button>
+    </StackLayout>
+</GridLayout>
