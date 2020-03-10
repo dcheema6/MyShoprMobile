@@ -38,4 +38,8 @@ export class StoresService {
             this.selectedStore = null;
         }
     }
+
+    public saveSelectedStore() {
+        return null;
+    }
 }
