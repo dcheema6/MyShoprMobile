@@ -13,8 +13,5 @@
     </ActionItem>
     <Label text="Go Shopping"></Label>
 </ActionBar>
-<StackLayout class="page">
-    <!--<Placeholder (creatingView)="creatingView($event)">
-    </Placeholder>-->
-    <CanvasView width="100" height="100" (draw)="draw($event)"></CanvasView>
+<StackLayout class="page" (loaded)="pageLoaded($event)">
 </StackLayout>
