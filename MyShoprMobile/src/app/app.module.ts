@@ -5,6 +5,7 @@ import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angul
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { UserService } from "./services/user.service";
+import { StoresService } from "./services/stores.service";
 
 @NgModule({
     bootstrap: [
@@ -19,7 +20,8 @@ import { UserService } from "./services/user.service";
         AppComponent
     ],
     providers: [
-        UserService
+        UserService,
+        StoresService
     ],
     schemas: [
         NO_ERRORS_SCHEMA,
