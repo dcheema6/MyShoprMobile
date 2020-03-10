@@ -3,10 +3,14 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 
 import { StorePickerRoutingModule } from "./store-picker-routing.module";
 import { StorePickerComponent } from "./store-picker.component";
+import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
+
+
 
 @NgModule({
     imports: [
         NativeScriptCommonModule,
+        NativeScriptHttpClientModule,
         StorePickerRoutingModule
     ],
     declarations: [
@@ -17,4 +21,4 @@ import { StorePickerComponent } from "./store-picker.component";
         CUSTOM_ELEMENTS_SCHEMA
     ]
 })
-export class SettingsModule { }
+export class StorePickerModule { }
