@@ -2,29 +2,31 @@ import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { EventData } from "tns-core-modules/data/observable";
-import { CreateViewEventData, Placeholder } from "tns-core-modules/ui/placeholder";
+import { Placeholder } from "tns-core-modules/ui/placeholder";
 import { isIOS, isAndroid } from "tns-core-modules/platform/platform";
 import { ad } from "tns-core-modules/utils/utils";
-// import { registerElement } from 'nativescript-angular/element-registry';
-// import { CanvasView, Canvas, Paint, createRect } from 'nativescript-canvas';
-// import { Color } from "tns-core-modules/color/color";
 import { ImageSource } from '@nativescript/core/image-source/image-source';
-import { Page } from "tns-core-modules/ui/page";
-// registerElement('CanvasView', () => CanvasView);
+
+import { StoresService } from '../services/stores.service';
+import { PercentLength } from "tns-core-modules/ui/page/page";
 
 @Component({
     selector: "GoShopping",
-    templateUrl: "./go-shopping.component.html"
+    moduleId: module.id,
+    styleUrls: ["go-shopping.component.scss"],
+    templateUrl: "./go-shopping.component.html",
+    providers: [StoresService]
 })
 export class GoShoppingComponent implements OnInit {
     slayout: any;
-    imgSrc: any;
+    imgSrc: ImageSource;
+    itemAisleMap: any;
+    items: any = [];
 
-    constructor() {
+    constructor(private storeService: StoresService) {
     }
 
     ngOnInit(): void {
-
     }
 
     onDrawerButtonTap(): void {
@@ -32,34 +34,47 @@ export class GoShoppingComponent implements OnInit {
         sideDrawer.showDrawer();
     }
 
-    pageLoaded(args: EventData) {
-        // Get the event sender
+    pageLoaded(args: EventData): void {
         this.slayout = args.object;
-        this.getLayoutImage().then((imgSrc) => {
-            this.imgSrc = imgSrc;
-            let placeholder = new Placeholder();
-            if (isAndroid)
-                placeholder.setNativeView(this.getLayoutViewAndroid());
-            // placeholder.on("creatingView", this.creatingView);
-            this.slayout.addChild(placeholder);
+        this.storeService.getItemsAiles().then((itemAisles) => {
+            this.itemAisleMap = itemAisles;
+            this.getLayoutImage().then((imgSrc) => {
+                this.imgSrc = imgSrc;
+                let placeholder = new Placeholder();
+                if (isAndroid)
+                    placeholder.setNativeView(this.getLayoutViewAndroid());
+                this.slayout.insertChild(placeholder,0);
+                this.items = this.itemAisleMap;
+            });
         });
     }
 
     getLayoutViewAndroid(): android.widget.ImageView {
         let nativeView = new android.widget.ImageView(ad.getApplicationContext());
         nativeView.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
-        
+
         let bitmap: android.graphics.Bitmap = this.imgSrc.android.copy(android.graphics.Bitmap.Config.ARGB_8888, true);
 
         let canvas = new android.graphics.Canvas(bitmap);
-        
-        let blueColor = new android.graphics.Paint();
-        blueColor.setARGB(255, 0, 0, 255);
-        blueColor.setAntiAlias(true);
-        canvas.drawCircle(500, 500, 50, blueColor);
-        
+        this.itemAisleMap.forEach(aisle => {
+            this.addNodeToCanvasAndroid(aisle.coords[0], aisle.coords[1], 40, canvas);
+        });
+
         nativeView.setImageBitmap(bitmap);
         return nativeView;
+    }
+
+    addNodeToCanvasAndroid(x: number, y: number, size: number, canvas: android.graphics.Canvas): void {
+        let paint = new android.graphics.Paint();
+        paint.setARGB(255, 0, 0, 255);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(10);
+        paint.setStyle(android.graphics.Paint.Style.STROKE)
+        canvas.drawCircle(x, y, size, paint);
+    }
+
+    getPaths() {
+        //thi
     }
 
     getLayoutImage(): Promise<ImageSource> {

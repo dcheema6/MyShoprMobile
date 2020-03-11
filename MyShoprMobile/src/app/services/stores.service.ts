@@ -38,6 +38,38 @@ export class StoresService {
             this.selectedStore = null;
         }
     }
+    
+    public getItemsAiles() {
+        return new Promise((resolve) => {
+            resolve([{
+                item: "1",
+                number: "1",
+                coords: [67, 157]
+            },
+            {
+                item: "2",
+                number: "2",
+                coords: [493, 100]
+            },
+            {
+                item: "3",
+                number: "3",
+                coords: [440, 285]
+            },
+            {
+                item: "4",
+                number: "4",
+                coords: [440, 480]
+            },
+            {
+                item: "5",
+                number: "5",
+                coords: [843, 427]
+            }]);
+        });
+    }
+
+    public getSelectedStoreLayout() {}
 
     public saveSelectedStore() {
         return null;
