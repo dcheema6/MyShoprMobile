@@ -14,7 +14,7 @@
     <Label text="Go Shopping"></Label>
 </ActionBar>
 <StackLayout class="page" orientation="vertical" width="100%" height="100%">
-    <StackLayout (loaded)="pageLoaded($event)"></StackLayout>
+    <StackLayout class="canvas" (loaded)="pageLoaded($event)"></StackLayout>
     <ListView [items]="items" separatorColor="#000080" backgroundColor="lightgray">
         <ng-template let-item="item">
             <StackLayout>
