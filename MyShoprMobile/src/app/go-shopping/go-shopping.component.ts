@@ -20,8 +20,8 @@ import { PercentLength } from "tns-core-modules/ui/page/page";
 export class GoShoppingComponent implements OnInit {
     slayout: any;
     imgSrc: ImageSource;
-    itemAisleArr: any;
-    items: any = [];
+    aisles: Array<any>;
+    items: Array<any>;
 
     constructor(private storeService: StoresService) {
     }
@@ -36,15 +36,15 @@ export class GoShoppingComponent implements OnInit {
 
     pageLoaded(args: EventData): void {
         this.slayout = args.object;
-        this.storeService.getItemsAiles().then((itemAisles) => {
-            this.itemAisleArr = itemAisles;
+        this.storeService.getItemsAiles().then((itemAisles: Array<any>) => {
+            this.aisles = itemAisles;
             this.getLayoutImage().then((imgSrc) => {
                 this.imgSrc = imgSrc;
                 let placeholder = new Placeholder();
                 if (isAndroid)
                     placeholder.setNativeView(this.getLayoutViewAndroid());
                 this.slayout.insertChild(placeholder,0);
-                this.items = this.itemAisleArr;
+                this.items = itemAisles;
             });
         });
     }
@@ -56,8 +56,9 @@ export class GoShoppingComponent implements OnInit {
         let bitmap: android.graphics.Bitmap = this.imgSrc.android.copy(android.graphics.Bitmap.Config.ARGB_8888, true);
 
         let canvas = new android.graphics.Canvas(bitmap);
-        nativeView.setMaxHeight(bitmap.getHeight());
-        this.itemAisleArr.forEach(aisle => {
+        nativeView.setMaxHeight(bitmap.getHeight()
+        );
+        this.aisles.forEach(aisle => {
             this.addNodeToCanvasAndroid(aisle.coords[0], aisle.coords[1], 40, canvas);
         });
         this.drawPaths(canvas);
@@ -85,74 +86,70 @@ export class GoShoppingComponent implements OnInit {
     }
 
     drawPaths(canvas: android.graphics.Canvas): void {
-        let path = this.getPath();
-        for (let i = 0; i < path.length-1; i++)
-            this.drawLine(this.itemAisleArr[path[i]].coords[0], this.itemAisleArr[path[i]].coords[1],
-                this.itemAisleArr[path[i+1]].coords[0], this.itemAisleArr[path[i+1]].coords[1], canvas);
+        this.sortAisles(0, this.aisles.length-1);
+        for (let i = 0; i < this.aisles.length-1; i++)
+            this.drawLine(this.aisles[i].coords[0], this.aisles[i].coords[1],
+                this.aisles[i+1].coords[0], this.aisles[i+1].coords[1], canvas);
     }
 
     /**
-     *  Assumew first and last elements of array itemAisleMap
-     *  Heuristic search, time Complexity: O(n (log n)^2), space complexity: n
+     *  Assumew first and last elements of array aisles
+     *  Heuristic search, time Complexity: O(n log n), space complexity: n
      *  n = itemAisleArr.length
      *  */
-    getPath(): Array<number> {
-        let path = [0];
-        let indexsToBeTraversed = [];
-        for (let i = 1; i < this.itemAisleArr.length; i++) indexsToBeTraversed.push(i);
-        this.getPathHelper(path, indexsToBeTraversed);
-        return path;
+    sortAisles(startInd: number, endInd: number) {
+        this.swapAisles(endInd, this.aisles.length-1);
+        this.swapAisles(startInd, 0);
+        this.sortAisleHelper(0);
     }
 
     /**
      *  Recursive
-     *  Time Complexity (each loop): O(n^2), n = indexsToBeTraversed.length
+     *  Time Complexity (each loop): O(log n), n = aisles.length
      *  Each time indexsToBeTraversed.length decreases by 1.
      *  */
-    getPathHelper(path: Array<number>, indexsToBeTraversed: Array<number>): void {
-        let currIndex = path[path.length-1];
-        let lastIndex = this.itemAisleArr.length - 1;
+    sortAisleHelper(currIndex: number): void {
+        let endIndex = this.aisles.length-1;
+        if (currIndex >= endIndex) return;
 
-        // Run until reached last node
-        // Runs n times
-        if (currIndex === lastIndex || currIndex < 0) return;
+        // O(log n)
+        let cAisleDisArr = this.getDisToAsile(currIndex, currIndex+1);
+        let lAisleDisArr = this.getDisToAsile(endIndex, currIndex+1);
 
-        // O(log n log log n)
-        let cDisArr = this.addDisToAsileMap(currIndex, indexsToBeTraversed, "cDis");
-        let lDisArr = this.addDisToAsileMap(lastIndex, indexsToBeTraversed, "lDis");
+        let maxBias = null;
+        let nextIndex = endIndex; // stores the index with maximum bias
 
-        let biases = [];
-        let maxBias = -lastIndex;
-        let pathIndex = lastIndex; // stores the index with maximum bias
-        // O ((log n)^2)
-        indexsToBeTraversed.forEach((i) => {
-            let bias = lDisArr.indexOf(this.itemAisleArr[i].ldis) // More bias the furthur away from last node
-                - cDisArr.indexOf(this.itemAisleArr[i].cdis); // More bias the closer to the curr node
-            biases.push(bias);
-            if (maxBias < bias) {
+        // O(log n)
+        for (let i=0; i<cAisleDisArr.length; i++) {
+            let bias = lAisleDisArr[i][0] // More bias the furthur away from last aisle
+                - cAisleDisArr[i][0]; // More bias the closer to the curr aisle
+            if (!maxBias || maxBias < bias) {
                 maxBias = bias;
-                pathIndex = i;
+                nextIndex = cAisleDisArr[i][1];
             }
-        });
+        }
 
-        //
-        delete indexsToBeTraversed[indexsToBeTraversed.indexOf(pathIndex)];
-        path.push(pathIndex); // add the index with maximum bias to path
-        this.getPathHelper(path, indexsToBeTraversed);
+        currIndex++;
+        this.swapAisles(currIndex, nextIndex);
+        this.sortAisleHelper(currIndex);
     }
 
-    addDisToAsileMap(index: number, indexsToBeTraversed: Array<number>, identifier: string): Array<number> {
+    // Returns array of [distance, aisleIndex] sorted by distance for all aisleIndex in indexsToBeTraversed
+    getDisToAsile(index: number, startIndex: number): Array<Array<number>> {
         let disArr = [];
-        let aisle = this.itemAisleArr[index];
-        indexsToBeTraversed.forEach(i => {
+        for (let i = startIndex; i < this.aisles.length-1; i++) {
             let dis = this.calculateDis(
-                aisle.coords[0], this.itemAisleArr[i].coords[0],
-                aisle.coords[1], this.itemAisleArr[i].coords[1]);
-            this.itemAisleArr[i][identifier] = dis;
-            disArr.push(dis);
-        });
-        disArr.sort();
+                this.aisles[index].coords[0], this.aisles[index].coords[1],
+                this.aisles[i].coords[0], this.aisles[i].coords[1]);
+            disArr.push([dis, i]);
+        }
         return disArr;
+    }
+
+    swapAisles(ind1: number, ind2: number): void {
+        let temp = this.aisles[ind1]
+        this.aisles[ind1] = this.aisles[ind2]
+        this.aisles[ind2] = temp
     }
 
     calculateDis(x1: number, y1: number, x2: number, y2: number): number {
