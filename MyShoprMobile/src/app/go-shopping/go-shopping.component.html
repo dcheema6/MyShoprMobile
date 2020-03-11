@@ -15,10 +15,10 @@
 </ActionBar>
 <StackLayout class="page" orientation="vertical" width="100%" height="100%">
     <StackLayout class="canvas" (loaded)="pageLoaded($event)"></StackLayout>
-    <ListView [items]="items" separatorColor="#000080" backgroundColor="lightgray">
+    <ListView height="100%" [items]="items" separatorColor="#000080" backgroundColor="lightgray">
         <ng-template let-item="item">
             <StackLayout>
-                <Label [text]="item.item"></Label>
+                <Label [text]="item.id"></Label>
             </StackLayout>
         </ng-template>
     </ListView>
