@@ -94,7 +94,7 @@ export class GoShoppingComponent implements OnInit {
 
     /**
      *  Assumew first and last elements of array aisles
-     *  Heuristic search, time Complexity: O(n log n), space complexity: n
+     *  Heuristic search, time Complexity: O(n^2), space complexity: n
      *  n = itemAisleArr.length
      *  */
     sortAisles(startInd: number, endInd: number) {
@@ -105,21 +105,21 @@ export class GoShoppingComponent implements OnInit {
 
     /**
      *  Recursive
-     *  Time Complexity (each loop): O(log n), n = aisles.length
+     *  Time Complexity (each loop): O(n)
      *  Each time indexsToBeTraversed.length decreases by 1.
      *  */
     sortAisleHelper(currIndex: number): void {
         let endIndex = this.aisles.length-1;
         if (currIndex >= endIndex) return;
 
-        // O(log n)
+        // O(n)
         let cAisleDisArr = this.getDisToAsile(currIndex, currIndex+1);
         let lAisleDisArr = this.getDisToAsile(endIndex, currIndex+1);
 
         let maxBias = null;
         let nextIndex = endIndex; // stores the index with maximum bias
 
-        // O(log n)
+        // O(n)
         for (let i=0; i<cAisleDisArr.length; i++) {
             let bias = lAisleDisArr[i][0] // More bias the furthur away from last aisle
                 - cAisleDisArr[i][0]; // More bias the closer to the curr aisle
