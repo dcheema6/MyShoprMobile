@@ -13,6 +13,11 @@
                     <Label col="1" text="Home" class="p-r-10"></Label>
                 </GridLayout>
 
+                <GridLayout columns="auto, *" class="nt-drawer__list-item" [class.-selected]="isComponentSelected('/dashboard')" (tap)="onNavItemTap('/dashboard')">
+                    <Label col="0" text="&#xf2bd;" class="nt-icon fas"></Label>
+                    <Label col="1" text="User Profile" class="p-r-10"></Label>
+                </GridLayout>
+
                 <GridLayout columns="auto, *" class="nt-drawer__list-item" [class.-selected]="isComponentSelected('/new-recipe')" (tap)="onNavItemTap('/new-recipe')">
                     <Label col="0" text="&#xf015;" class="nt-icon fas"></Label>
                     <Label col="1" text="Create Recipes" class="p-r-10"></Label>
