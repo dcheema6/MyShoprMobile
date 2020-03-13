@@ -1,5 +1,1 @@
-{
-  "appId": "org.nativescript.MyShoprMobile",
-  "minSdkVersion": 29,
-  "targetSdkVersion": 29
-}
+{"appId":"com.mdmj.MyShoprMobile","minSdkVersion":29,"targetSdkVersion":29}

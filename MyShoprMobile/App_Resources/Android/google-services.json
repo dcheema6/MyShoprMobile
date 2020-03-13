@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:472783354156:android:35fb4f0e806587e9c2d489",
+        "mobilesdk_app_id": "1:472783354156:android:63403ed82a922811c2d489",
         "android_client_info": {
-          "package_name": "org.nativescript.MyShoprMobile"
+          "package_name": "com.mdmj.MyShoprMobile"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "472783354156-of79c93l8rng0gsr8kak62peodtdvav3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mdmj.MyShoprMobile",
+            "certificate_hash": "f3c680559fdae00a3f180158ccddd53650e577d3"
+          }
+        },
         {
           "client_id": "472783354156-cg2bbidmh74gpt3nuut403mb09oellre.apps.googleusercontent.com",
           "client_type": 3

@@ -1,0 +1,47 @@
+<ActionBar>
+    <!-- 
+    Use the NavigationButton as a side-drawer button in Android
+    because ActionItems are shown on the right side of the ActionBar
+    -->
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <!-- 
+    Use the ActionItem for IOS with position set to left. Using the
+    NavigationButton as a side-drawer button in iOS is not possible,
+    because its function is to always navigate back in the application.
+    -->
+    <ActionItem icon="res://menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+    </ActionItem>
+    <Label text="Create Recipe"></Label>
+</ActionBar>
+
+<StackLayout class="page__content" [formGroup]="newRecipeForm">
+    <TextField formControlName="name" hint="Whats it called?"></TextField>
+    <GridLayout rows="auto, auto, auto, auto, auto">
+        <Label row="0" text="Ingredients: "></Label>
+        <ListView row="1" [items]="ingredientsList" (itemTap)="onSelectItem($event)">
+            <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+                <StackLayout>
+                    <Label [text]="item.name" class="list-group-item"></Label>
+                    <Label [text]="item.quantity" class="list-group-item"></Label>
+                </StackLayout>
+            </ng-template>
+        </ListView>
+        <TextField row="2" formControlName="ingredient" hint="New Ingredient"></TextField>
+        <TextField row="3" formControlName="quantity" hint="Quantity"></TextField>
+        <Button row="4" text="Add" class="-primary" (tap)="addIngredient()"></Button>
+    </GridLayout>
+    
+    <GridLayout rows="auto, auto, auto, auto">
+        <Label row="0" text="Instructions: "></Label>
+        <ListView row="1">
+            <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+                <StackLayout>
+                    <Label [text]="item" class="list-group-item"></Label>
+                </StackLayout>
+            </ng-template>
+        </ListView>
+        <TextField row="2" formControlName="instruction" hint="New Instruction"></TextField>
+        <Button row="3" text="Add" class="-primary"></Button>
+    </GridLayout>
+    <Button text="Save Recipe"  (tap)="onButtonTap()"></Button>
+</StackLayout>
