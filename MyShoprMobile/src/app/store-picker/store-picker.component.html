@@ -24,12 +24,6 @@
                 <Label [text]="item.address" class="list-group-item"></Label>
             </StackLayout>
         </ng-template>
-        <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
-            <StackLayout>
-                <Label [text]="item.name" class="list-group-item"></Label>
-                <Label [text]="item.address" class="list-group-item"></Label>
-            </StackLayout>
-        </ng-template>
     </ListView>
     <StackLayout row="3">
         <Button text="Save" class="-outline -rounded-lg" verticalAlignment="bottom" isEnabled="true"></Button>

@@ -14,24 +14,24 @@
     <Label text="Login"></Label>
 </ActionBar>
 
-<FlexboxLayout class="page__content">
+<FlexboxLayout class="page">
     <!-- <Label class="page__content-icon fas" text="&#xf005;"></Label>
     <Label class="page__content-placeholder" text="LoginPage"></Label> -->
     <Stacklayout class="form">
         <GridLayout rows="auto, auto, auto">
             <StackLayout row="0" class="input-field">
-                <TextField #email class="input" hint="Email" keyboardType="email" autocorrect="false"
-                    autocapitalizationType="none" [(ngModel)]="creds.email" returnKeyType="next"></TextField>
+                <TextField class="input" hint="Email" keyboardType="email" autocorrect="false"
+                    autocapitalizationType="none" [formControl]="emailControl" returnKeyType="next"></TextField>
                 <StackLayout class="hr-light"></StackLayout>
             </StackLayout>
             <StackLayout row="1" class="input-field">
-                <TextField #password class="input" hint="Password" secure="true" autocorrect="false"
-                    autocapitalizationType="none" [(ngModel)]="creds.password"></TextField>
+                <TextField class="input" hint="Password" secure="true" autocorrect="false"
+                    autocapitalizationType="none" [formControl]="passwordControl"></TextField>
                 <StackLayout class="hr-light"></StackLayout>
             </StackLayout>
         </GridLayout>
         <GridLayout>
-            <Button text="Continue" (tap)="attemptLogin()" [nsRouterLink]="['/browse']" class="btn btn-primary m-t-20"></Button>
+            <Button text="Continue" (tap)="firebaseEmailAuthLoginAttempt()" class="btn btn-primary m-t-20"></Button>
         </GridLayout>
     </Stacklayout>
 </FlexboxLayout>

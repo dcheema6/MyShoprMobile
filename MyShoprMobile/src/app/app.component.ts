@@ -4,6 +4,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
 import { filter } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
+import * as firebase from 'nativescript-plugin-firebase';
 
 
 @Component({
@@ -19,7 +20,18 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._activatedUrl = "/goshop";
+        firebase.init({
+            // Optionally pass in properties for database, authentication and cloud messaging,
+            // see their respective docs.
+          }).then(
+            () => {
+              console.log("firebase.init done");
+            },
+            error => {
+              console.log(`firebase.init error: ${error}`);
+            }
+          );
+        this._activatedUrl = "/home";
         this._sideDrawerTransition = new SlideInOnTopTransition();
 
         this.router.events
