@@ -1,11 +1,11 @@
 {
   "nativescript": {
     "id": "com.mdmj.MyShoprMobile",
-    "tns-android": {
-      "version": "6.4.1"
-    },
     "tns-ios": {
       "version": "6.4.2"
+    },
+    "tns-android": {
+      "version": "6.4.1"
     }
   },
   "description": "NativeScript Application",

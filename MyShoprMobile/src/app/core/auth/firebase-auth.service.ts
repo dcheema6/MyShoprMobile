@@ -39,6 +39,13 @@ export class FirebaseAuthService {
     }
 
     public signInWithEmailAndPassword(email: string, password: string) {
+        console.log({
+            type: firebase.LoginType.PASSWORD,
+            passwordOptions: {
+                email: email,
+                password: password
+            }
+        });
         return firebase.login({
             type: firebase.LoginType.PASSWORD,
             passwordOptions: {

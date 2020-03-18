@@ -1,3 +1,8 @@
+.page {
+  align-items: center;
+  flex-direction: column;
+}
+
 .form {
   margin-left: 30;
   margin-right: 30;
@@ -5,15 +10,19 @@
   vertical-align: middle;
 }
 
-.input-field {
-  margin-bottom: 25;
+.footer {
+  vertical-align: middle;
 }
 
-.input {
-  font-size: 18;
-  color: #a8a8a8;
-}
-.input:disabled {
-  background-color: white;
-  opacity: 0.5;
-}
+// .input-field {
+//   margin-bottom: 25;
+// }
+
+// .input {
+//   font-size: 18;
+//   color: #a8a8a8;
+// }
+// .input:disabled {
+//   background-color: white;
+//   opacity: 0.5;
+// }

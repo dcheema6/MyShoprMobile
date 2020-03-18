@@ -2,6 +2,7 @@ import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from "@angular/cor
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -16,14 +17,15 @@ import { StoresService } from "./services/stores.service";
         AppRoutingModule,
         NativeScriptModule,
         NativeScriptUISideDrawerModule,
-        NativeScriptHttpClientModule
+        NativeScriptHttpClientModule,
+        NativeScriptFormsModule,
     ],
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     providers: [
         UserService,
-        StoresService
+        StoresService,
     ],
     schemas: [
         NO_ERRORS_SCHEMA,
