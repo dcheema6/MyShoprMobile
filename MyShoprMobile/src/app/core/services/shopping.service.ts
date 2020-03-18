@@ -35,6 +35,7 @@ export class ShoppingService {
 
     getShoppingLists(userid) {
         return new Promise((resolve) => {
+            
             resolve([{
                 id: "list1"
             },
