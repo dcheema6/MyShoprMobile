@@ -7,7 +7,7 @@ import { isIOS, isAndroid } from "tns-core-modules/platform/platform";
 import { ad } from "tns-core-modules/utils/utils";
 import { ImageSource } from '@nativescript/core/image-source/image-source';
 
-import { StoresService } from '../services/stores.service';
+import { StoresService } from '../core/services/stores.service';
 import { PercentLength } from "tns-core-modules/ui/page/page";
 
 @Component({

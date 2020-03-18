@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 
-import { RecipeService } from "./../services/recipe.service";
-import { ShoppingService } from "./../services/shopping.service";
+import { RecipeService } from "../core/services/recipe.service";
+import { ShoppingService } from "../core/services/shopping.service";
 
 @Component({
     selector: "ViewShopList",

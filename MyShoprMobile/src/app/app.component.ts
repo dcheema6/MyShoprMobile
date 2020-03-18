@@ -2,11 +2,10 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
-import { filter } from "rxjs/operators";
+import { filter, map } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
-import * as firebase from 'nativescript-plugin-firebase';
 import { FirebaseAuthService } from "./core/auth/firebase-auth.service";
-import { Subject, Observable } from "rxjs";
+import { UserService } from "./core/services/user.service";
 
 
 @Component({
@@ -20,11 +19,13 @@ export class AppComponent implements OnInit, OnDestroy {
         email: '',
         displayName: null
     };
+    private userInfo: any;
 
     constructor(
         private router: Router,
         private routerExtensions: RouterExtensions,
-        private fbAuth: FirebaseAuthService) {
+        private fbAuth: FirebaseAuthService,
+        private userServ: UserService) {
         // Use the component constructor to inject services.
     }
 
@@ -38,6 +39,14 @@ export class AppComponent implements OnInit, OnDestroy {
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
         this.fbAuth.getCurrentUserObs().subscribe((user) => {
             if(user && user.email) {
+                this.userServ.getUserData().pipe(map(result => <any>result)).subscribe(result => {
+                    console.log(result.data.userMany);
+                    result.data.userMany.forEach(userData => {
+                        if(userData.email === user.email) {
+                            this.userInfo = user;
+                        }
+                    });
+                });
                 this.currentUser.email = user.email;
                 this.currentUser.displayName = "NEED TO UPDATE";
                 console.log("[app component]: user: " + this.currentUser);

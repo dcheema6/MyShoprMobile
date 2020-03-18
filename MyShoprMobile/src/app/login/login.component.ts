@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
         if (this.isLoggingIn) {
             this.authService.signInWithEmailAndPassword(this.user.email, this.user.password)
                 .then((user) => {
-                    console.log(user);
                     this.routerExtensions.navigate(['/dashboard']);
                 });
         }

@@ -6,12 +6,12 @@ import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { UserService } from "./services/user.service";
-import { StoresService } from "./services/stores.service";
-import { RecipeService } from "./services/recipe.service";
-import { ShoppingService } from "./services/shopping.service";
+import { RecipeService } from "./core/services/recipe.service";
+import { ShoppingService } from "./core/services/shopping.service";
+import { StoresService } from "./core/services/stores.service";
 import { FirebaseAuthService } from "./core/auth/firebase-auth.service";
-
+import { UserService } from "./core/services/user.service";
+ 
 @NgModule({
     bootstrap: [
         AppComponent

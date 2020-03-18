@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { StoresService } from "../services/stores.service";
+import { StoresService } from "../core/services/stores.service";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 
