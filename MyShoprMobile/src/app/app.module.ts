@@ -10,6 +10,7 @@ import { UserService } from "./services/user.service";
 import { StoresService } from "./services/stores.service";
 import { RecipeService } from "./services/recipe.service";
 import { ShoppingService } from "./services/shopping.service";
+import { FirebaseAuthService } from "./core/auth/firebase-auth.service";
 
 @NgModule({
     bootstrap: [
@@ -30,6 +31,7 @@ import { ShoppingService } from "./services/shopping.service";
         StoresService,
         RecipeService,
         ShoppingService,
+        FirebaseAuthService,
     ],
     schemas: [
         NO_ERRORS_SCHEMA,
