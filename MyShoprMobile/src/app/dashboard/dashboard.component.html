@@ -18,7 +18,7 @@
     <TabView height="100%" selectedIndex="0">
         <StackLayout *tabItem="{title: 'Your Shopping Lists'}">
             <StackLayout>
-                <Button width="90%" dock="right" [nsRouterLink]="['/shop', -1]" class="-rounded-lg -primary">
+                <Button width="90%" [nsRouterLink]="['/shop', -1]" class="-rounded-lg -primary">
                     <FormattedString>
                         <Span text="&#xf067;" class="fas fa-plus"></Span>
                     </FormattedString>
@@ -38,7 +38,7 @@
 
         <StackLayout *tabItem="{title: 'Your Recipes'}">
             <StackLayout>
-                <Button width="90%" dock="right" [nsRouterLink]="['/recipe', -1]" class="-rounded-lg -primary">
+                <Button width="90%" [nsRouterLink]="['/recipe', -1]" class="-rounded-lg -primary">
                     <FormattedString>
                         <Span text="&#xf067;" class="fas fa-plus"></Span>
                     </FormattedString>

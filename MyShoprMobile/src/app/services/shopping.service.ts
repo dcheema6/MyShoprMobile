@@ -11,7 +11,12 @@ export class ShoppingService {
     getShoppingList(userId, listId) {
         return new Promise((resolve) => {
             resolve({
-                id: listId
+                id: listId,
+                items: [
+                    "bananas",
+                    "strawberries",
+                    "apples"
+                ]
             });
         });
     }

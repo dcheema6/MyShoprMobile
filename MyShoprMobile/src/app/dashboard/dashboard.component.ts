@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
         sideDrawer.showDrawer();
     }
 
-    deleteListItem(listId: number, index: number) {
+    deleteListItem(listId: number, index: number): void {
         if (listId == 0) {
             let id = this.lists[index].id;
             this.shopService.deleteShoppingList('userid', id).then(() => {
@@ -48,13 +48,13 @@ export class DashboardComponent implements OnInit {
 
     getShoppingList(): void {
         this.shopService.getShoppingLists('userid').then((list: Array<any>) => {
-            this.lists = list.sort();
+            this.lists = list;
         });
     }
 
     getRecipeList(): void {
         this.recipeService.getRecipeList('userid').then((list: Array<any>) => {
-            this.recipes = list.sort();
+            this.recipes = list;
         });
     }
 }

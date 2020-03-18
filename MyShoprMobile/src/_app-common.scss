@@ -41,3 +41,19 @@
 .nt-drawer__header-image {
     color: const(grey);
 }
+
+.page {
+    align-items: center;
+    flex-direction: column;
+    background-color: whitesmoke;
+
+}
+
+.label {
+    vertical-align: middle;
+    width: 100%;
+}
+
+.list-group {
+    background-color: #e6eeff;
+}
