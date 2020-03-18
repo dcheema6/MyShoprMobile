@@ -2,8 +2,8 @@
     <GridLayout tkDrawerContent rows="auto, *" class="nt-drawer__content">
         <StackLayout row="0" class="nt-drawer__header">
             <Image class="nt-drawer__header-image fas t-36" src="font://&#xf2bd;"></Image>
-            <Label class="nt-drawer__header-brand" text="User Name"></Label>
-            <Label class="nt-drawer__header-footnote" text="username@mail.com"></Label>
+            <Label *ngIf="currentUser !== null" class="nt-drawer__header-brand" [text]="currentUser.displayName"></Label>
+            <Label *ngIf="currentUser !== null" class="nt-drawer__header-footnote" [text]="currentUser.email"></Label>
         </StackLayout>
     
         <ScrollView row="1" class="nt-drawer__body">
@@ -35,8 +35,12 @@
                 
                 <StackLayout class="hr"></StackLayout>
                 <GridLayout columns="auto, *" class="nt-drawer__list-item" [class.-selected]="isComponentSelected('/login')" (tap)="onNavItemTap('/login')">
-                    <Label col="0" text="&#xf015;" class="nt-icon fas"></Label>
+                    <Label col="0" text="&#xf2f6;" class="nt-icon fas"></Label>
                     <Label col="1" text="Login" class="p-r-10"></Label>
+                </GridLayout>
+                <GridLayout columns="auto, *" class="nt-drawer__list-item" [class.-selected]="isComponentSelected('/signout')" (tap)="signOut()">
+                    <Label col="0" text="&#xf52b;" class="nt-icon fas"></Label>
+                    <Label col="1" text="Sign Out" class="p-r-10"></Label>
                 </GridLayout>
             </StackLayout>
         </ScrollView>

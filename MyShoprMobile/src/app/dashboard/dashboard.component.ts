@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { SelectedIndexChangedEventData } from "nativescript-drop-down";
+import { RadSideDrawer } from "nativescript-ui-sidedrawer";
+import * as app from "tns-core-modules/application";
 
 @Component({
     selector: "Dashboard",
@@ -30,6 +32,11 @@ export class DashboardComponent implements OnInit {
  
     public onclose() {
         console.log("Drop Down closed.");
+    }
+
+    onDrawerButtonTap(): void {
+        const sideDrawer = <RadSideDrawer>app.getRootView();
+        sideDrawer.showDrawer();
     }
 
 }

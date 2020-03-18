@@ -8,6 +8,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { UserService } from "./services/user.service";
 import { StoresService } from "./services/stores.service";
+import { FirebaseAuthService } from "./core/auth/firebase-auth.service";
 
 @NgModule({
     bootstrap: [
@@ -26,6 +27,7 @@ import { StoresService } from "./services/stores.service";
     providers: [
         UserService,
         StoresService,
+        FirebaseAuthService
     ],
     schemas: [
         NO_ERRORS_SCHEMA,
