@@ -21,6 +21,22 @@ export class ShoppingService {
         });
     }
 
+    retreiveShoppingLists(userId: string){
+        return this.http.post('https://myshopr-api.appspot.com/api', {
+            query: `
+            {
+                userById(_id: "${userId}") {
+                _id
+                selectedStoreId
+                selectedListIndex
+                shoppingLists
+              }
+
+          }
+            `
+        });
+    }
+
     saveShoppingList(userId, listId) {
         if (!listId!) {
             // POST
