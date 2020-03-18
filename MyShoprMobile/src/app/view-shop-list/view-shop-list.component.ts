@@ -14,20 +14,21 @@ import { ShoppingService } from "./../services/shopping.service";
     ]
 })
 export class ViewShopListComponent implements OnInit {
-    list: any;
-    recipes: Array<any>;
+    list: any = { };
+    recipes: Array<any> = [];
 
     constructor(private route: ActivatedRoute, private shopService: ShoppingService, private recipeService: RecipeService) {
-        this.list = {
-            id: ''
-        };
     }
 
     ngOnInit(): void {
-        const id = this.route.snapshot.params.id;
-        this.shopService.getShoppingList('userid', id).then((list) => {
-            this.list = list;
-        });
+        this.list['id'] = this.route.snapshot.params.id;
+        if (this.list.id > -1) {
+            this.shopService.getShoppingList('userid', this.list.id).then((list: any) => {
+                if (list && list.id) this.list = list;
+            });
+        }
+        if (!this.list['name']) this.list['name'] = 'ListName';
+        if (!this.list['items']) this.list['items'] = [];
     }
 
     addItem(): void {

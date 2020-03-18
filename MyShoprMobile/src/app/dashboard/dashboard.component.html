@@ -28,7 +28,7 @@
                 <ListView height="100%" [items]="lists" class="list-group" separatorColor="lightblue">
                     <ng-template let-list="item" let-i="index">
                         <DockLayout class="p-t-0 p-b-0">
-                            <Label width="80%" [nsRouterLink]="['/shop', list.id]" class="h2" [text]="list.id"></Label>
+                            <Label width="80%" [nsRouterLink]="['/shop', list.id]" class="h2" [text]="list.name"></Label>
                             <Button width="40" text="&#xf2ed;" class="fas bg-danger" (tap)="deleteListItem(0,i)"></Button>
                         </DockLayout>
                     </ng-template>
@@ -48,7 +48,7 @@
                 <ListView height="100%" [items]="recipes" class="list-group" separatorColor="lightblue">
                     <ng-template let-recipe="item" let-i="index">
                         <DockLayout class="p-t-0 p-b-0">
-                            <Label width="80%" [nsRouterLink]="['/recipe', recipe.id]" class="h2" [text]="recipe.id"></Label>
+                            <Label width="80%" [nsRouterLink]="['/recipe', recipe.id]" class="h2" [text]="recipe.name"></Label>
                             <Button width="40" text="&#xf2ed;" class="fas bg-danger" (tap)="deleteListItem(1,i)"></Button>
                         </DockLayout>
                     </ng-template>

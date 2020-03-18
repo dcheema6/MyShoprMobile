@@ -1,5 +1,5 @@
 <ActionBar height="85">
-    <TextView class="input h2" [(ngModel)]="list.id"></TextView>
+    <TextView class="input h2" [(ngModel)]="list.name"></TextView>
 </ActionBar>
 
 <StackLayout class="page">
@@ -27,7 +27,7 @@
         <ListView [items]="recipes" class="list-group" separatorColor="lightblue">
             <ng-template let-recipe="item" let-i="index">
                 <DockLayout class="p-t-0 p-b-0">
-                    <Label height="30" width="70%" class="h3" [text]="recipe.id" (tap)="addRecipeToList(recipes[i])"></Label>
+                    <Label height="30" width="70%" class="h3" [text]="recipe.name" (tap)="addRecipeToList(recipes[i])"></Label>
                 </DockLayout>
             </ng-template>
         </ListView>

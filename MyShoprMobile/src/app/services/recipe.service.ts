@@ -12,6 +12,7 @@ export class RecipeService {
         return new Promise((resolve) => {
             resolve({
                 id: recipeId,
+                name: "recipe2",
                 ingredients: [
                     "mango juice",
                     "greek yogurt"
@@ -30,8 +31,8 @@ export class RecipeService {
         return this.getRecipeList(userid);
     }
 
-    saveRecipe(userId, recipeId) {
-        if (!recipeId!) {
+    saveRecipe(userId, recipe) {
+        if (recipe.id < 0) {
             // POST
         } else {
             // PUT
@@ -45,7 +46,8 @@ export class RecipeService {
     getRecipeList(userId) {
         return new Promise((resolve) => {
             resolve([{
-                id: "recipe1",
+                id: 1, 
+                name: "recipe1",
                 ingredients: [
                     "pizza sauce",
                     "cheese"
@@ -56,7 +58,8 @@ export class RecipeService {
                 ]
             },
             {
-                id: "recipe2",
+                id: 2,
+                name: "recipe2",
                 ingredients: [
                     "mango juice",
                     "greek yogurt"
@@ -68,7 +71,8 @@ export class RecipeService {
                 ]
             },
             {
-                id: "recipe3",
+                id: 3,
+                name: "recipe3",
                 ingredients: [
                     "mango chutney",
                     "flat bread"

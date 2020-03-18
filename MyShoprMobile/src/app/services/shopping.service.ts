@@ -12,6 +12,7 @@ export class ShoppingService {
         return new Promise((resolve) => {
             resolve({
                 id: listId,
+                name: "list2",
                 items: [
                     "bananas",
                     "strawberries",
@@ -21,8 +22,8 @@ export class ShoppingService {
         });
     }
 
-    saveShoppingList(userId, listId) {
-        if (!listId!) {
+    saveShoppingList(userId, list) {
+        if (list.id < 0) {
             // POST
         } else {
             // PUT
@@ -36,13 +37,16 @@ export class ShoppingService {
     getShoppingLists(userid) {
         return new Promise((resolve) => {
             resolve([{
-                id: "list1"
+                id: 1,
+                name: "list1"
             },
             {
-                id: "list2"
+                id: 2,
+                name: "list2"
             },
             {
-                id: "list3"
+                id: 3,
+                name: "list3"
             }]);
         });
     }
