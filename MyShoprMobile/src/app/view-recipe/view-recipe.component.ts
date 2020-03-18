@@ -11,6 +11,7 @@ import { RecipeService } from "./../services/recipe.service";
 })
 export class ViewRecipeComponent implements OnInit {
     recipe: any = { };
+    selectedTab = 'ingredients';
     
     constructor(private route: ActivatedRoute, private recipeService: RecipeService) {
     }
@@ -27,12 +28,12 @@ export class ViewRecipeComponent implements OnInit {
         if (!this.recipe['instructions']) this.recipe['instructions'] = [];
     }
 
-    addNew(key: string): void {
-        this.recipe[key].push('');
+    addNew(): void {
+        this.recipe[this.selectedTab].push('');
     }
 
-    update(key: string, index: number, args: any) {
-        this.recipe[key][index] = args.object.text;
+    update(index: number, args: any) {
+        this.recipe[this.selectedTab][index] = args.object.text;
     }
 
     saveRecipe(): void {
@@ -40,7 +41,12 @@ export class ViewRecipeComponent implements OnInit {
         this.recipe.saveRecipe('userid', this.recipe)
     }
 
-    delete(key: string, index: number): void {
-        this.recipe[key].splice(index, 1);
+    delete(index: number): void {
+        this.recipe[this.selectedTab].splice(index, 1);
+    }
+
+    onTabChange(args: any): void {
+        if (args.object.selectedIndex == 0) this.selectedTab = 'ingredients';
+        else if (args.object.selectedIndex == 1) this.selectedTab = 'instructions';
     }
 }

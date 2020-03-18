@@ -4,30 +4,30 @@
 
 <GridLayout rows="*,55" columns="2*,2*,3*" class="page">
     <StackLayout row="0" col="0" colSpan="3">
-    <StackLayout backgroundColor="lightgray">
-        <TextView height="40" width="90%" class="input h3" hint="Search/add your recipes..." (textChange)="searchRecipes($event)"></TextView>
-        <ListView width="90%" [items]="recipes" separatorColor="lightblue">
-            <ng-template let-recipe="item" let-i="index">
-                <DockLayout class="p-t-0 p-b-0">
-                    <Label height="30" class="h3" [text]="recipe.name" (tap)="addRecipeToList(recipes[i])"></Label>
-                </DockLayout>
-            </ng-template>
-        </ListView>
-    </StackLayout>
+        <StackLayout class="search-bar">
+            <TextView height="40" width="90%" class="input h3" hint="Search your recipes here..." (textChange)="searchRecipes($event)"></TextView>
+            <ListView width="90%" [items]="recipes" class="list-group">
+                <ng-template let-recipe="item" let-i="index">
+                    <DockLayout class="list-group-item">
+                        <Label height="30" class="list-group-item-text h3" [text]="recipe.name+'  (touch to add)'" (tap)="addRecipeToList(recipes[i])"></Label>
+                    </DockLayout>
+                </ng-template>
+            </ListView>
+        </StackLayout>
 
-    <StackLayout class="item-list">
-        <ListView height="100%" [items]="list.items" class="list-group" separatorColor="lightblue">
-            <ng-template let-item="item" let-i="index">
-                <DockLayout class="p-t-0 p-b-0">
-                    <TextView height="40" width="70%" class="input h3" [(ngModel)]="item" (textChange)="updateItem(i,$event)"></TextView>
-                    <Button width="40" height="50" text="&#xf2ed;" class="fas bg-danger" (tap)="deleteItem(i)"></Button>
-                </DockLayout>
-            </ng-template>
-        </ListView>
-    </StackLayout>
+        <StackLayout class="item-list">
+            <ListView height="100%" [items]="list.items" class="list-group">
+                <ng-template let-item="item" let-i="index">
+                    <GridLayout columns="4*,*" class="m-0 p-0 list-group-item">
+                        <TextView col="0" height="30" class=" m-r-0 m-t-15 input h3" [(ngModel)]="item" (textChange)="updateItem(i,$event)"></TextView>
+                        <Label col="1" text="&#xf00d;" class="h3 fas bg-danger list-delete-btn" (tap)="deleteItem(i)"></Label>
+                    </GridLayout>
+                </ng-template>
+            </ListView>
+        </StackLayout>
     </StackLayout>
     
-    <Label row="2" col="0" height="100%" text="&#xf067;" class="p-10 m-0 fas h2" textAlignment="center" (tap)="addItem()">
+    <Label row="2" col="0" height="100%" text="&#xf067;" class="add-btn p-10 m-0 fas h2" textAlignment="center" (tap)="addItem()">
     </Label>
     <Label row="2" col="1" height="100%" text="&#xf0c7;" class="c-bg-forest p-10 m-0 fas h2" textAlignment="center" (tap)="saveList()">
     </Label>

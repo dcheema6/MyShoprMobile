@@ -3,38 +3,32 @@
 </ActionBar>
 
 <GridLayout rows="*,55" columns="*,*" class="page">
-    <TabView height="90%" width="100%" selectedIndex="0" row="0" col="0" colSpan="2">
+    <TabView selectedIndex="0" row="0" col="0" colSpan="2" (selectedIndexChanged)="onTabChange($event)">
         <StackLayout *tabItem="{title: 'Ingredients'}">
-            <ListView [items]="recipe.ingredients" class="list-group" separatorColor="lightblue">
+            <ListView [items]="recipe.ingredients" class="list-group">
                 <ng-template let-ingredient="item" let-i="index">
-                    <DockLayout class="p-t-0 p-b-0">
-                        <TextView height="40" width="70%" class="input h3" [(ngModel)]="ingredient" (textChange)="update('ingredients',i,$event)"></TextView>
-                        <Button width="40" height="50" text="&#xf2ed;" class="fas bg-danger" (tap)="delete('ingredients',i)"></Button>
-                    </DockLayout>
+                    <GridLayout columns="4*,*" class="m-0 p-0 list-group-item">
+                        <TextView col="0" height="30" class=" m-r-0 m-t-15 input h3" [(ngModel)]="ingredient" (textChange)="update(i,$event)"></TextView>
+                        <Label col="1" text="&#xf00d;" class="h3 fas bg-danger list-delete-btn" (tap)="delete(i)"></Label>
+                    </GridLayout>
                 </ng-template>
             </ListView>
         </StackLayout>
 
         <StackLayout *tabItem="{title: 'Instructions'}">
-            <ListView [items]="recipe.instructions" class="list-group" separatorColor="lightblue">
+            <ListView [items]="recipe.instructions" class="list-group">
                 <ng-template let-instruction="item" let-i="index">
-                    <DockLayout class="p-t-0 p-b-0">
-                        <TextView height="40" width="70%" class="input h3" [(ngModel)]="instruction" (textChange)="update('instructions',i,$event)"></TextView>
-                        <Button width="40" height="50" text="&#xf2ed;" class="fas bg-danger" (tap)="delete('instructions',i)"></Button>
-                    </DockLayout>
+                    <GridLayout columns="4*,*" class="m-0 p-0 list-group-item">
+                        <TextView col="0" height="30" class=" m-r-0 m-t-15 input h3" [(ngModel)]="instruction" (textChange)="update(i,$event)"></TextView>
+                        <Label col="1" text="&#xf00d;" class="h3 fas bg-danger list-delete-btn" (tap)="delete(i)"></Label>
+                    </GridLayout>
                 </ng-template>
             </ListView>
         </StackLayout>
     </TabView>
     
-    <Button row="1" col="0" class="-rounded-lg -primary" (tap)="addNew('ingredients')">
-        <FormattedString>
-            <Span text="&#xf067;" class="fas fa-plus h2"></Span>
-        </FormattedString>
-    </Button>
-    <Button row="1" col="1" class="-rounded-lg c-bg-forest" (tap)="saveRecipe()">
-        <FormattedString>
-            <Span text="&#xf0c7;" class="fas fa-save h2"></Span>
-        </FormattedString>
-    </Button>
+    <Label row="1" col="0" height="100%" text="&#xf067;" class="add-btn p-10 m-0 fas h2" (tap)="addNew()">
+    </Label>
+    <Label row="2" col="1" height="100%" text="&#xf0c7;" class="c-bg-forest p-10 m-0 fas h2" textAlignment="center" (tap)="saveRecipe()">
+    </Label>
 </GridLayout>
