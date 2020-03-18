@@ -22,7 +22,7 @@
         <ListView [items]="displayLists" class="list-group" separatorColor="#000080">
             <ng-template let-list="item">
                 <StackLayout>
-                    <Label [nsRouterLink]="['/list', list.id]" class="list-group-item" [text]="list.id"></Label>
+                    <Label [nsRouterLink]="['/shop', list.id]" class="list-group-item" [text]="list.id"></Label>
                 </StackLayout>
             </ng-template>
         </ListView>

@@ -1,27 +1,21 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 
-/* ***********************************************************
-* Before you can navigate to this page from your app, you need to reference this page's module in the
-* global app router module. Add the following object to the global array of routes:
-* { path: "view-recipe", loadChildren: "./view-recipe/view-recipe.module#ViewRecipeModule" }
-* Note that this simply points the path to the page module file. If you move the page, you need to update the route too.
-*************************************************************/
+import { RecipeService } from "./../services/recipe.service";
 
 @Component({
     selector: "ViewRecipe",
     moduleId: module.id,
-    templateUrl: "./view-recipe.component.html"
+    templateUrl: "./view-recipe.component.html",
+    providers: [ RecipeService ]
 })
 export class ViewRecipeComponent implements OnInit {
-    constructor() {
-        /* ***********************************************************
-        * Use the constructor to inject app services that you need in this component.
-        *************************************************************/
+    constructor(private route: ActivatedRoute, private recipeService: RecipeService) {
+
     }
 
     ngOnInit(): void {
-        /* ***********************************************************
-        * Use the "ngOnInit" handler to initialize data for this component.
-        *************************************************************/
+        const id = this.route.snapshot.params.id;
+        console.log(id);
     }
 }

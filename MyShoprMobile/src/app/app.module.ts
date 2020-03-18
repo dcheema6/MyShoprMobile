@@ -8,6 +8,8 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { UserService } from "./services/user.service";
 import { StoresService } from "./services/stores.service";
+import { RecipeService } from "./services/recipe.service";
+import { ShoppingService } from "./services/shopping.service";
 
 @NgModule({
     bootstrap: [
@@ -26,6 +28,8 @@ import { StoresService } from "./services/stores.service";
     providers: [
         UserService,
         StoresService,
+        RecipeService,
+        ShoppingService,
     ],
     schemas: [
         NO_ERRORS_SCHEMA,
