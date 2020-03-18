@@ -24,6 +24,10 @@ export class ShoppingService {
         }
     }
 
+    deleteShoppingList(userId, listId) {
+        return new Promise((resolve) => {resolve();});
+    }
+
     getShoppingLists(userid) {
         return new Promise((resolve) => {
             resolve([{

@@ -15,29 +15,43 @@
 </ActionBar>
 
 <StackLayout class="page" width="100%" height="100%">
-    <StackLayout class="item-list">
-        <StackLayout>
-            <Button class="label" text="View Shopping Lists" (tap)="toggleLists('shop')"></Button>
+    <TabView height="100%" selectedIndex="0">
+        <StackLayout *tabItem="{title: 'Your Shopping Lists'}">
+            <StackLayout>
+                <Button width="90%" dock="right" [nsRouterLink]="['/shop', -1]" class="-rounded-lg -primary">
+                    <FormattedString>
+                        <Span text="&#xf067;" class="fas fa-plus"></Span>
+                    </FormattedString>
+                </Button>
+            </StackLayout>
+            <StackLayout class="item-list">
+                <ListView [items]="lists" class="list-group" separatorColor="lightblue">
+                    <ng-template let-list="item" let-i="index">
+                        <DockLayout class="p-0">
+                            <Label width="90%" dock="left" [nsRouterLink]="['/shop', list.id]" class="h2" [text]="list.id"></Label>
+                        </DockLayout>
+                    </ng-template>
+                </ListView>
+            </StackLayout>
         </StackLayout>
-        <ListView [items]="displayLists" class="list-group" separatorColor="#000080">
-            <ng-template let-list="item">
-                <StackLayout>
-                    <Label [nsRouterLink]="['/shop', list.id]" class="list-group-item" [text]="list.id"></Label>
-                </StackLayout>
-            </ng-template>
-        </ListView>
-    </StackLayout>
 
-    <StackLayout class="item-list">
-        <StackLayout>
-            <Button class="label" text="View Recipes" (tap)="toggleLists('recipe')"></Button>
+        <StackLayout *tabItem="{title: 'Your Recipes'}">
+            <StackLayout>
+                <Button width="90%" dock="right" [nsRouterLink]="['/recipe', -1]" class="-rounded-lg -primary">
+                    <FormattedString>
+                        <Span text="&#xf067;" class="fas fa-plus"></Span>
+                    </FormattedString>
+                </Button>
+            </StackLayout>
+            <StackLayout class="item-list">
+                <ListView [items]="recipes" class="list-group" separatorColor="lightblue">
+                    <ng-template let-recipe="item" let-i="index">
+                        <DockLayout class="p-0">
+                            <Label width="90%" [nsRouterLink]="['/recipe', recipe.id]" class="h2" [text]="recipe.id"></Label>
+                        </DockLayout>
+                    </ng-template>
+                </ListView>
+            </StackLayout>
         </StackLayout>
-        <ListView [items]="displayRecipes" class="list-group" separatorColor="#000080">
-            <ng-template let-recipe="item">
-                <StackLayout>
-                    <Label [nsRouterLink]="['/recipe', recipe.id]" class="list-group-item" [text]="recipe.id"></Label>
-                </StackLayout>
-            </ng-template>
-        </ListView>
-    </StackLayout>
+    </TabView>
 </StackLayout>

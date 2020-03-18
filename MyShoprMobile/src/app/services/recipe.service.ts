@@ -24,6 +24,10 @@ export class RecipeService {
         }
     }
 
+    deleteRecipe(userId, recipeId) {
+        return new Promise((resolve) => {resolve();});
+    }
+
     getRecipeList(userId) {
         return new Promise((resolve) => {
             resolve([{
