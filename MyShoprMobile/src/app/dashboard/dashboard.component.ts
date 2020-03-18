@@ -1,37 +1,31 @@
 import { Component, OnInit } from "@angular/core";
-import { SelectedIndexChangedEventData } from "nativescript-drop-down";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
+import { RecipeService } from "./../services/recipe.service";
+import { ShoppingService } from "./../services/shopping.service";
+
 
 @Component({
     selector: "Dashboard",
     moduleId: module.id,
-    templateUrl: "./dashboard.component.html"
+    templateUrl: "./dashboard.component.html",
+    styleUrls: ["dashboard.component.scss"],
+    providers: [
+        RecipeService,
+        ShoppingService,
+    ]
 })
 
 export class DashboardComponent implements OnInit {
-    public selectedIndex = 1;
-    public items: Array<string>;
-    constructor() {
-        this.items = [];
-        for (var i = 0; i < 5; i++) {
-            this.items.push("data item " + i);
-        }
+    lists: Array<any>;
+    recipes: Array<any>;
+
+    constructor(private recipeService: RecipeService, private shopService: ShoppingService) {
     }
 
     ngOnInit(): void {
-    }
-
-    public onchange(args: SelectedIndexChangedEventData) {
-        console.log(`Drop Down selected index changed from ${args.oldIndex} to ${args.newIndex}`);
-    }
- 
-    public onopen() {
-        console.log("Drop Down opened.");
-    }
- 
-    public onclose() {
-        console.log("Drop Down closed.");
+        this.getShoppingList();
+        this.getRecipeList();
     }
 
     onDrawerButtonTap(): void {
@@ -39,4 +33,29 @@ export class DashboardComponent implements OnInit {
         sideDrawer.showDrawer();
     }
 
+    deleteListItem(listId: number, index: number): void {
+        if (listId == 0) {
+            let id = this.lists[index].id;
+            this.shopService.deleteShoppingList('userid', id).then(() => {
+                this.lists.splice(index, 1);
+            });
+        } else if (listId == 1) {
+            let id = this.recipes[index].id;
+            this.recipeService.deleteRecipe('userid', id).then(() => {
+                this.recipes.splice(index, 1);
+            });
+        } 
+    }
+
+    getShoppingList(): void {
+        this.shopService.getShoppingLists('userid').then((list: Array<any>) => {
+            this.lists = list;
+        });
+    }
+
+    getRecipeList(): void {
+        this.recipeService.getRecipeList('userid').then((list: Array<any>) => {
+            this.recipes = list;
+        });
+    }
 }

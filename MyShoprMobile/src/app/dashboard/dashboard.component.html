@@ -11,31 +11,49 @@
     -->
     <ActionItem icon="res://menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
     </ActionItem>
-    <Label text="Dashboard"></Label>
+    <Label text="Home"></Label>
 </ActionBar>
 
-<StackLayout>
-    <GridLayout rows="auto, auto, *"
-                columns="auto, *">
-        <DropDown #dd
-                  backroundColor="red"
-          itemsTextAlignment="center"
-                  [items]="items"
-                  [(ngModel)]="selectedIndex"
-                  (selectedIndexChanged)="onchange($event)"
-                  (opened)="onopen()"
-                  (closed)="onclose()"
-                  row="0"
-                  colSpan="2"></DropDown>
-        <Label text="Selected Index:"
-               row="1"
-               col="0"
-               fontSize="18"
-               verticalAlignment="bottom"></Label>
-        <TextField [text]="selectedIndex"
-                   row="1"
-                   col="1"></TextField>
-    </GridLayout>
-</StackLayout>
-<StackLayout class="page">
+<StackLayout class="page" width="100%" height="100%">
+    <TabView height="100%" selectedIndex="0">
+        <StackLayout *tabItem="{title: 'Your Shopping Lists'}">
+            <StackLayout>
+                <Button width="90%" [nsRouterLink]="['/shop', -1]" class="-rounded-lg -primary">
+                    <FormattedString>
+                        <Span text="&#xf067;" class="fas fa-plus"></Span>
+                    </FormattedString>
+                </Button>
+            </StackLayout>
+            <StackLayout class="item-list">
+                <ListView height="100%" [items]="lists" class="list-group" separatorColor="lightblue">
+                    <ng-template let-list="item" let-i="index">
+                        <DockLayout class="p-t-0 p-b-0">
+                            <Label width="80%" [nsRouterLink]="['/shop', list.id]" class="h2" [text]="list.id"></Label>
+                            <Button width="40" text="&#xf2ed;" class="fas bg-danger" (tap)="deleteListItem(0,i)"></Button>
+                        </DockLayout>
+                    </ng-template>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+
+        <StackLayout *tabItem="{title: 'Your Recipes'}">
+            <StackLayout>
+                <Button width="90%" [nsRouterLink]="['/recipe', -1]" class="-rounded-lg -primary">
+                    <FormattedString>
+                        <Span text="&#xf067;" class="fas fa-plus"></Span>
+                    </FormattedString>
+                </Button>
+            </StackLayout>
+            <StackLayout class="item-list">
+                <ListView height="100%" [items]="recipes" class="list-group" separatorColor="lightblue">
+                    <ng-template let-recipe="item" let-i="index">
+                        <DockLayout class="p-t-0 p-b-0">
+                            <Label width="80%" [nsRouterLink]="['/recipe', recipe.id]" class="h2" [text]="recipe.id"></Label>
+                            <Button width="40" text="&#xf2ed;" class="fas bg-danger" (tap)="deleteListItem(1,i)"></Button>
+                        </DockLayout>
+                    </ng-template>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+    </TabView>
 </StackLayout>
