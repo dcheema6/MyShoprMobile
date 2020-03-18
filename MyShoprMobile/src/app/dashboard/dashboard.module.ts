@@ -18,8 +18,5 @@ import { DashboardComponent } from "./dashboard.component";
         NO_ERRORS_SCHEMA
     ]
 })
-<<<<<<< HEAD
+
 export class DashboardModule { }
-=======
-export class DashboardModule { }
->>>>>>> 5e0f7008366c47a9b309b5a2d406c173c0a1de69
