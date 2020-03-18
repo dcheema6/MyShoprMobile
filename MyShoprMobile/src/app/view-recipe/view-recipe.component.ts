@@ -21,9 +21,14 @@ export class ViewRecipeComponent implements OnInit {
         if (this.recipe.id > -1) {
             this.recipeService.getRecipe('userid', this.recipe.id).then((recipe: any) => {
                 if (recipe && recipe.id) this.recipe = recipe;
+                else this.initWithDefaultVals();
+                console.log(this.recipe);
             });
-        }
-        if (!this.recipe['name']) this.recipe['name'] = 'RecipeName';
+        } else this.initWithDefaultVals();
+    }
+
+    initWithDefaultVals(): void {
+        if (!this.recipe['name']) this.recipe['name'] = 'NewRecipeName';
         if (!this.recipe['ingredients']) this.recipe['ingredients'] = [];
         if (!this.recipe['instructions']) this.recipe['instructions'] = [];
     }
@@ -32,13 +37,17 @@ export class ViewRecipeComponent implements OnInit {
         this.recipe[this.selectedTab].push('');
     }
 
-    update(index: number, args: any) {
+    update(selTabInd: number, index: number, args: any) {
+        if ((selTabInd == 1 && this.selectedTab == 'ingredients') ||
+            (selTabInd == 2 && this.selectedTab == 'instructions')) return;
+
+        console.log(args.object.text, this.recipe[this.selectedTab][index]);
         this.recipe[this.selectedTab][index] = args.object.text;
     }
 
     saveRecipe(): void {
         console.log(this.recipe);
-        this.recipe.saveRecipe('userid', this.recipe)
+        this.recipeService.saveRecipe('userid', this.recipe);
     }
 
     delete(index: number): void {
@@ -48,5 +57,7 @@ export class ViewRecipeComponent implements OnInit {
     onTabChange(args: any): void {
         if (args.object.selectedIndex == 0) this.selectedTab = 'ingredients';
         else if (args.object.selectedIndex == 1) this.selectedTab = 'instructions';
+        console.log(this.selectedTab);
+        console.log(this.recipe);
     }
 }
