@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
             .pipe(filter((event: any) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
 
-        this.onNavItemTap("/goshop");
+        this.onNavItemTap("/login");
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {
