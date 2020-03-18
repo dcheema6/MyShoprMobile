@@ -25,10 +25,11 @@
                 </Button>
             </StackLayout>
             <StackLayout class="item-list">
-                <ListView [items]="lists" class="list-group" separatorColor="lightblue">
+                <ListView height="100%" [items]="lists" class="list-group" separatorColor="lightblue">
                     <ng-template let-list="item" let-i="index">
-                        <DockLayout class="p-0">
-                            <Label width="90%" dock="left" [nsRouterLink]="['/shop', list.id]" class="h2" [text]="list.id"></Label>
+                        <DockLayout class="p-t-0 p-b-0">
+                            <Label width="80%" [nsRouterLink]="['/shop', list.id]" class="h2" [text]="list.id"></Label>
+                            <Button width="40" text="&#xf2ed;" class="fas bg-danger" (tap)="deleteListItem(0,i)"></Button>
                         </DockLayout>
                     </ng-template>
                 </ListView>
@@ -44,10 +45,11 @@
                 </Button>
             </StackLayout>
             <StackLayout class="item-list">
-                <ListView [items]="recipes" class="list-group" separatorColor="lightblue">
+                <ListView height="100%" [items]="recipes" class="list-group" separatorColor="lightblue">
                     <ng-template let-recipe="item" let-i="index">
-                        <DockLayout class="p-0">
-                            <Label width="90%" [nsRouterLink]="['/recipe', recipe.id]" class="h2" [text]="recipe.id"></Label>
+                        <DockLayout class="p-t-0 p-b-0">
+                            <Label width="80%" [nsRouterLink]="['/recipe', recipe.id]" class="h2" [text]="recipe.id"></Label>
+                            <Button width="40" text="&#xf2ed;" class="fas bg-danger" (tap)="deleteListItem(1,i)"></Button>
                         </DockLayout>
                     </ng-template>
                 </ListView>
