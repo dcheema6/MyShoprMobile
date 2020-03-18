@@ -6,40 +6,43 @@ import { filter } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
 import * as firebase from 'nativescript-plugin-firebase';
 import { FirebaseAuthService } from "./core/auth/firebase-auth.service";
+import { Subject, Observable } from "rxjs";
 
 
 @Component({
-    providers: [FirebaseAuthService],
     selector: "ns-app",
     templateUrl: "app.component.html"
 })
 export class AppComponent implements OnInit, OnDestroy {
     private _activatedUrl: string;
     private _sideDrawerTransition: DrawerTransitionBase;
+    public currentUser = {
+        email: '',
+        displayName: null
+    };
 
-    constructor(private router: Router, private routerExtensions: RouterExtensions, private fbAuth: FirebaseAuthService) {
+    constructor(
+        private router: Router,
+        private routerExtensions: RouterExtensions,
+        private fbAuth: FirebaseAuthService) {
         // Use the component constructor to inject services.
     }
 
     ngOnInit(): void {
-        // firebase.init({
-        //     // Optionally pass in properties for database, authentication and cloud messaging,
-        //     // see their respective docs.
-        //     persist: false
-        //   }).then(
-        //     () => {
-        //       console.log("firebase.init done");
-        //     },
-        //     error => {
-        //       console.log(`firebase.init error: ${error}`);
-        //     }
-        //   );
+        
         this._activatedUrl = "/login";
         this._sideDrawerTransition = new SlideInOnTopTransition();
 
         this.router.events
             .pipe(filter((event: any) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
+        this.fbAuth.getCurrentUserObs().subscribe((user) => {
+            if(user && user.email) {
+                this.currentUser.email = user.email;
+                this.currentUser.displayName = "NEED TO UPDATE";
+                console.log("[app component]: user: " + this.currentUser);
+            }
+        })
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {
@@ -63,5 +66,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.fbAuth.signOut();
+    }
+
+    public signOut() {
+        this.fbAuth.signOut().then(() => {
+            console.log("Signed Out, Navigating to Login page");
+            this.onNavItemTap('/login');
+        }).catch(err => {
+            console.log(err);
+        });
     }
 }
