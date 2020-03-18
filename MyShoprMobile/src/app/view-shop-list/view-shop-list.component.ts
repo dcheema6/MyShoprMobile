@@ -15,12 +15,12 @@ import { ShoppingService } from "./../services/shopping.service";
 })
 export class ViewShopListComponent implements OnInit {
     list: any;
+    recipes: Array<any>;
 
     constructor(private route: ActivatedRoute, private shopService: ShoppingService, private recipeService: RecipeService) {
         this.list = {
-            id: '',
-            items: []
-        }
+            id: ''
+        };
     }
 
     ngOnInit(): void {
@@ -35,10 +35,10 @@ export class ViewShopListComponent implements OnInit {
     }
 
     saveList(): void {
-        this.shopService.saveShoppingList('userid', this.list);
         console.log(this.list);
+        this.shopService.saveShoppingList('userid', this.list);
     }
-
+    
     goShop(): void {
 
     }
@@ -48,7 +48,24 @@ export class ViewShopListComponent implements OnInit {
     }
 
     searchRecipes(args): void {
+        console.log(args.object.text);
+        this.recipes = [];
+        if (!args.object.text || args.object.text === '') return;
+        // TODO: make sure search string is query safe
+        this.recipeService.searchRecipeByName('userid', args.object.text).then((recipes: Array<any>) => {
+            this.recipes = recipes;
+        });
+    }
 
+    addRecipeToList(recipe): void {
+        recipe.ingredients.forEach(ingredient => {
+            let exists = false;
+            this.list.items.forEach(item => {
+                if (ingredient == item) exists = true;
+            });
+            if (!exists) this.list.items.unshift(ingredient);
+        });
+        this.recipes = [];
     }
 
     deleteItem(index: number): void {

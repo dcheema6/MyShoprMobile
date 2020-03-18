@@ -11,9 +11,23 @@ export class RecipeService {
     getRecipe(userId, recipeId) {
         return new Promise((resolve) => {
             resolve({
-                id: recipeId
+                id: recipeId,
+                ingredients: [
+                    "mango juice",
+                    "greek yogurt"
+                ],
+                instructions: [
+                    "Yes",
+                    "No",
+                    "Maybe"
+                ]
             });
         });
+    }
+
+    searchRecipeByName(userid, recipe: string) {
+        // TODO: return only top 5 (Done in backend pref)
+        return this.getRecipeList(userid);
     }
 
     saveRecipe(userId, recipeId) {
@@ -31,13 +45,38 @@ export class RecipeService {
     getRecipeList(userId) {
         return new Promise((resolve) => {
             resolve([{
-                id: "recipe1"
+                id: "recipe1",
+                ingredients: [
+                    "pizza sauce",
+                    "cheese"
+                ],
+                instructions: [
+                    "Yes",
+                    "No"
+                ]
             },
             {
-                id: "recipe2"
+                id: "recipe2",
+                ingredients: [
+                    "mango juice",
+                    "greek yogurt"
+                ],
+                instructions: [
+                    "Yes",
+                    "No",
+                    "Maybe"
+                ]
             },
             {
-                id: "recipe3"
+                id: "recipe3",
+                ingredients: [
+                    "mango chutney",
+                    "flat bread"
+                ],
+                instructions: [
+                    "Yes",
+                    "Maybe"
+                ]
             }]);
         });
     }
