@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
             this.authService.signInWithEmailAndPassword(this.user.email, this.user.password)
                 .then((user) => {
                     console.log(user);
-                    this.routerExtensions.navigate(['/home']);
+                    this.routerExtensions.navigate(['/dashboard']);
                 });
         } else {
             
