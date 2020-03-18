@@ -19,6 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
         email: '',
         displayName: null
     };
+    private userInfo: any;
 
     constructor(
         private router: Router,
@@ -39,7 +40,12 @@ export class AppComponent implements OnInit, OnDestroy {
         this.fbAuth.getCurrentUserObs().subscribe((user) => {
             if(user && user.email) {
                 this.userServ.getUserData().pipe(map(result => <any>result)).subscribe(result => {
-                    console.log(result.data.userById.email);
+                    console.log(result.data.userMany);
+                    result.data.userMany.forEach(userData => {
+                        if(userData.email === user.email) {
+                            this.userInfo = user;
+                        }
+                    });
                 });
                 this.currentUser.email = user.email;
                 this.currentUser.displayName = "NEED TO UPDATE";

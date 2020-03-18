@@ -14,7 +14,8 @@ export class UserService {
         return this.http.post('https://myshopr-api.appspot.com/api', {
             query: `
             {
-                userById(_id: "5e607621d9584790e1ac19e6") {
+                userMany {
+                _id
                 first_name
                 last_name
                 email
