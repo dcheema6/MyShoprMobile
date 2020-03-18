@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
-import { UserService } from "../services/user.service";
 import { User } from "../models/user.model";
 import { RouterExtensions } from "nativescript-angular/router";
 import { FirebaseAuthService } from "../core/auth/firebase-auth.service";
@@ -46,8 +45,6 @@ export class LoginComponent implements OnInit {
                     console.log(user);
                     this.routerExtensions.navigate(['/dashboard']);
                 });
-        } else {
-            
         }
     }
 
