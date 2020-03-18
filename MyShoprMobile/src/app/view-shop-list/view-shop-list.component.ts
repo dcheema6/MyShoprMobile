@@ -32,7 +32,7 @@ export class ViewShopListComponent implements OnInit {
     }
 
     addItem(): void {
-        this.list.items.unshift("");
+        this.list.items.push("");
     }
 
     saveList(): void {

@@ -1,6 +1,40 @@
-<ActionBar class="action-bar">
-    <Label class="action-bar-title" text="Recipe"></Label>
+<ActionBar height="85">
+    <TextView class="input h2" [(ngModel)]="recipe.name"></TextView>
 </ActionBar>
 
-<StackLayout class="page">
-</StackLayout>
+<GridLayout rows="*,55" columns="*,*" class="page">
+    <TabView height="90%" width="100%" selectedIndex="0" row="0" col="0" colSpan="2">
+        <StackLayout *tabItem="{title: 'Ingredients'}">
+            <ListView [items]="recipe.ingredients" class="list-group" separatorColor="lightblue">
+                <ng-template let-ingredient="item" let-i="index">
+                    <DockLayout class="p-t-0 p-b-0">
+                        <TextView height="40" width="70%" class="input h3" [(ngModel)]="ingredient" (textChange)="update('ingredients',i,$event)"></TextView>
+                        <Button width="40" height="50" text="&#xf2ed;" class="fas bg-danger" (tap)="delete('ingredients',i)"></Button>
+                    </DockLayout>
+                </ng-template>
+            </ListView>
+        </StackLayout>
+
+        <StackLayout *tabItem="{title: 'Instructions'}">
+            <ListView [items]="recipe.instructions" class="list-group" separatorColor="lightblue">
+                <ng-template let-instruction="item" let-i="index">
+                    <DockLayout class="p-t-0 p-b-0">
+                        <TextView height="40" width="70%" class="input h3" [(ngModel)]="instruction" (textChange)="update('instructions',i,$event)"></TextView>
+                        <Button width="40" height="50" text="&#xf2ed;" class="fas bg-danger" (tap)="delete('instructions',i)"></Button>
+                    </DockLayout>
+                </ng-template>
+            </ListView>
+        </StackLayout>
+    </TabView>
+    
+    <Button row="1" col="0" class="-rounded-lg -primary" (tap)="addNew('ingredients')">
+        <FormattedString>
+            <Span text="&#xf067;" class="fas fa-plus h2"></Span>
+        </FormattedString>
+    </Button>
+    <Button row="1" col="1" class="-rounded-lg c-bg-forest" (tap)="saveRecipe()">
+        <FormattedString>
+            <Span text="&#xf0c7;" class="fas fa-save h2"></Span>
+        </FormattedString>
+    </Button>
+</GridLayout>
