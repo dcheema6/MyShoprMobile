@@ -1,35 +1,59 @@
 import { Component, OnInit } from "@angular/core";
-import { SelectedIndexChangedEventData } from "nativescript-drop-down";
+import { RadSideDrawer } from "nativescript-ui-sidedrawer";
+import * as app from "tns-core-modules/application";
+import { RecipeService } from "./../services/recipe.service";
+import { ShoppingService } from "./../services/shopping.service";
 
 @Component({
     selector: "Dashboard",
     moduleId: module.id,
-    templateUrl: "./dashboard.component.html"
+    templateUrl: "./dashboard.component.html",
+    styleUrls: ["dashboard.component.scss"],
+    providers: [
+        RecipeService,
+        ShoppingService,
+    ]
 })
 
 export class DashboardComponent implements OnInit {
-    public selectedIndex = 1;
-    public items: Array<string>;
-    constructor() {
-        this.items = [];
-        for (var i = 0; i < 5; i++) {
-            this.items.push("data item " + i);
-        }
+    lists: Array<any>;
+    displayLists: Array<any>;
+
+    recipes: Array<any>;
+    displayRecipes: Array<any>;
+
+    constructor(private recipeService: RecipeService, private shopService: ShoppingService) {
     }
 
     ngOnInit(): void {
+        this.getShoppingList();
+        this.getRecipeList();
     }
 
-    public onchange(args: SelectedIndexChangedEventData) {
-        console.log(`Drop Down selected index changed from ${args.oldIndex} to ${args.newIndex}`);
-    }
- 
-    public onopen() {
-        console.log("Drop Down opened.");
-    }
- 
-    public onclose() {
-        console.log("Drop Down closed.");
+    onDrawerButtonTap(): void {
+        const sideDrawer = <RadSideDrawer>app.getRootView();
+        sideDrawer.showDrawer();
     }
 
+    toggleLists(listName: string) {
+        if (listName === "shop") {
+            if (!this.displayLists) this.displayLists = this.lists;
+            else this.displayLists = null;
+        } else if (listName == "recipe") {
+            if (!this.displayRecipes) this.displayRecipes = this.recipes;
+            else this.displayRecipes = null;
+        }
+    }
+
+    getShoppingList(): void {
+        this.shopService.getShoppingLists('userid').then((list: Array<any>) => {
+            this.lists = list.sort();
+        });
+    }
+
+    getRecipeList(): void {
+        this.recipeService.getRecipeList('userid').then((list: Array<any>) => {
+            this.recipes = list.sort();
+        });
+    }
 }

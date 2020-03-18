@@ -1,29 +1,43 @@
-<ActionBar class="action-bar">
-    <Label class="action-bar-title" text="Home"></Label>
+<ActionBar>
+    <!-- 
+    Use the NavigationButton as a side-drawer button in Android
+    because ActionItems are shown on the right side of the ActionBar
+    -->
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <!-- 
+    Use the ActionItem for IOS with position set to left. Using the
+    NavigationButton as a side-drawer button in iOS is not possible,
+    because its function is to always navigate back in the application.
+    -->
+    <ActionItem icon="res://menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
+    </ActionItem>
+    <Label text="Home"></Label>
 </ActionBar>
 
-<StackLayout>
-    <GridLayout rows="auto, auto, *"
-                columns="auto, *">
-        <DropDown #dd
-                  backroundColor="red"
-          itemsTextAlignment="center"
-                  [items]="items"
-                  [(ngModel)]="selectedIndex"
-                  (selectedIndexChanged)="onchange($event)"
-                  (opened)="onopen()"
-                  (closed)="onclose()"
-                  row="0"
-                  colSpan="2"></DropDown>
-        <Label text="Selected Index:"
-               row="1"
-               col="0"
-               fontSize="18"
-               verticalAlignment="bottom"></Label>
-        <TextField [text]="selectedIndex"
-                   row="1"
-                   col="1"></TextField>
-    </GridLayout>
-</StackLayout>
-<StackLayout class="page">
+<StackLayout class="page" width="100%" height="100%">
+    <StackLayout class="item-list">
+        <StackLayout>
+            <Button class="label" text="View Shopping Lists" (tap)="toggleLists('shop')"></Button>
+        </StackLayout>
+        <ListView [items]="displayLists" class="list-group" separatorColor="#000080">
+            <ng-template let-list="item">
+                <StackLayout>
+                    <Label [nsRouterLink]="['/list', list.id]" class="list-group-item" [text]="list.id"></Label>
+                </StackLayout>
+            </ng-template>
+        </ListView>
+    </StackLayout>
+
+    <StackLayout class="item-list">
+        <StackLayout>
+            <Button class="label" text="View Recipes" (tap)="toggleLists('recipe')"></Button>
+        </StackLayout>
+        <ListView [items]="displayRecipes" class="list-group" separatorColor="#000080">
+            <ng-template let-recipe="item">
+                <StackLayout>
+                    <Label [nsRouterLink]="['/recipe', recipe.id]" class="list-group-item" [text]="recipe.id"></Label>
+                </StackLayout>
+            </ng-template>
+        </ListView>
+    </StackLayout>
 </StackLayout>
