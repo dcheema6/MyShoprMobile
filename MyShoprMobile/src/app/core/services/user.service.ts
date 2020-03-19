@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 @Injectable()
 export class UserService {
 
-    private serverUrl = "https://myshopr-api.appspot.com/api/graphql";
+    private serverUrl = "https://myshopr-api.appspot.com/api";
 
     userInfo: any;
 

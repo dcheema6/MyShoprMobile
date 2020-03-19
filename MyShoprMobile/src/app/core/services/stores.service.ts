@@ -33,7 +33,7 @@ export class StoresService {
 
     public getSelectedStore() {
         if(this.selectedStore){
-            return this.getSelectedStore;
+            return this.selectedStore; 
         } else {
             return null;
         }
