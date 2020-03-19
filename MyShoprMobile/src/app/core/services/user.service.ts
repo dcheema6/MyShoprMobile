@@ -16,13 +16,8 @@ export class UserService {
             {
                 userMany {
                 _id
-                first_name
-                last_name
                 email
-                password
-                selectedStoreId
-                selectedListIndex
-                shoppingLists
+                displayName
               }
 
           }
