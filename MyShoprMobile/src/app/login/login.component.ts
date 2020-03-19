@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
-import { User } from "../models/user.model";
+import { User } from "../core/models/user.model";
 import { RouterExtensions } from "nativescript-angular/router";
 import { FirebaseAuthService } from "../core/auth/firebase-auth.service";
 import { alert, prompt } from "tns-core-modules/ui/dialogs";

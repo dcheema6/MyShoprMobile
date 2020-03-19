@@ -3,6 +3,7 @@ import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { RecipeService } from "../core/services/recipe.service";
 import { ShoppingService } from "../core/services/shopping.service";
+import { map } from "rxjs/operators";
 
 
 @Component({
@@ -48,6 +49,11 @@ export class DashboardComponent implements OnInit {
     }
 
     getShoppingList(): void {
+        this.shopService.retreiveShoppingLists("5e7294ce1c9d44000040c9a8").pipe(map(result => <any>result)).subscribe((lists) => {
+            this.lists = lists.data.userById.shoppingLists;
+            console.log(this.lists);
+        }
+        )
         this.shopService.getShoppingLists('userid').then((list: Array<any>) => {
             this.lists = list;
         });
