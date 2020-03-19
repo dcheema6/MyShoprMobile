@@ -15,18 +15,13 @@ import { Observable, combineLatest } from "rxjs";
 export class ItemMapperComponent implements OnInit {
     selectedListId: any;
     selectedStoreId: any;
-
     selectedStore: any;
-
     shoppingList: any;
     mappedItemList: any;
-
     productList: any;
-
     shoppingList$: Observable<any>;
     fetchProducts$: Observable<any>;
     isDataLoaded$: Observable<any>;
-
     finalShoppingList: any;
 
     constructor(private route: ActivatedRoute, private storeService: StoresService, private shopServ: ShoppingService) {
@@ -75,7 +70,7 @@ export class ItemMapperComponent implements OnInit {
         }
 
         if (isSelected) { // if selected then deselect
-            this.finalShoppingList.splice(this.finalShoppingList.indexOf(this.mappedItemList[index]),1);
+            this.finalShoppingList.splice(this.finalShoppingList.indexOf(this.mappedItemList[index]), 1);
             console.log(this.finalShoppingList)
         } else {
             this.finalShoppingList.push(this.mappedItemList[index]);
