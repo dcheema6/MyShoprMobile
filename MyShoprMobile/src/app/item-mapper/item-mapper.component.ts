@@ -6,6 +6,7 @@ import { StoresService } from "../core/services/stores.service";
 import { ShoppingService } from "../core/services/shopping.service";
 import { map, filter } from "rxjs/operators";
 import { Observable, combineLatest } from "rxjs";
+import { RouterExtensions } from "nativescript-angular/router";
 
 
 @Component({
@@ -30,7 +31,7 @@ export class ItemMapperComponent implements OnInit {
 
     finalShoppingList: any;
 
-    constructor(private route: ActivatedRoute, private storeService: StoresService, private shopServ: ShoppingService) {
+    constructor(private route: ActivatedRoute, private routerExtension: RouterExtensions, private storeService: StoresService, private shopServ: ShoppingService) {
     }
 
     ngOnInit(): void {
@@ -39,7 +40,7 @@ export class ItemMapperComponent implements OnInit {
         this.selectedStoreId = this.route.snapshot.params.storeId;
         this.selectedStore = this.storeService.getSelectedStore();
         this.fetchProducts$ = this.shopServ.fetchAllProductItems();
-        this.shoppingList$ = this.shopServ.getShoppingList('5e7294ce1c9d44000040c9a8', this.selectedListId);
+        this.shoppingList$ = this.shopServ.getShoppingList('5e7304361c9d44000029227a', this.selectedListId);
         combineLatest([this.shoppingList$, this.fetchProducts$]).subscribe(([shop, products]) => {
             if(shop && shop.data && products && products.data) {
                 this.productList = products.data.itemMany;
@@ -80,6 +81,11 @@ export class ItemMapperComponent implements OnInit {
             this.finalShoppingList.push(this.mappedItemList[index]);
             console.log(this.finalShoppingList)
         }
+    }
+
+    buildMap() {
+        this.shopServ.setGoShoppingItems(this.finalShoppingList);
+        this.routerExtension.navigate(['/goshop']);
     }
 
     convertShoppingListToItems() {
