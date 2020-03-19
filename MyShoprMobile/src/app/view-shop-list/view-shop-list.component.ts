@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { RouterExtensions } from "nativescript-angular/router";
 
 import { RecipeService } from "../core/services/recipe.service";
 import { ShoppingService } from "../core/services/shopping.service";
@@ -14,33 +15,43 @@ import { ShoppingService } from "../core/services/shopping.service";
     ]
 })
 export class ViewShopListComponent implements OnInit {
-    list: any;
+    list: any = { };
+    recipes: Array<any> = [];
 
-    constructor(private route: ActivatedRoute, private shopService: ShoppingService, private recipeService: RecipeService) {
-        this.list = {
-            id: '',
-            items: []
-        }
+    constructor(private route: ActivatedRoute,
+        private routerExtensions: RouterExtensions,
+        private shopService: ShoppingService,
+        private recipeService: RecipeService) {
     }
 
     ngOnInit(): void {
-        const id = this.route.snapshot.params.id;
-        this.shopService.getShoppingList('userid', id).then((list) => {
-            this.list = list;
-        });
+        this.list['id'] = this.route.snapshot.params.id;
+        if (this.list.id > -1) {
+            this.shopService.getShoppingList('userid', this.list.id).then((list: any) => {
+                if (list && list.id) this.list = list;
+            });
+        }
+        if (!this.list['name']) this.list['name'] = 'ListName';
+        if (!this.list['items']) this.list['items'] = [];
     }
 
     addItem(): void {
-        this.list.items.unshift("");
+        this.list.items.push("");
     }
 
     saveList(): void {
-        this.shopService.saveShoppingList('userid', this.list);
         console.log(this.list);
+        this.shopService.saveShoppingList('userid', this.list);
     }
-
+    
     goShop(): void {
-
+        console.log('working');
+        this.shopService.saveShoppingList('userid', this.list).then(() => {
+            console.log('oh yee');
+            this.routerExtensions.navigate(['store-picker/' + this.list.id], {
+                transition: { name: "fade" }
+            });
+        });
     }
 
     updateItem(index: number, args: any): void {
@@ -48,7 +59,24 @@ export class ViewShopListComponent implements OnInit {
     }
 
     searchRecipes(args): void {
+        console.log(args.object.text);
+        this.recipes = [];
+        if (!args.object.text || args.object.text === '') return;
+        // TODO: make sure search string is query safe
+        this.recipeService.searchRecipeByName('userid', args.object.text).then((recipes: Array<any>) => {
+            this.recipes = recipes;
+        });
+    }
 
+    addRecipeToList(recipe): void {
+        recipe.ingredients.forEach(ingredient => {
+            let exists = false;
+            this.list.items.forEach(item => {
+                if (ingredient == item) exists = true;
+            });
+            if (!exists) this.list.items.unshift(ingredient);
+        });
+        this.recipes = [];
     }
 
     deleteItem(index: number): void {

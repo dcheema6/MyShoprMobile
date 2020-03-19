@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+
 import { StoresService } from "../core/services/stores.service";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
@@ -13,14 +15,18 @@ import * as app from "tns-core-modules/application";
 export class StorePickerComponent implements OnInit {
 
     // Create an empty list to hold the available stores
-    availableStoresList: any;
+    availableStoresList: Array<any>;
+    selectedListId: number;
 
-    constructor(private storeService: StoresService) {
+    constructor(private storeService: StoresService,
+        private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
-        this.storeService.getData().subscribe(stores => {
+        this.selectedListId = this.route.snapshot.params.id;
+        this.storeService.getData().subscribe((stores: Array<any>) => {
             this.availableStoresList = stores;
+            console.log(this.availableStoresList);
         });
     }
 

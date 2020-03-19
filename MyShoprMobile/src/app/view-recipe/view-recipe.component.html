@@ -1,6 +1,34 @@
-<ActionBar class="action-bar">
-    <Label class="action-bar-title" text="Recipe"></Label>
+<ActionBar height="85">
+    <TextView class="input h2" [(ngModel)]="recipe.name"></TextView>
 </ActionBar>
 
-<StackLayout class="page">
-</StackLayout>
+<GridLayout rows="*,55" columns="*,*" class="page">
+    <TabView selectedIndex="0" row="0" col="0" colSpan="2" (selectedIndexChanged)="onTabChange($event)">
+        <StackLayout *tabItem="{title: 'Ingredients'}">
+            <ListView [items]="recipe.ingredients" class="list-group">
+                <ng-template let-ingredient="item" let-i="index">
+                    <GridLayout columns="4*,*" class="m-0 p-0 list-group-item">
+                        <TextView col="0" height="30" class=" m-r-0 m-t-15 input h3" [(ngModel)]="ingredient" (textChange)="update(0,i,$event)"></TextView>
+                        <Label col="1" text="&#xf00d;" class="h3 fas bg-danger list-delete-btn" (tap)="delete(i)"></Label>
+                    </GridLayout>
+                </ng-template>
+            </ListView>
+        </StackLayout>
+
+        <StackLayout *tabItem="{title: 'Instructions'}">
+            <ListView [items]="recipe.instructions" class="list-group">
+                <ng-template let-instruction="item" let-i="index">
+                    <GridLayout columns="4*,*" class="m-0 p-0 list-group-item">
+                        <TextView col="0" height="30" class=" m-r-0 m-t-15 input h3" [(ngModel)]="instruction" (textChange)="update(1,i,$event)"></TextView>
+                        <Label col="1" text="&#xf00d;" class="h3 fas bg-danger list-delete-btn" (tap)="delete(i)"></Label>
+                    </GridLayout>
+                </ng-template>
+            </ListView>
+        </StackLayout>
+    </TabView>
+    
+    <Label row="1" col="0" height="100%" text="&#xf067;" class="add-btn p-t-15 m-0 fas h2" (tap)="addNew()">
+    </Label>
+    <Label row="2" col="1" height="100%" text="&#xf0c7;" class="c-bg-forest p-t-15 m-0 fas h2" textAlignment="center" (tap)="saveRecipe()">
+    </Label>
+</GridLayout>

@@ -11,13 +11,28 @@ export class RecipeService {
     getRecipe(userId, recipeId) {
         return new Promise((resolve) => {
             resolve({
-                id: recipeId
+                id: recipeId,
+                name: "recipe2",
+                ingredients: [
+                    "mango juice",
+                    "greek yogurt"
+                ],
+                instructions: [
+                    "Yes",
+                    "No",
+                    "Maybe"
+                ]
             });
         });
     }
 
-    saveRecipe(userId, recipeId) {
-        if (!recipeId!) {
+    searchRecipeByName(userid, recipe: string) {
+        // TODO: return only top 5 (Done in backend pref)
+        return this.getRecipeList(userid);
+    }
+
+    saveRecipe(userId, recipe) {
+        if (recipe.id < 0) {
             // POST
         } else {
             // PUT
@@ -31,13 +46,41 @@ export class RecipeService {
     getRecipeList(userId) {
         return new Promise((resolve) => {
             resolve([{
-                id: "recipe1"
+                id: 1, 
+                name: "recipe1",
+                ingredients: [
+                    "pizza sauce",
+                    "cheese"
+                ],
+                instructions: [
+                    "Yes",
+                    "No"
+                ]
             },
             {
-                id: "recipe2"
+                id: 2,
+                name: "recipe2",
+                ingredients: [
+                    "mango juice",
+                    "greek yogurt"
+                ],
+                instructions: [
+                    "Yes",
+                    "No",
+                    "Maybe"
+                ]
             },
             {
-                id: "recipe3"
+                id: 3,
+                name: "recipe3",
+                ingredients: [
+                    "mango chutney",
+                    "flat bread"
+                ],
+                instructions: [
+                    "Yes",
+                    "Maybe"
+                ]
             }]);
         });
     }

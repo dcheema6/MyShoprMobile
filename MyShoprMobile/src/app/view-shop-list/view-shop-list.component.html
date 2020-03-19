@@ -1,37 +1,36 @@
 <ActionBar height="85">
-    <TextView class="input h2" [(ngModel)]="list.id"></TextView>
+    <TextView class="input h2" [(ngModel)]="list.name"></TextView>
 </ActionBar>
 
-<StackLayout class="page">
-    <AbsoluteLayout>
-        <Button left="0" top="0" width="20%" [nsRouterLink]="['/shop', -1]" class="-rounded-lg -primary" (tap)="addItem()">
-            <FormattedString>
-                <Span text="&#xf067;" class="fas fa-plus"></Span>
-            </FormattedString>
-        </Button>
-        <Button left="65%" top="0" width="20%" [nsRouterLink]="['/shop', -1]" class="-rounded-lg c-bg-forest" (tap)="saveList()">
-            <FormattedString>
-                <Span text="&#xf0c7;" class="fas fa-save h2"></Span>
-            </FormattedString>
-        </Button>
-        <Button left="130%" top="0" width="50%" [nsRouterLink]="['/shop', -1]" class="-rounded-lg c-bg-orange" (tap)="goShop()">
-            <FormattedString>
-                <Span text="Go Shop  " class="h2"></Span>
-                <Span text="&#xf218;" class="fas fa-cart-arrow-down h2"></Span>
-            </FormattedString>
-        </Button>
-    </AbsoluteLayout>
-    <StackLayout height="40" backgroudColor="lightblue">
-        <TextView width="90%" class="input h3" (textChange)="searchRecipes($event)"></TextView>
+<GridLayout rows="*,55" columns="2*,2*,3*" class="page">
+    <StackLayout row="0" col="0" colSpan="3">
+        <StackLayout class="search-bar">
+            <TextView height="40" width="90%" class="input h3" hint="Search your recipes here..." (textChange)="searchRecipes($event)"></TextView>
+            <ListView width="90%" [items]="recipes" class="list-group">
+                <ng-template let-recipe="item" let-i="index">
+                    <DockLayout class="list-group-item">
+                        <Label height="30" class="list-group-item-text h3" [text]="recipe.name+'  (touch to add)'" (tap)="addRecipeToList(recipes[i])"></Label>
+                    </DockLayout>
+                </ng-template>
+            </ListView>
+        </StackLayout>
+
+        <StackLayout class="item-list">
+            <ListView height="100%" [items]="list.items" class="list-group">
+                <ng-template let-item="item" let-i="index">
+                    <GridLayout columns="4*,*" class="m-0 p-0 list-group-item">
+                        <TextView col="0" height="30" class=" m-r-0 m-t-15 input h3" [(ngModel)]="item" (textChange)="updateItem(i,$event)"></TextView>
+                        <Label col="1" text="&#xf00d;" class="h3 fas bg-danger list-delete-btn" (tap)="deleteItem(i)"></Label>
+                    </GridLayout>
+                </ng-template>
+            </ListView>
+        </StackLayout>
     </StackLayout>
-    <StackLayout class="item-list">
-        <ListView height="100%" [items]="list.items" class="list-group" separatorColor="lightblue">
-            <ng-template let-item="item" let-i="index">
-                <DockLayout class="p-t-0 p-b-0">
-                    <TextView height="40" width="70%" class="input h3" [(ngModel)]="item" (textChange)="updateItem(i,$event)"></TextView>
-                    <Button width="40" height="50" text="&#xf2ed;" class="fas bg-danger" (tap)="deleteItem(i)"></Button>
-                </DockLayout>
-            </ng-template>
-        </ListView>
-    </StackLayout>
-</StackLayout>
+    
+    <Label row="2" col="0" height="100%" text="&#xf067;" class="add-btn p-t-15 m-0 fas h2" (tap)="addItem()">
+    </Label>
+    <Label row="2" col="1" height="100%" text="&#xf0c7;" class="c-bg-forest p-t-15 m-0 fas h2" textAlignment="center" (tap)="saveList()">
+    </Label>
+    <Label row="2" col="2" height="100%" text="Go Shop  &#xf218;" class="c-bg-orange p-t-15 m-0 fas h2" textAlignment="center" (tap)="goShop()">
+    </Label>
+</GridLayout>

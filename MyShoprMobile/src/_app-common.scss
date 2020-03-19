@@ -55,5 +55,33 @@
 }
 
 .list-group {
-    background-color: #e6eeff;
+    separator-color: lightblue;
+}
+
+.list-group-item {
+    background-color: whitesmoke;
+}
+
+.list-group-item-text {
+    text-align: left;
+    letter-spacing: 0.15px;
+    text-transform: capitalize;
+    background-color: lightgray;
+}
+
+.list-delete-btn {
+    text-align: center;
+}
+
+.item-list {
+    background-color: whitesmoke;
+}
+
+.add-btn {
+    background-color: lightgray;
+    text-align: center;
+}
+
+.search-bar {
+    background-color: lightgray;
 }
