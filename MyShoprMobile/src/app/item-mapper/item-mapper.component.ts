@@ -74,7 +74,7 @@ export class ItemMapperComponent implements OnInit {
             this.finalShoppingList = [];
         }
         if(isSelected) { // if selected then deselect
-            this.finalShoppingList.splice(this.finalShoppingList.indexOf(this.mappedItemList[index]))
+            this.finalShoppingList.splice(this.finalShoppingList.indexOf(this.mappedItemList[index]),1);
             console.log(this.finalShoppingList)
         } else {
             this.finalShoppingList.push(this.mappedItemList[index]);
