@@ -28,6 +28,7 @@ export class ShoppingService {
         } else {
             // PUT
         }
+        return new Promise((resolve)=>resolve());
     }
 
     deleteShoppingList(userId, listId) {

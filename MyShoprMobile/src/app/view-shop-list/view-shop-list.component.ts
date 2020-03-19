@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { RouterExtensions } from "nativescript-angular/router";
 
 import { RecipeService } from "../core/services/recipe.service";
 import { ShoppingService } from "../core/services/shopping.service";
@@ -17,7 +18,10 @@ export class ViewShopListComponent implements OnInit {
     list: any = { };
     recipes: Array<any> = [];
 
-    constructor(private route: ActivatedRoute, private shopService: ShoppingService, private recipeService: RecipeService) {
+    constructor(private route: ActivatedRoute,
+        private routerExtensions: RouterExtensions,
+        private shopService: ShoppingService,
+        private recipeService: RecipeService) {
     }
 
     ngOnInit(): void {
@@ -41,7 +45,13 @@ export class ViewShopListComponent implements OnInit {
     }
     
     goShop(): void {
-
+        console.log('working');
+        this.shopService.saveShoppingList('userid', this.list).then(() => {
+            console.log('oh yee');
+            this.routerExtensions.navigate(['store-picker/' + this.list.id], {
+                transition: { name: "fade" }
+            });
+        });
     }
 
     updateItem(index: number, args: any): void {
