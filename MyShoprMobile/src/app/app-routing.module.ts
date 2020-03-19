@@ -11,6 +11,7 @@ const routes: Routes = [
     { path: "dashboard", loadChildren: () => import("~/app/dashboard/dashboard.module").then((m) => m.DashboardModule) },
     { path: "recipe/:id", loadChildren: () => import("~/app/view-recipe/view-recipe.module").then((m) => m.ViewRecipeModule) },
     { path: "shop/:id", loadChildren: () => import("~/app/view-shop-list/view-shop-list.module").then((m) => m.ViewShopListModule) },
+    { path: "item-map/:listId/:storeId", loadChildren: () => import("~/app/item-mapper/item-mapper.module").then((m) => m.ItemMapperModule) },
 ];
 
 @NgModule({
