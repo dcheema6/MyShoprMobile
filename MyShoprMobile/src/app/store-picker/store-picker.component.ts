@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { StoresService } from "../core/services/stores.service";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
+import { map } from "rxjs/operators";
 
 @Component({
     selector: "StorePicker",
@@ -25,9 +26,8 @@ export class StorePickerComponent implements OnInit {
 
     ngOnInit(): void {
         this.selectedListId = this.route.snapshot.params.id;
-        this.storeService.getData().subscribe((stores: Array<any>) => {
-            this.availableStoresList = stores;
-            console.log(this.availableStoresList);
+        this.storeService.getData().pipe(map(result => <any>result)).subscribe((stores) => {
+            this.availableStoresList = stores.data.storeMany;
         });
     }
 
@@ -43,8 +43,8 @@ export class StorePickerComponent implements OnInit {
 				break;
 			}
         }
-        console.log(this.availableStoresList[args.index])
         this.availableStoresList[args.index].selected = true;
+        this.selectedStoreId = this.availableStoresList[args.index]._id
         this.storeService.setSelectedStore(this.availableStoresList[args.index]);
 	}
 

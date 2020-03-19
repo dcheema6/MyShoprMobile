@@ -10,14 +10,25 @@ export class StoresService {
 
     getData() {
         let headers = this.createRequestHeader();
-        const endpoint = "/stores"
-        return this.http.get((this.serverUrl + endpoint), { headers: headers });
+        return this.http.post('https://myshopr-api.appspot.com/api', {
+            query: `
+            {
+                storeMany {
+                    _id
+                    name
+                    address
+              }
+
+          }
+            `
+        },{ headers: headers });
     }
 
     private createRequestHeader() {
         // set headers here e.g.
         let headers = new HttpHeaders({
             "Content-Type": "application/json",
+            "Accept": "application/json"
          });
 
         return headers;
