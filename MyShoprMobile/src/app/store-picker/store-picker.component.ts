@@ -18,7 +18,7 @@ export class StorePickerComponent implements OnInit {
     // Create an empty list to hold the available stores
     availableStoresList: Array<any>;
     selectedListId: any;
-    selectedStoreId: any = 1;
+    selectedStoreId: any;
 
     constructor(private storeService: StoresService,
         private route: ActivatedRoute) {
@@ -26,7 +26,7 @@ export class StorePickerComponent implements OnInit {
 
     ngOnInit(): void {
         this.selectedListId = this.route.snapshot.params.id;
-        this.storeService.getData().pipe(map(result => <any>result)).subscribe((stores) => {
+        this.storeService.getData().subscribe((stores: any) => {
             this.availableStoresList = stores.data.storeMany;
         });
     }

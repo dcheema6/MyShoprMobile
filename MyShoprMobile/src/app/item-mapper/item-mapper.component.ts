@@ -4,7 +4,6 @@ import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { StoresService } from "../core/services/stores.service";
 import { ShoppingService } from "../core/services/shopping.service";
-import { map, filter } from "rxjs/operators";
 import { Observable, combineLatest } from "rxjs";
 
 
@@ -39,13 +38,14 @@ export class ItemMapperComponent implements OnInit {
         this.selectedStoreId = this.route.snapshot.params.storeId;
         this.selectedStore = this.storeService.getSelectedStore();
         this.fetchProducts$ = this.shopServ.fetchAllProductItems();
-        this.shoppingList$ = this.shopServ.getShoppingList('5e7294ce1c9d44000040c9a8', this.selectedListId);
+        this.shoppingList$ = this.shopServ.getShoppingList('5e7304361c9d44000029227a', this.selectedListId);
+
         combineLatest([this.shoppingList$, this.fetchProducts$]).subscribe(([shop, products]) => {
-            if(shop && shop.data && products && products.data) {
+            if (shop && shop.data && products && products.data) {
                 this.productList = products.data.itemMany;
                 shop.data.userById.shoppingLists.forEach(list => {
                     console.log(list);
-                    if(list && list._id === this.selectedListId){
+                    if (list && list._id === this.selectedListId){
                         this.shoppingList = list;
                         console.log('converting...');
                         this.convertShoppingListToItems();
@@ -62,7 +62,7 @@ export class ItemMapperComponent implements OnInit {
     }
 
     onListItemSelect(index: number) {
-        if(!this.finalShoppingList){
+        if (!this.finalShoppingList){
             this.finalShoppingList = [];
         } else {
             this.finalShoppingList.push(this.mappedItemList[index]);
@@ -70,10 +70,11 @@ export class ItemMapperComponent implements OnInit {
     }
 
     onListItemUnSelect(index: number, isSelected: boolean) {
-        if(!this.finalShoppingList){
+        if (!this.finalShoppingList){
             this.finalShoppingList = [];
         }
-        if(isSelected) { // if selected then deselect
+
+        if (isSelected) { // if selected then deselect
             this.finalShoppingList.splice(this.finalShoppingList.indexOf(this.mappedItemList[index]),1);
             console.log(this.finalShoppingList)
         } else {
@@ -85,12 +86,12 @@ export class ItemMapperComponent implements OnInit {
     convertShoppingListToItems() {
         // For each shopping list item, search for the items in the DB with that name
         this.shoppingList.items.forEach((shopitem: string) => {
-            if(this.productList && this.productList.length > 0) {
+            if (this.productList && this.productList.length > 0) {
                 this.productList.forEach((product: any) => {
                     // This is a list of items
-                    if(product && product.name && shopitem.toLowerCase().includes(product.name.toLowerCase())){
-                            // This mapped list is the list of items now ready for the map builder
-                            this.mappedItemList.push(product);
+                    if (product && product.name && shopitem.toLowerCase().includes(product.name.toLowerCase())){
+                        // This mapped list is the list of items now ready for the map builder
+                        this.mappedItemList.push(product);
                     }
                 })
             } 
