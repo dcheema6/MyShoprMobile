@@ -22,8 +22,9 @@ export class UserService {
                 password
                 selectedStoreId
                 selectedListIndex
+                shoppingLists
               }
-            
+
           }
             `
         });

@@ -22,8 +22,24 @@ export class ShoppingService {
         });
     }
 
-    saveShoppingList(userId, list) {
-        if (list.id < 0) {
+    retreiveShoppingLists(userId: string){
+        return this.http.post('https://myshopr-api.appspot.com/api', {
+            query: `
+            {
+                userById(_id: "${userId}") {
+                _id
+                selectedStoreId
+                selectedListIndex
+                shoppingLists
+              }
+
+          }
+            `
+        });
+    }
+
+    saveShoppingList(userId, listId) {
+        if (!listId!) {
             // POST
         } else {
             // PUT
