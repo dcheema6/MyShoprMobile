@@ -8,17 +8,20 @@ export class ShoppingService {
 
     constructor(private http: HttpClient) { }
 
-    getShoppingList(userId, listId) {
-        return new Promise((resolve) => {
-            resolve({
-                id: listId,
-                name: "list2",
-                items: [
-                    "bananas",
-                    "strawberries",
-                    "apples"
-                ]
-            });
+    getShoppingList(userId: string) {
+        return this.http.post('https://myshopr-api.appspot.com/api', {
+            query: `
+            {
+                userById(_id: "${userId}") {
+                _id
+                shoppingLists {
+                    _id
+                    name
+                    items
+                }
+              }
+          }
+            `
         });
     }
 
@@ -31,7 +34,6 @@ export class ShoppingService {
                 shoppingLists {
                     _id
                     name
-                    items
                 }
               }
           }

@@ -44,7 +44,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.fbAuth.getCurrentUserObs().subscribe((user) => {
             if (user && user.email) {
                 this.userServ.getUserData().pipe(map(result => <any>result)).subscribe(result => {
-                    console.log(result.data.userMany);
                     result.data.userMany.forEach(userData => {
                         if (userData.email === user.email) {
                             this.userInfo = user;
@@ -53,7 +52,6 @@ export class AppComponent implements OnInit, OnDestroy {
                 });
                 this.currentUser.email = user.email;
                 this.currentUser.displayName = "NEED TO UPDATE";
-                console.log("[app component]: user: " + this.currentUser);
             }
         })
     }

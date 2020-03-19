@@ -21,7 +21,7 @@
                 <ListView height="100%" [items]="lists" class="list-group">
                     <ng-template let-list="item" let-i="index">
                         <GridLayout columns="4*,*" class="m-0 list-group-item">
-                            <Label col="0" [nsRouterLink]="['/shop', list.id]" class="list-group-item-text h3" [text]="list.name"></Label>
+                            <Label col="0" [nsRouterLink]="['/shop', list._id]" class="list-group-item-text h3" [text]="list.name"></Label>
                             <Label col="1" text="&#xf00d;" class="h3 fas bg-danger list-delete-btn" (tap)="deleteListItem(0,i)"></Label>
                         </GridLayout>
                     </ng-template>
@@ -38,7 +38,7 @@
                 <ListView height="100%" [items]="recipes" class="list-group">
                     <ng-template let-recipe="item" let-i="index">
                         <GridLayout columns="4*,*" class="m-0 list-group-item">
-                            <Label col="0" [nsRouterLink]="['/recipe', recipe.id]" class="list-group-item-text h3" [text]="recipe.name"></Label>
+                            <Label col="0" [nsRouterLink]="['/recipe', recipe._id]" class="list-group-item-text h3" [text]="recipe.name"></Label>
                             <Label col="1" text="&#xf00d;" class="h3 fas bg-danger list-delete-btn" (tap)="deleteListItem(1,i)"></Label>
                         </GridLayout>
                     </ng-template>

@@ -25,10 +25,12 @@ export class ViewShopListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.list['id'] = this.route.snapshot.params.id;
-        if (this.list.id > -1) {
-            this.shopService.getShoppingList('userid', this.list.id).then((list: any) => {
-                if (list && list.id) this.list = list;
+        this.list['_id'] = this.route.snapshot.params.id;
+        if (this.list._id !== -1) {
+            this.shopService.getShoppingList('5e7294ce1c9d44000040c9a8').subscribe((lists: any) => {
+                lists.data.userById.shoppingLists.forEach((list: any) => {
+                    if (list._id === this.list._id) this.list = list;
+                });
             });
         }
         if (!this.list['name']) this.list['name'] = 'ListName';
@@ -40,15 +42,12 @@ export class ViewShopListComponent implements OnInit {
     }
 
     saveList(): void {
-        console.log(this.list);
         this.shopService.saveShoppingList('userid', this.list);
     }
     
     goShop(): void {
-        console.log('working');
         this.shopService.saveShoppingList('userid', this.list).then(() => {
-            console.log('oh yee');
-            this.routerExtensions.navigate(['store-picker/' + this.list.id], {
+            this.routerExtensions.navigate(['store-picker/' + this.list._id], {
                 transition: { name: "fade" }
             });
         });
@@ -58,13 +57,15 @@ export class ViewShopListComponent implements OnInit {
         this.list.items[index] = args.object.text;
     }
 
-    searchRecipes(args): void {
+    searchRecipes(args: any): void {
         console.log(args.object.text);
         this.recipes = [];
         if (!args.object.text || args.object.text === '') return;
         // TODO: make sure search string is query safe
-        this.recipeService.searchRecipeByName('userid', args.object.text).then((recipes: Array<any>) => {
-            this.recipes = recipes;
+        this.recipeService.searchRecipeByName('5e7294ce1c9d44000040c9a8', args.object.text).subscribe((recipes: any) => {
+            recipes.data.userById.recipeList.forEach((recipe) => {
+                if (recipe.name.includes(args.object.text)) this.recipes.push(recipe);
+            });
         });
     }
 

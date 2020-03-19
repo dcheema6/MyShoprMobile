@@ -8,27 +8,27 @@ export class RecipeService {
 
     constructor(private http: HttpClient) { }
 
-    getRecipe(userId, recipeId) {
-        return new Promise((resolve) => {
-            resolve({
-                id: recipeId,
-                name: "recipe2",
-                ingredients: [
-                    "mango juice",
-                    "greek yogurt"
-                ],
-                instructions: [
-                    "Yes",
-                    "No",
-                    "Maybe"
-                ]
-            });
+    getRecipe(userId: string) {
+        return this.http.post('https://myshopr-api.appspot.com/api', {
+            query: `
+                {
+                    userById(_id: "${userId}") {
+                    _id
+                    recipeList {
+                        _id
+                        name
+                        ingredients
+                        instructions
+                    }
+                  }
+              }
+                `
         });
     }
 
     searchRecipeByName(userid, recipe: string) {
         // TODO: return only top 5 (Done in backend pref)
-        return this.getRecipeList(userid);
+        return this.getRecipe(userid);
     }
 
     saveRecipe(userId, recipe) {
@@ -52,54 +52,10 @@ export class RecipeService {
                     recipeList {
                         _id
                         name
-                        ingredients
-                        instructions
                     }
                   }
               }
                 `
-        });
-    }
-
-    getRecipeList(userId) {
-        return new Promise((resolve) => {
-            resolve([{
-                id: 1,
-                name: "recipe1",
-                ingredients: [
-                    "pizza sauce",
-                    "cheese"
-                ],
-                instructions: [
-                    "Yes",
-                    "No"
-                ]
-            },
-            {
-                id: 2,
-                name: "recipe2",
-                ingredients: [
-                    "mango juice",
-                    "greek yogurt"
-                ],
-                instructions: [
-                    "Yes",
-                    "No",
-                    "Maybe"
-                ]
-            },
-            {
-                id: 3,
-                name: "recipe3",
-                ingredients: [
-                    "mango chutney",
-                    "flat bread"
-                ],
-                instructions: [
-                    "Yes",
-                    "Maybe"
-                ]
-            }]);
         });
     }
 }

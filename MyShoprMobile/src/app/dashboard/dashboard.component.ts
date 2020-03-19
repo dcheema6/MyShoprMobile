@@ -36,12 +36,12 @@ export class DashboardComponent implements OnInit {
 
     deleteListItem(listId: number, index: number): void {
         if (listId == 0) {
-            let id = this.lists[index].id;
+            let id = this.lists[index]._id;
             this.shopService.deleteShoppingList('userid', id).then(() => {
                 this.lists.splice(index, 1);
             });
         } else if (listId == 1) {
-            let id = this.recipes[index].id;
+            let id = this.recipes[index]._id;
             this.recipeService.deleteRecipe('userid', id).then(() => {
                 this.recipes.splice(index, 1);
             });
