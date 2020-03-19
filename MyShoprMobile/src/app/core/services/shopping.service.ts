@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class ShoppingService {
     private serverUrl = "https://myshopr-api.appspot.com";
     public selectedStore: any = null;
+    public selectedList: any = null;
 
     constructor(private http: HttpClient) { }
 
