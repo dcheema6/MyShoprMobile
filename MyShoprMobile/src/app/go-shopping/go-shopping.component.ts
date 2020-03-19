@@ -3,12 +3,11 @@ import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { EventData } from "tns-core-modules/data/observable";
 import { Placeholder } from "tns-core-modules/ui/placeholder";
-import { isIOS, isAndroid } from "tns-core-modules/platform/platform";
+import { isAndroid } from "tns-core-modules/platform/platform";
 import { ad } from "tns-core-modules/utils/utils";
 import { ImageSource } from '@nativescript/core/image-source/image-source';
 
 import { StoresService } from '../core/services/stores.service';
-import { PercentLength } from "tns-core-modules/ui/page/page";
 
 @Component({
     selector: "GoShopping",
@@ -36,13 +35,16 @@ export class GoShoppingComponent implements OnInit {
 
     pageLoaded(args: EventData): void {
         this.slayout = args.object;
+
         this.storeService.getItemsAiles().then((itemAisles: Array<any>) => {
             this.aisles = itemAisles;
+
             this.getLayoutImage().then((imgSrc) => {
                 this.imgSrc = imgSrc;
                 let placeholder = new Placeholder();
-                if (isAndroid)
-                    placeholder.setNativeView(this.getLayoutViewAndroid());
+
+                if (isAndroid) placeholder.setNativeView(this.getLayoutViewAndroid());
+
                 this.slayout.insertChild(placeholder,0);
                 this.items = itemAisles;
             });
@@ -58,11 +60,12 @@ export class GoShoppingComponent implements OnInit {
         let canvas = new android.graphics.Canvas(bitmap);
         nativeView.setMaxHeight(bitmap.getHeight()
         );
+
         this.aisles.forEach(aisle => {
             this.addNodeToCanvasAndroid(aisle.coords[0], aisle.coords[1], 40, canvas);
         });
-        this.drawPaths(canvas);
 
+        this.drawPaths(canvas);
         nativeView.setImageBitmap(bitmap);
         return nativeView;
     }
@@ -87,6 +90,7 @@ export class GoShoppingComponent implements OnInit {
 
     drawPaths(canvas: android.graphics.Canvas): void {
         this.sortAisles(0, this.aisles.length-1);
+
         for (let i = 0; i < this.aisles.length-1; i++)
             this.drawLine(this.aisles[i].coords[0], this.aisles[i].coords[1],
                 this.aisles[i+1].coords[0], this.aisles[i+1].coords[1], canvas);
@@ -110,6 +114,7 @@ export class GoShoppingComponent implements OnInit {
      *  */
     sortAisleHelper(currIndex: number): void {
         let endIndex = this.aisles.length-1;
+
         if (currIndex >= endIndex) return;
 
         // O(n)
@@ -123,6 +128,7 @@ export class GoShoppingComponent implements OnInit {
         for (let i=0; i<cAisleDisArr.length; i++) {
             let bias = lAisleDisArr[i][0] // More bias the furthur away from last aisle
                 - cAisleDisArr[i][0]; // More bias the closer to the curr aisle
+
             if (!maxBias || maxBias < bias) {
                 maxBias = bias;
                 nextIndex = cAisleDisArr[i][1];
@@ -137,12 +143,14 @@ export class GoShoppingComponent implements OnInit {
     // Returns array of [distance, aisleIndex] sorted by distance for all aisleIndex in indexsToBeTraversed
     getDisToAsile(index: number, startIndex: number): Array<Array<number>> {
         let disArr = [];
+
         for (let i = startIndex; i < this.aisles.length-1; i++) {
             let dis = this.calculateDis(
                 this.aisles[index].coords[0], this.aisles[index].coords[1],
                 this.aisles[i].coords[0], this.aisles[i].coords[1]);
             disArr.push([dis, i]);
         }
+
         return disArr;
     }
 

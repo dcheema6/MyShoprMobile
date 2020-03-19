@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
-import { alert, prompt } from "tns-core-modules/ui/dialogs";
+import { prompt } from "tns-core-modules/ui/dialogs";
 
 import { RecipeService } from "../core/services/recipe.service";
 import { ShoppingService } from "../core/services/shopping.service";
@@ -22,12 +22,13 @@ export class DashboardComponent implements OnInit {
     recipes: Array<any>;
     currUserId: string = "5e7304361c9d44000029227a";
 
-    constructor(private recipeService: RecipeService, private shopService: ShoppingService) {
+    constructor(private recipeService: RecipeService,
+        private shopService: ShoppingService) {
     }
 
     ngOnInit(): void {
-        this.getShoppingList();
         this.getRecipeList();
+        this.getShoppingList();
     }
 
     onDrawerButtonTap(): void {

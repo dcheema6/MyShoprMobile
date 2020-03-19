@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 @Injectable()
 export class StoresService {
     private serverUrl = "https://myshopr-api.appspot.com";
-    public selectedStore: any = null;
+    public selectedStore: any;
 
     constructor(private http: HttpClient) { }
 
@@ -32,19 +32,11 @@ export class StoresService {
     }
 
     public getSelectedStore() {
-        if(this.selectedStore){
-            return this.selectedStore; 
-        } else {
-            return null;
-        }
+        return this.selectedStore; 
     }
 
     public setSelectedStore(store: any) {
-        if(store && store !== null){
-            this.selectedStore = store;
-        } else {
-            this.selectedStore = null;
-        }
+        this.selectedStore = store;
     }
     
     public getItemsAiles() {

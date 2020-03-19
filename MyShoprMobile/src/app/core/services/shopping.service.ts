@@ -50,7 +50,6 @@ export class ShoppingService {
                     shoppingLists {
                       _id
                       name
-                      items
                     }
                   }
                 }
