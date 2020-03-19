@@ -51,13 +51,12 @@ export class DashboardComponent implements OnInit {
     getShoppingList(): void {
         this.shopService.retreiveShoppingLists("5e7294ce1c9d44000040c9a8").pipe(map(result => <any>result)).subscribe((lists) => {
             this.lists = lists.data.userById.shoppingLists;
-            console.log(this.lists);
         });
     }
 
     getRecipeList(): void {
-        this.recipeService.getRecipeList('userid').then((list: Array<any>) => {
-            this.recipes = list;
+        this.recipeService.retrieveRecipeList("5e7294ce1c9d44000040c9a8").pipe(map(result => <any>result)).subscribe((recp) => {
+            this.recipes = recp.data.userById.recipeList;
         });
     }
 }

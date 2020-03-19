@@ -1,10 +1,9 @@
 export class Store {
     _id: string;
-    storeId: string;
     name: string;
     address: string;
     layourUrl: string;
-    aisles: Array<any>;
+    aisles: Array<Aisle>;
 }
 
 export class Aisle {

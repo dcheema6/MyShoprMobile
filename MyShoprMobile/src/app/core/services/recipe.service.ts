@@ -40,13 +40,29 @@ export class RecipeService {
     }
 
     deleteRecipe(userId, recipeId) {
-        return new Promise((resolve) => {resolve();});
+        return new Promise((resolve) => { resolve(); });
+    }
+
+    retrieveRecipeList(userId: string) {
+        return this.http.post('https://myshopr-api.appspot.com/api', {
+            query: `
+                {
+                    userById(_id: "${userId}") {
+                    _id
+                    selectedStoreId
+                    selectedListIndex
+                    recipeLists
+                  }
+    
+              }
+                `
+        });
     }
 
     getRecipeList(userId) {
         return new Promise((resolve) => {
             resolve([{
-                id: 1, 
+                id: 1,
                 name: "recipe1",
                 ingredients: [
                     "pizza sauce",
