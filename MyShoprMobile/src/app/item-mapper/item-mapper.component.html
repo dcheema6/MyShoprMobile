@@ -15,5 +15,15 @@
 </ActionBar>
 
 <StackLayout class="page">
-    <label text="insert map here"></label>
+    <StackLayout row="0" col="0" colSpan="3">
+        <ListView [items]="mappedItemList" class="list-group">
+            <ng-template let-mItem="item" let-i="index">
+                <GridLayout columns="2*,2*,*" class="m-0 p-0 list-group-item">
+                    <Label col="0" text="{{mItem.name}}"></Label>
+                    <Label col="1" text="{{mItem.brand}}"></Label>
+                    <button col="2" class="fas" text="{{ mItem.selected ? '&#xf068;' : '&#xf067;' }}" (tap)="mItem.selected = !mItem.selected; onListItemSelect(i, !mItem.selected)"></button>
+                </GridLayout>
+            </ng-template>
+        </ListView>
+    </StackLayout>
 </StackLayout>

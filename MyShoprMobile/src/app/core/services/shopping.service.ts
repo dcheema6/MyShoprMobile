@@ -56,7 +56,21 @@ export class ShoppingService {
               }`
         });
     }
-
+    
+    fetchAllProductItems() {
+        return this.http.post('https://myshopr-api.appspot.com/api', {
+            query: `
+            {
+                itemMany {
+                    _id
+                    name
+                    brand
+                    sku
+                }
+            }
+            `
+        });
+    }
     deleteShoppingList(userId: string, shopLists: Array<any>) {
         return this.saveShoppingList(userId, shopLists);
     }

@@ -6,8 +6,6 @@ export class UserService {
 
     private serverUrl = "https://myshopr-api.appspot.com/api";
 
-    userInfo: any;
-
     constructor(private http: HttpClient) { }
 
     getUserData() {

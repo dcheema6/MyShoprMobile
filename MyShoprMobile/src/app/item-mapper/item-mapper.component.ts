@@ -4,7 +4,8 @@ import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { StoresService } from "../core/services/stores.service";
 import { ShoppingService } from "../core/services/shopping.service";
-import { map } from "rxjs/operators";
+import { map, filter } from "rxjs/operators";
+import { Observable, combineLatest } from "rxjs";
 
 
 @Component({
@@ -21,21 +22,38 @@ export class ItemMapperComponent implements OnInit {
     shoppingList: any;
     mappedItemList: any;
 
+    productList: any;
+
+    shoppingList$: Observable<any>;
+    fetchProducts$: Observable<any>;
+    isDataLoaded$: Observable<any>;
+
+    finalShoppingList: any;
+
     constructor(private route: ActivatedRoute, private storeService: StoresService, private shopServ: ShoppingService) {
     }
 
     ngOnInit(): void {
+        this.mappedItemList = [];
         this.selectedListId = this.route.snapshot.params.listId;
         this.selectedStoreId = this.route.snapshot.params.storeId;
         this.selectedStore = this.storeService.getSelectedStore();
-        this.shoppingList = this.shopServ.getShoppingList('5e7294ce1c9d44000040c9a8', this.selectedListId).pipe(map(result => <any>result)).subscribe((list) => {
-            this.shoppingList = list.data.userById.shoppingLists.forEach(list => {
-                if(list && list._id === this.selectedListId){
-                    this.shoppingList = list;
-                }
-            });
+        this.fetchProducts$ = this.shopServ.fetchAllProductItems();
+        this.shoppingList$ = this.shopServ.getShoppingList('5e7294ce1c9d44000040c9a8', this.selectedListId);
+        combineLatest([this.shoppingList$, this.fetchProducts$]).subscribe(([shop, products]) => {
+            if(shop && shop.data && products && products.data) {
+                this.productList = products.data.itemMany;
+                shop.data.userById.shoppingLists.forEach(list => {
+                    console.log(list);
+                    if(list && list._id === this.selectedListId){
+                        this.shoppingList = list;
+                        console.log('converting...');
+                        this.convertShoppingListToItems();
+                    }
+                });
+                
+            }
         });
-        console.log(this.shoppingList);
     }
 
     onDrawerButtonTap(): void {
@@ -43,5 +61,39 @@ export class ItemMapperComponent implements OnInit {
         sideDrawer.showDrawer();
     }
 
+    onListItemSelect(index: number) {
+        if(!this.finalShoppingList){
+            this.finalShoppingList = [];
+        } else {
+            this.finalShoppingList.push(this.mappedItemList[index]);
+        }
+    }
 
+    onListItemUnSelect(index: number, isSelected: boolean) {
+        if(!this.finalShoppingList){
+            this.finalShoppingList = [];
+        }
+        if(isSelected) { // if selected then deselect
+            this.finalShoppingList.splice(this.finalShoppingList.indexOf(this.mappedItemList[index]))
+            console.log(this.finalShoppingList)
+        } else {
+            this.finalShoppingList.push(this.mappedItemList[index]);
+            console.log(this.finalShoppingList)
+        }
+    }
+
+    convertShoppingListToItems() {
+        // For each shopping list item, search for the items in the DB with that name
+        this.shoppingList.items.forEach((shopitem: string) => {
+            if(this.productList && this.productList.length > 0) {
+                this.productList.forEach((product: any) => {
+                    // This is a list of items
+                    if(product && product.name && shopitem.toLowerCase().includes(product.name.toLowerCase())){
+                            // This mapped list is the list of items now ready for the map builder
+                            this.mappedItemList.push(product);
+                    }
+                })
+            } 
+        });
+    }
 }
