@@ -28,11 +28,12 @@ export class ShoppingService {
             {
                 userById(_id: "${userId}") {
                 _id
-                selectedStoreId
-                selectedListIndex
-                shoppingLists
+                shoppingLists {
+                    _id
+                    name
+                    items
+                }
               }
-
           }
             `
         });

@@ -16,7 +16,8 @@ export class StorePickerComponent implements OnInit {
 
     // Create an empty list to hold the available stores
     availableStoresList: Array<any>;
-    selectedListId: number;
+    selectedListId: any;
+    selectedStoreId: any = 1;
 
     constructor(private storeService: StoresService,
         private route: ActivatedRoute) {

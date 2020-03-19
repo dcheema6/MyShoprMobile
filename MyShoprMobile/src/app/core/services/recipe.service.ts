@@ -49,11 +49,13 @@ export class RecipeService {
                 {
                     userById(_id: "${userId}") {
                     _id
-                    selectedStoreId
-                    selectedListIndex
-                    recipeLists
+                    recipeList {
+                        _id
+                        name
+                        ingredients
+                        instructions
+                    }
                   }
-    
               }
                 `
         });

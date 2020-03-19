@@ -35,8 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.fbAuth.signInWithEmailAndPassword('a@b.com', 'aaabbb').then(temp => {
             this.routerExtensions.navigate(['/dashboard'])
-        }
-        ).catch(error => { console.log(error) })
+        }).catch(error => { console.log(error) });
 
         this.router.events
             .pipe(filter((event: any) => event instanceof NavigationEnd))
