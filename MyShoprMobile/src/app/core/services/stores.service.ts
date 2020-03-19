@@ -11,16 +11,13 @@ export class StoresService {
     getData() {
         let headers = this.createRequestHeader();
         return this.http.post('https://myshopr-api.appspot.com/api', {
-            query: `
-            {
+            query: `{
                 storeMany {
                     _id
                     name
                     address
-              }
-
-          }
-            `
+                }
+            }`
         },{ headers: headers });
     }
 

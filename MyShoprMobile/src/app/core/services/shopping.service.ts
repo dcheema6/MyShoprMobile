@@ -10,47 +10,42 @@ export class ShoppingService {
 
     getShoppingList(userId: string, listId: string) {
         return this.http.post('https://myshopr-api.appspot.com/api', {
-            query: `
-            {
+            query: `{
                 userById(_id: "${userId}") {
-                _id
-                shoppingLists {
                     _id
-                    name
-                    items
+                    shoppingLists {
+                        _id
+                        name
+                        items
+                    }
                 }
-              }
-          }
-            `
+            }`
         });
     }
 
     retreiveShoppingLists(userId: string){
         return this.http.post('https://myshopr-api.appspot.com/api', {
-            query: `
-            {
+            query: `{
                 userById(_id: "${userId}") {
-                _id
-                shoppingLists {
                     _id
-                    name
+                    shoppingLists {
+                        _id
+                        name
+                    }
                 }
-              }
-          }
-            `
+            }`
         });
     }
 
-    saveShoppingList(userId, listId) {
-        if (!listId!) {
-            // POST
-        } else {
-            // PUT
-        }
-        return new Promise((resolve)=>resolve());
+    saveShoppingList(userId: string, shopLists: Array<any>) {
+        return this.http.post('https://myshopr-api.appspot.com/api', {
+            mutation: `{
+                userUpdateById(_id: "${userId}", shoppingLists: ${shopLists})
+            }`
+        });
     }
 
-    deleteShoppingList(userId, listId) {
-        return new Promise((resolve) => {resolve();});
+    deleteShoppingList(userId: string, shopLists: Array<any>) {
+        return this.saveShoppingList(userId, shopLists);
     }
 }

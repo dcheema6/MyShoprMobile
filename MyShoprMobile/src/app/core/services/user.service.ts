@@ -12,16 +12,13 @@ export class UserService {
 
     getUserData() {
         return this.http.post('https://myshopr-api.appspot.com/api', {
-            query: `
-            {
+            query: `{
                 userMany {
-                _id
-                email
-                displayName
-              }
-
-          }
-            `
+                    _id
+                    email
+                    displayName
+                }
+            }`
         });
     }
 }

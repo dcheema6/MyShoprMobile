@@ -10,9 +10,8 @@ export class RecipeService {
 
     getRecipe(userId: string, recipeId: string) {
         return this.http.post('https://myshopr-api.appspot.com/api', {
-            query: `
-                {
-                    userById(_id: "${userId}") {
+            query: `{
+                userById(_id: "${userId}") {
                     _id
                     recipeList {
                         _id
@@ -20,9 +19,22 @@ export class RecipeService {
                         ingredients
                         instructions
                     }
-                  }
-              }
-                `
+                }
+            }`
+        });
+    }
+
+    retrieveRecipeList(userId: string) {
+        return this.http.post('https://myshopr-api.appspot.com/api', {
+            query: `{
+                userById(_id: "${userId}") {
+                    _id
+                    recipeList {
+                        _id
+                        name
+                    }
+                }
+            }`
         });
     }
 
@@ -31,31 +43,15 @@ export class RecipeService {
         return this.getRecipe(userid, "");
     }
 
-    saveRecipe(userId, recipe) {
-        if (recipe.id < 0) {
-            // POST
-        } else {
-            // PUT
-        }
-    }
-
-    deleteRecipe(userId, recipeId) {
-        return new Promise((resolve) => { resolve(); });
-    }
-
-    retrieveRecipeList(userId: string) {
+    saveRecipe(userId: string, recipes: Array<any>) {
         return this.http.post('https://myshopr-api.appspot.com/api', {
-            query: `
-                {
-                    userById(_id: "${userId}") {
-                    _id
-                    recipeList {
-                        _id
-                        name
-                    }
-                  }
-              }
-                `
+            mutation: `{
+                userUpdateById(_id: "${userId}", recipeList: ${recipes})
+            }`
         });
+    }
+
+    deleteRecipe(userId: string, recipes: Array<any>) {
+        return this.saveRecipe(userId, recipes);
     }
 }
