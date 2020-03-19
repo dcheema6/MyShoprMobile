@@ -6,8 +6,17 @@ export class ShoppingService {
     private serverUrl = "https://myshopr-api.appspot.com";
     public selectedStore: any = null;
     public selectedList: any = null;
+    public goShoppingItems: any;
 
     constructor(private http: HttpClient) { }
+
+    setGoShoppingItems(items: any) {
+        this.goShoppingItems = items;
+    }
+
+    getGoShoppingItems() {
+        return this.goShoppingItems;
+    }
 
     getShoppingList(userId: string, listId: string) {
         return this.http.post('https://myshopr-api.appspot.com/api', {
@@ -56,7 +65,7 @@ export class ShoppingService {
               }`
         });
     }
-    
+
     fetchAllProductItems() {
         return this.http.post('https://myshopr-api.appspot.com/api', {
             query: `

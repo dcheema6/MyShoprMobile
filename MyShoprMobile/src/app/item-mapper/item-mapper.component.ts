@@ -5,6 +5,7 @@ import * as app from "tns-core-modules/application";
 import { StoresService } from "../core/services/stores.service";
 import { ShoppingService } from "../core/services/shopping.service";
 import { Observable, combineLatest } from "rxjs";
+import { RouterExtensions } from "nativescript-angular/router";
 
 
 @Component({
@@ -24,7 +25,7 @@ export class ItemMapperComponent implements OnInit {
     isDataLoaded$: Observable<any>;
     finalShoppingList: any;
 
-    constructor(private route: ActivatedRoute, private storeService: StoresService, private shopServ: ShoppingService) {
+    constructor(private route: ActivatedRoute, private routerExtension: RouterExtensions, private storeService: StoresService, private shopServ: ShoppingService) {
     }
 
     ngOnInit(): void {
@@ -76,6 +77,11 @@ export class ItemMapperComponent implements OnInit {
             this.finalShoppingList.push(this.mappedItemList[index]);
             console.log(this.finalShoppingList)
         }
+    }
+
+    buildMap() {
+        this.shopServ.setGoShoppingItems(this.finalShoppingList);
+        this.routerExtension.navigate(['/goshop']);
     }
 
     convertShoppingListToItems() {
