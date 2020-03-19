@@ -39,9 +39,21 @@ export class ShoppingService {
 
     saveShoppingList(userId: string, shopLists: Array<any>) {
         return this.http.post('https://myshopr-api.appspot.com/api', {
-            mutation: `{
-                userUpdateById(_id: "${userId}", shoppingLists: ${shopLists})
-            }`
+            query: `mutation {
+                userUpdateById(record: {
+                  _id: "${userId}",
+                  shoppingLists: ${JSON.stringify(shopLists).replace(/"([^"]+)":/g, '$1:').replace(/\uFFFF/g, '\\\"')}
+                }) {
+                  recordId
+                  record {
+                    shoppingLists {
+                      _id
+                      name
+                      items
+                    }
+                  }
+                }
+              }`
         });
     }
 

@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
+import { RouterExtensions } from "nativescript-angular/router";
+import * as app from "tns-core-modules/application";
+import { AndroidApplication, AndroidActivityBackPressedEventData } from "tns-core-modules/application";
+import { isAndroid } from "tns-core-modules/platform";
+import { alert } from "tns-core-modules/ui/dialogs";
 
 import { RecipeService } from "../core/services/recipe.service";
 
@@ -12,22 +17,40 @@ import { RecipeService } from "../core/services/recipe.service";
 export class ViewRecipeComponent implements OnInit {
     recipe: any = { };
     selectedTab = 'ingredients';
+    currUserId: string = "5e7304361c9d44000029227a";
+    recipes: Array<any>;
     
-    constructor(private route: ActivatedRoute, private recipeService: RecipeService) {
+    constructor(private route: ActivatedRoute,
+        private routerExtensions: RouterExtensions,
+        private recipeService: RecipeService) {
     }
 
     ngOnInit(): void {
         this.recipe['_id'] = this.route.snapshot.params.id;
-        if (this.recipe._id !== -1) {
-            this.recipeService.getRecipe('5e7294ce1c9d44000040c9a8', this.recipe._id).subscribe((recipes: any) => {
-                recipes.data.userById.recipeList.forEach((recipe: any) => {
-                    if (recipe._id === this.recipe._id) this.recipe = recipe;
-                });
+        this.recipeService.getRecipe(this.currUserId, this.recipe._id).subscribe((recipes: any) => {
+            this.recipes = recipes.data.userById.recipeList;
+            this.recipes.forEach((recipe: any) => {
+                if (recipe._id === this.recipe._id) this.recipe = recipe;
             });
-        }
+
+            if (this.recipe._id == -1) {
+                delete this.recipe['_id'];
+                this.recipes.push(this.recipe);
+            }
+        });
+
         if (!this.recipe['name']) this.recipe['name'] = 'NewRecipeName';
         if (!this.recipe['ingredients']) this.recipe['ingredients'] = [];
         if (!this.recipe['instructions']) this.recipe['instructions'] = [];
+
+        if (isAndroid) {
+            app.android.on(AndroidApplication.activityBackPressedEvent, (data: AndroidActivityBackPressedEventData) => {
+                data.cancel = true;
+                this.routerExtensions.navigate(['dashboard'], {
+                    transition: { name: "fade" }
+                });
+            });
+        }
     }
 
     addNew(): void {
@@ -37,14 +60,17 @@ export class ViewRecipeComponent implements OnInit {
     update(selTabInd: number, index: number, args: any) {
         if ((selTabInd == 1 && this.selectedTab == 'ingredients') ||
             (selTabInd == 2 && this.selectedTab == 'instructions')) return;
-
-        console.log(args.object.text, this.recipe[this.selectedTab][index]);
         this.recipe[this.selectedTab][index] = args.object.text;
     }
 
     saveRecipe(): void {
-        console.log(this.recipe);
-        this.recipeService.saveRecipe('userid', this.recipe);
+        this.recipeService.saveRecipe(this.currUserId, this.recipes).subscribe((rtnVal) => {
+            alert({
+                title: "Saved",
+                message: "Recipe was successfully saved.",
+                okButtonText: "Ok"
+            });
+        });
     }
 
     delete(index: number): void {

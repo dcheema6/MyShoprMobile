@@ -45,9 +45,22 @@ export class RecipeService {
 
     saveRecipe(userId: string, recipes: Array<any>) {
         return this.http.post('https://myshopr-api.appspot.com/api', {
-            mutation: `{
-                userUpdateById(_id: "${userId}", recipeList: ${recipes})
-            }`
+            query: `mutation {
+                userUpdateById(record: {
+                  _id: "${userId}",
+                  recipeList: ${JSON.stringify(recipes).replace(/"([^"]+)":/g, '$1:').replace(/\uFFFF/g, '\\\"')}
+                }) {
+                  recordId
+                  record {
+                    recipeList {
+                      _id
+                      name
+                      ingredients
+                      instructions
+                    }
+                  }
+                }
+              }`
         });
     }
 

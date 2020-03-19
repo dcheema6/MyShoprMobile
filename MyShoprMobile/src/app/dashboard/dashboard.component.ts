@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
+import { alert, prompt } from "tns-core-modules/ui/dialogs";
+
 import { RecipeService } from "../core/services/recipe.service";
 import { ShoppingService } from "../core/services/shopping.service";
-import { map } from "rxjs/operators";
-
 
 @Component({
     selector: "Dashboard",
@@ -20,6 +20,7 @@ import { map } from "rxjs/operators";
 export class DashboardComponent implements OnInit {
     lists: Array<any>;
     recipes: Array<any>;
+    currUserId: string = "5e7304361c9d44000029227a";
 
     constructor(private recipeService: RecipeService, private shopService: ShoppingService) {
     }
@@ -35,27 +36,36 @@ export class DashboardComponent implements OnInit {
     }
 
     deleteListItem(listId: number, index: number): void {
-        if (listId == 0) {
-            let id = this.lists[index]._id;
-            this.shopService.deleteShoppingList('userid', id).then(() => {
-                this.lists.splice(index, 1);
-            });
-        } else if (listId == 1) {
-            let id = this.recipes[index]._id;
-            this.recipeService.deleteRecipe('userid', id).then(() => {
-                this.recipes.splice(index, 1);
-            });
-        } 
+        prompt({
+            title: "Confirmation",
+            message: "Are you sure you want to delete.",
+            okButtonText: "Delete",
+            cancelButtonText: "Cancel"
+        }).then((data) => {
+            if (data.result) {
+                if (listId == 0) {
+                    let id = this.lists[index]._id;
+                    this.lists.splice(index, 1);
+                    this.shopService.deleteShoppingList(this.currUserId, this.lists).subscribe(() => {
+                    });
+                } else if (listId == 1) {
+                    let id = this.recipes[index]._id;
+                    this.recipes.splice(index, 1);
+                    this.recipeService.deleteRecipe(this.currUserId, id).subscribe(() => {
+                    });
+                }
+            }
+        });
     }
 
     getShoppingList(): void {
-        this.shopService.retreiveShoppingLists("5e7294ce1c9d44000040c9a8").pipe(map(result => <any>result)).subscribe((lists) => {
+        this.shopService.retreiveShoppingLists(this.currUserId).subscribe((lists: any) => {
             this.lists = lists.data.userById.shoppingLists;
         });
     }
 
     getRecipeList(): void {
-        this.recipeService.retrieveRecipeList("5e7294ce1c9d44000040c9a8").pipe(map(result => <any>result)).subscribe((recp) => {
+        this.recipeService.retrieveRecipeList(this.currUserId).subscribe((recp: any) => {
             this.recipes = recp.data.userById.recipeList;
         });
     }

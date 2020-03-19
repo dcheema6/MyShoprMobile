@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
+import * as app from "tns-core-modules/application";
+import { AndroidApplication, AndroidActivityBackPressedEventData } from "tns-core-modules/application";
+import { isAndroid } from "tns-core-modules/platform";
+import { alert } from "tns-core-modules/ui/dialogs";
 
 import { RecipeService } from "../core/services/recipe.service";
 import { ShoppingService } from "../core/services/shopping.service";
@@ -17,6 +21,9 @@ import { ShoppingService } from "../core/services/shopping.service";
 export class ViewShopListComponent implements OnInit {
     list: any = { };
     recipes: Array<any> = [];
+    currUserId: string = "5e7304361c9d44000029227a";
+    // temp
+    lists: Array<any>;
 
     constructor(private route: ActivatedRoute,
         private routerExtensions: RouterExtensions,
@@ -26,15 +33,29 @@ export class ViewShopListComponent implements OnInit {
 
     ngOnInit(): void {
         this.list['_id'] = this.route.snapshot.params.id;
-        if (this.list._id !== -1) {
-            this.shopService.getShoppingList('5e7294ce1c9d44000040c9a8', this.list._id).subscribe((lists: any) => {
-                lists.data.userById.shoppingLists.forEach((list: any) => {
-                    if (list._id === this.list._id) this.list = list;
+        this.shopService.getShoppingList(this.currUserId, this.list._id).subscribe((lists: any) => {
+            this.lists = lists.data.userById.shoppingLists;
+            this.lists.forEach((list: any) => {
+                if (list._id === this.list._id) this.list = list;
+            });
+
+            if (this.list._id == -1) {
+                delete this.list['_id'];
+                this.lists.push(this.list);
+            }
+        });
+
+        if (!this.list['name']) this.list['name'] = 'ListName';
+        if (!this.list['items']) this.list['items'] = [];
+
+        if (isAndroid) {
+            app.android.on(AndroidApplication.activityBackPressedEvent, (data: AndroidActivityBackPressedEventData) => {
+                data.cancel = true;
+                this.routerExtensions.navigate(['dashboard'], {
+                    transition: { name: "fade" }
                 });
             });
         }
-        if (!this.list['name']) this.list['name'] = 'ListName';
-        if (!this.list['items']) this.list['items'] = [];
     }
 
     addItem(): void {
@@ -42,11 +63,17 @@ export class ViewShopListComponent implements OnInit {
     }
 
     saveList(): void {
-        this.shopService.saveShoppingList('userid', this.list);
+        this.shopService.saveShoppingList(this.currUserId, this.lists).subscribe((rtnVal) => {
+            alert({
+                title: "Saved",
+                message: "Shopping list was successfully saved.",
+                okButtonText: "Ok"
+            });
+        });
     }
     
     goShop(): void {
-        this.shopService.saveShoppingList('userid', this.list).then(() => {
+        this.shopService.saveShoppingList(this.currUserId, this.lists).subscribe(() => {
             this.routerExtensions.navigate(['store-picker/' + this.list._id], {
                 transition: { name: "fade" }
             });
@@ -62,7 +89,7 @@ export class ViewShopListComponent implements OnInit {
         this.recipes = [];
         if (!args.object.text || args.object.text === '') return;
         // TODO: make sure search string is query safe
-        this.recipeService.searchRecipeByName('5e7294ce1c9d44000040c9a8', args.object.text).subscribe((recipes: any) => {
+        this.recipeService.searchRecipeByName(this.currUserId, args.object.text).subscribe((recipes: any) => {
             recipes.data.userById.recipeList.forEach((recipe) => {
                 if (recipe.name.includes(args.object.text)) this.recipes.push(recipe);
             });

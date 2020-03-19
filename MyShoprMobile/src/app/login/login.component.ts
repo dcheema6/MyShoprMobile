@@ -40,10 +40,9 @@ export class LoginComponent implements OnInit {
         }
         
         if (this.isLoggingIn) {
-            this.authService.signInWithEmailAndPassword(this.user.email, this.user.password)
-                .then((user) => {
-                    this.routerExtensions.navigate(['/dashboard']);
-                });
+            this.authService.signInWithEmailAndPassword(this.user.email, this.user.password).then((user) => {
+                this.routerExtensions.navigate(['/dashboard']);
+            });
         }
     }
 
@@ -61,7 +60,7 @@ export class LoginComponent implements OnInit {
               title: "APP NAME",
               message: "Your password was successfully reset. Please check your email for instructions on choosing a new password.",
               okButtonText: "Ok"
-            })
+            });
           }
         });
       }
