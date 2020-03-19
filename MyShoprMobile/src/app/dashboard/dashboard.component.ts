@@ -52,10 +52,6 @@ export class DashboardComponent implements OnInit {
         this.shopService.retreiveShoppingLists("5e7294ce1c9d44000040c9a8").pipe(map(result => <any>result)).subscribe((lists) => {
             this.lists = lists.data.userById.shoppingLists;
             console.log(this.lists);
-        }
-        )
-        this.shopService.getShoppingLists('userid').then((list: Array<any>) => {
-            this.lists = list;
         });
     }
 
