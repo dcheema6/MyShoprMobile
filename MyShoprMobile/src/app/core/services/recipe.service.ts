@@ -8,7 +8,7 @@ export class RecipeService {
 
     constructor(private http: HttpClient) { }
 
-    getRecipe(userId: string) {
+    getRecipe(userId: string, recipeId: string) {
         return this.http.post('https://myshopr-api.appspot.com/api', {
             query: `
                 {
@@ -28,7 +28,7 @@ export class RecipeService {
 
     searchRecipeByName(userid, recipe: string) {
         // TODO: return only top 5 (Done in backend pref)
-        return this.getRecipe(userid);
+        return this.getRecipe(userid, "");
     }
 
     saveRecipe(userId, recipe) {

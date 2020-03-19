@@ -17,17 +17,14 @@ export class ViewRecipeComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.recipe['id'] = this.route.snapshot.params.id;
-        if (this.recipe.id > -1) {
-            this.recipeService.getRecipe('userid', this.recipe.id).then((recipe: any) => {
-                if (recipe && recipe.id) this.recipe = recipe;
-                else this.initWithDefaultVals();
-                console.log(this.recipe);
+        this.recipe['_id'] = this.route.snapshot.params.id;
+        if (this.recipe._id !== -1) {
+            this.recipeService.getRecipe('5e7294ce1c9d44000040c9a8', this.recipe._id).subscribe((recipes: any) => {
+                recipes.data.userById.recipeList.forEach((recipe: any) => {
+                    if (recipe._id === this.recipe._id) this.recipe = recipe;
+                });
             });
-        } else this.initWithDefaultVals();
-    }
-
-    initWithDefaultVals(): void {
+        }
         if (!this.recipe['name']) this.recipe['name'] = 'NewRecipeName';
         if (!this.recipe['ingredients']) this.recipe['ingredients'] = [];
         if (!this.recipe['instructions']) this.recipe['instructions'] = [];

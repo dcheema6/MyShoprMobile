@@ -27,7 +27,7 @@ export class ViewShopListComponent implements OnInit {
     ngOnInit(): void {
         this.list['_id'] = this.route.snapshot.params.id;
         if (this.list._id !== -1) {
-            this.shopService.getShoppingList('5e7294ce1c9d44000040c9a8').subscribe((lists: any) => {
+            this.shopService.getShoppingList('5e7294ce1c9d44000040c9a8', this.list._id).subscribe((lists: any) => {
                 lists.data.userById.shoppingLists.forEach((list: any) => {
                     if (list._id === this.list._id) this.list = list;
                 });

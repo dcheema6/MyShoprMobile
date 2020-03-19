@@ -8,7 +8,7 @@ export class ShoppingService {
 
     constructor(private http: HttpClient) { }
 
-    getShoppingList(userId: string) {
+    getShoppingList(userId: string, listId: string) {
         return this.http.post('https://myshopr-api.appspot.com/api', {
             query: `
             {
