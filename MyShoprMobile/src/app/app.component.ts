@@ -30,19 +30,24 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        
         this._activatedUrl = "/login";
         this._sideDrawerTransition = new SlideInOnTopTransition();
+
+        this.fbAuth.signInWithEmailAndPassword('a@b.com', 'aaabbb').then(temp => {
+            this.routerExtensions.navigate(['/dashboard'])
+        }
+        ).catch(error => { console.log(error) })
 
         this.router.events
             .pipe(filter((event: any) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
+
         this.fbAuth.getCurrentUserObs().subscribe((user) => {
-            if(user && user.email) {
+            if (user && user.email) {
                 this.userServ.getUserData().pipe(map(result => <any>result)).subscribe(result => {
                     console.log(result.data.userMany);
                     result.data.userMany.forEach(userData => {
-                        if(userData.email === user.email) {
+                        if (userData.email === user.email) {
                             this.userInfo = user;
                         }
                     });
