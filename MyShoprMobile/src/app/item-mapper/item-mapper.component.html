@@ -14,17 +14,22 @@
     <Label text="Grocery Map"></Label>
 </ActionBar>
 
-<StackLayout class="page">
-    <StackLayout row="0" col="0" colSpan="3">
+<GridLayout rows="45,*,65" class="bg-light-gray">
+    <GridLayout row="0" columns="2*,2*,*">
+        <Label col="0" text="ITEM" textAlignment="center" class="text-primary h2"></Label>
+        <Label col="1" text="BRAND" textAlignment="center" class="text-danger h2"></Label>
+    </GridLayout>
+    <StackLayout row="1">
         <ListView [items]="mappedItemList" class="list-group">
             <ng-template let-mItem="item" let-i="index">
                 <GridLayout columns="2*,2*,*" class="m-0 p-0 list-group-item">
-                    <Label col="0" text="{{mItem.name}}"></Label>
-                    <Label col="1" text="{{mItem.brand}}"></Label>
-                    <button col="2" class="fas" text="{{ mItem.selected ? '&#xf068;' : '&#xf067;' }}" (tap)="mItem.selected = !mItem.selected; onListItemSelect(i, !mItem.selected)"></button>
+                    <Label col="0" text="{{mItem.name}}" class="c-bg-sky h3"></Label>
+                    <Label col="1" text="{{mItem.brand}}" class="bg-danger h3"></Label>
+                    <Label col="2" height="40" class="c-bg-charcoal m-0 fas h2" text="{{ mItem.selected ? '&#xf068;' : '&#xf067;' }}" textAlignment="center"
+                        style="color: white;" (tap)="onListItemTap(i, mItem.selected); mItem.selected = !mItem.selected;"></Label>
                 </GridLayout>
             </ng-template>
         </ListView>
     </StackLayout>
-    <button (tap)="buildMap()"></button>
-</StackLayout>
+    <Label row="2" height="100%" text="&#xf218;" class="c-bg-orange p-t-15 m-0 fas h1" textAlignment="center" (tap)="buildMap()"></Label>
+</GridLayout>
