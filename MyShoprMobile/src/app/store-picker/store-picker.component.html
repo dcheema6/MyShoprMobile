@@ -17,15 +17,15 @@
 <GridLayout rows="auto, auto, *, auto">
     <Label row="0" class="m-t-10 m-b-10 text-center" text="Available Stores: "></Label>
     <StackLayout row="1" class="hr"></StackLayout>
-    <ListView row="2" [items]="availableStoresList" (itemTap)="onSelectItem($event)">
-        <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
-            <StackLayout [ngClass]=" (item.selected === true) ? 'selectedItem' : '' ">
-                <Label [text]="item.name" class="list-group-item"></Label>
-                <Label [text]="item.address" class="list-group-item"></Label>
+    <ListView row="2" [items]="availableStoresList" class="list-group">
+        <ng-template let-store="item" let-i="index" let-odd="odd" let-even="even">
+            <StackLayout (tap)="setStore(i)" class="list-group-item">
+                <Label [text]="store.name" class="list-group-item-text"></Label>
+                <Label [text]="store.address" class="list-group-item-text"></Label>
             </StackLayout>
         </ng-template>
     </ListView>
     <StackLayout row="3">
-        <Button text="Continue" [nsRouterLink]="['/item-map', selectedListId, selectedStoreId]" class="-outline -rounded-lg" verticalAlignment="bottom"></Button>
+        <Button text="Continue" [nsRouterLink]="['/item-map']" class="-outline -rounded-lg" verticalAlignment="bottom"></Button>
     </StackLayout>
 </GridLayout>

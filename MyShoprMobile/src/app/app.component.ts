@@ -7,7 +7,6 @@ import * as app from "tns-core-modules/application";
 import { FirebaseAuthService } from "./core/auth/firebase-auth.service";
 import { UserService } from "./core/services/user.service";
 
-
 @Component({
     selector: "ns-app",
     templateUrl: "app.component.html"

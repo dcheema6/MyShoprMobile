@@ -1,9 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
-import * as app from "tns-core-modules/application";
-import { AndroidApplication, AndroidActivityBackPressedEventData } from "tns-core-modules/application";
-import { isAndroid } from "tns-core-modules/platform";
 import { alert } from "tns-core-modules/ui/dialogs";
 
 import { RecipeService } from "../core/services/recipe.service";
@@ -42,15 +39,6 @@ export class ViewRecipeComponent implements OnInit {
         if (!this.recipe['name']) this.recipe['name'] = 'NewRecipeName';
         if (!this.recipe['ingredients']) this.recipe['ingredients'] = [];
         if (!this.recipe['instructions']) this.recipe['instructions'] = [];
-
-        if (isAndroid) {
-            app.android.on(AndroidApplication.activityBackPressedEvent, (data: AndroidActivityBackPressedEventData) => {
-                data.cancel = true;
-                this.routerExtensions.navigate(['dashboard'], {
-                    transition: { name: "fade" }
-                });
-            });
-        }
     }
 
     addNew(): void {

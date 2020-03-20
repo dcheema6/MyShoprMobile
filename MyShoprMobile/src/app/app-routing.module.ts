@@ -2,16 +2,25 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
+import { HomeComponent } from "~/app/home/home.component";
+import { LoginComponent } from "~/app/login/login.component";
+import { DashboardComponent } from "~/app/dashboard/dashboard.component";
+import { ViewRecipeComponent } from "~/app/view-recipe/view-recipe.component";
+import { ViewShopListComponent } from "~/app/view-shop-list/view-shop-list.component";
+import { StorePickerComponent } from "~/app/store-picker/store-picker.component";
+import { ItemMapperComponent } from "~/app/item-mapper/item-mapper.component";
+import { GoShoppingComponent } from "~/app/go-shopping/go-shopping.component";
+
 const routes: Routes = [
     { path: "", redirectTo: "/login", pathMatch: "full" },
-    { path: "home", loadChildren: () => import("~/app/home/home.module").then((m) => m.HomeModule) },
-    { path: "store-picker/:id", loadChildren: () => import("~/app/store-picker/store-picker.module").then((m) => m.StorePickerModule) },
-    { path: "goshop", loadChildren: () => import("~/app/go-shopping/go-shopping.module").then((m) => m.GoShoppingModule) },
-    { path: "login", loadChildren: () => import("~/app/login/login.module").then((m) => m.LoginModule) },
-    { path: "dashboard", loadChildren: () => import("~/app/dashboard/dashboard.module").then((m) => m.DashboardModule) },
-    { path: "recipe/:id", loadChildren: () => import("~/app/view-recipe/view-recipe.module").then((m) => m.ViewRecipeModule) },
-    { path: "shop/:id", loadChildren: () => import("~/app/view-shop-list/view-shop-list.module").then((m) => m.ViewShopListModule) },
-    { path: "item-map/:listId/:storeId", loadChildren: () => import("~/app/item-mapper/item-mapper.module").then((m) => m.ItemMapperModule) },
+    { path: "home", component: HomeComponent },
+    { path: "login", component: LoginComponent },
+    { path: "dashboard", component: DashboardComponent },
+    { path: "recipe/:id", component: ViewRecipeComponent },
+    { path: "shop/:id", component:  ViewShopListComponent },
+    { path: "store-picker", component: StorePickerComponent },
+    { path: "item-map", component: ItemMapperComponent },
+    { path: "goshop", component: GoShoppingComponent },
 ];
 
 @NgModule({

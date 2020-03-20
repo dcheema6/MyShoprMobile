@@ -1,10 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
-import { StoresService } from "../core/services/stores.service";
 import { ShoppingService } from "../core/services/shopping.service";
-import { Observable, combineLatest } from "rxjs";
 import { RouterExtensions } from "nativescript-angular/router";
 
 
@@ -14,41 +11,22 @@ import { RouterExtensions } from "nativescript-angular/router";
     templateUrl: "./item-mapper.component.html"
 })
 export class ItemMapperComponent implements OnInit {
-    selectedListId: any;
-    selectedStoreId: any;
-    selectedStore: any;
     shoppingList: any;
     mappedItemList: any;
     productList: any;
-    shoppingList$: Observable<any>;
-    fetchProducts$: Observable<any>;
-    isDataLoaded$: Observable<any>;
-    finalShoppingList: any;
+    selectedItems: Array<any>;
 
-    constructor(private route: ActivatedRoute, private routerExtension: RouterExtensions, private storeService: StoresService, private shopServ: ShoppingService) {
+    constructor(private routerExtension: RouterExtensions,
+        private shopServ: ShoppingService) {
     }
 
     ngOnInit(): void {
         this.mappedItemList = [];
-        this.selectedListId = this.route.snapshot.params.listId;
-        this.selectedStoreId = this.route.snapshot.params.storeId;
-        this.selectedStore = this.storeService.getSelectedStore();
-        this.fetchProducts$ = this.shopServ.fetchAllProductItems();
-        this.shoppingList$ = this.shopServ.getShoppingList('5e7304361c9d44000029227a', this.selectedListId);
-
-        combineLatest([this.shoppingList$, this.fetchProducts$]).subscribe(([shop, products]) => {
-            if (shop && shop.data && products && products.data) {
-                this.productList = products.data.itemMany;
-                shop.data.userById.shoppingLists.forEach(list => {
-                    console.log(list);
-                    if (list && list._id === this.selectedListId){
-                        this.shoppingList = list;
-                        console.log('converting...');
-                        this.convertShoppingListToItems();
-                    }
-                });
-                
-            }
+        this.shoppingList = this.shopServ.getSelectedList();
+        this.shopServ.fetchAllProductItems().subscribe((data:any) => {
+            this.productList = data.data.itemMany;
+            console.log('converting...');
+            this.convertShoppingListToItems();
         });
     }
 
@@ -58,29 +36,27 @@ export class ItemMapperComponent implements OnInit {
     }
 
     onListItemSelect(index: number) {
-        if (!this.finalShoppingList){
-            this.finalShoppingList = [];
+        if (!this.selectedItems){
+            this.selectedItems = [];
         } else {
-            this.finalShoppingList.push(this.mappedItemList[index]);
+            this.selectedItems.push(this.mappedItemList[index]);
         }
     }
 
     onListItemUnSelect(index: number, isSelected: boolean) {
-        if (!this.finalShoppingList){
-            this.finalShoppingList = [];
+        if (!this.selectedItems){
+            this.selectedItems = [];
         }
 
         if (isSelected) { // if selected then deselect
-            this.finalShoppingList.splice(this.finalShoppingList.indexOf(this.mappedItemList[index]), 1);
-            console.log(this.finalShoppingList)
+            this.selectedItems.splice(this.selectedItems.indexOf(this.mappedItemList[index]), 1);
         } else {
-            this.finalShoppingList.push(this.mappedItemList[index]);
-            console.log(this.finalShoppingList)
+            this.selectedItems.push(this.mappedItemList[index]);
         }
     }
 
     buildMap() {
-        this.shopServ.setGoShoppingItems(this.finalShoppingList);
+        this.shopServ.setGoShoppingItems(this.selectedItems);
         this.routerExtension.navigate(['/goshop']);
     }
 

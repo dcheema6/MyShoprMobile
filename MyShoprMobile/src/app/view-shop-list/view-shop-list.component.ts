@@ -1,9 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
-import * as app from "tns-core-modules/application";
-import { AndroidApplication, AndroidActivityBackPressedEventData } from "tns-core-modules/application";
-import { isAndroid } from "tns-core-modules/platform";
 import { alert } from "tns-core-modules/ui/dialogs";
 
 import { RecipeService } from "../core/services/recipe.service";
@@ -12,11 +9,7 @@ import { ShoppingService } from "../core/services/shopping.service";
 @Component({
     selector: "ViewShopList",
     moduleId: module.id,
-    templateUrl: "./view-shop-list.component.html",
-    providers: [
-        RecipeService,
-        ShoppingService
-    ]
+    templateUrl: "./view-shop-list.component.html"
 })
 export class ViewShopListComponent implements OnInit {
     list: any = { };
@@ -47,15 +40,6 @@ export class ViewShopListComponent implements OnInit {
 
         if (!this.list['name']) this.list['name'] = 'ListName';
         if (!this.list['items']) this.list['items'] = [];
-
-        if (isAndroid) {
-            app.android.on(AndroidApplication.activityBackPressedEvent, (data: AndroidActivityBackPressedEventData) => {
-                data.cancel = true;
-                this.routerExtensions.navigate(['dashboard'], {
-                    transition: { name: "fade" }
-                });
-            });
-        }
     }
 
     addItem(): void {
@@ -74,7 +58,8 @@ export class ViewShopListComponent implements OnInit {
     
     goShop(): void {
         this.shopService.saveShoppingList(this.currUserId, this.lists).subscribe(() => {
-            this.routerExtensions.navigate(['store-picker/' + this.list._id], {
+            this.shopService.setSelectedList(this.list);
+            this.routerExtensions.navigate(['store-picker'], {
                 transition: { name: "fade" }
             });
         });

@@ -4,17 +4,33 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 @Injectable()
 export class ShoppingService {
     private serverUrl = "https://myshopr-api.appspot.com";
-    public selectedStore: any = null;
-    public selectedList: any = null;
-    public goShoppingItems: any;
+    public selectedStoreId: string;
+    public selectedList: any;
+    public goShoppingItems: Array<any>;
 
     constructor(private http: HttpClient) { }
 
-    setGoShoppingItems(items: any) {
+    setSelectedStoreId(storeId: string) {
+        this.selectedStoreId = storeId;
+    }
+
+    getSelectedStoreId(): string {
+        return this.selectedStoreId;
+    }
+    
+    setSelectedList(list: any) {
+        this.selectedList = list;
+    }
+
+    getSelectedList(): Array<any> {
+        return this.selectedList;
+    }
+
+    setGoShoppingItems(items: Array<any>) {
         this.goShoppingItems = items;
     }
 
-    getGoShoppingItems() {
+    getGoShoppingItems(): Array<any> {
         return this.goShoppingItems;
     }
 

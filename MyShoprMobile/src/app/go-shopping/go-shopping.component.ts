@@ -6,15 +6,16 @@ import { Placeholder } from "tns-core-modules/ui/placeholder";
 import { isAndroid } from "tns-core-modules/platform/platform";
 import { ad } from "tns-core-modules/utils/utils";
 import { ImageSource } from '@nativescript/core/image-source/image-source';
+import { ActivatedRoute } from "@angular/router";
 
 import { StoresService } from '../core/services/stores.service';
+import { ShoppingService } from '../core/services/shopping.service';
 
 @Component({
     selector: "GoShopping",
     moduleId: module.id,
     styleUrls: ["go-shopping.component.scss"],
     templateUrl: "./go-shopping.component.html",
-    providers: [StoresService]
 })
 export class GoShoppingComponent implements OnInit {
     slayout: any;
@@ -22,7 +23,9 @@ export class GoShoppingComponent implements OnInit {
     aisles: Array<any>;
     items: Array<any>;
 
-    constructor(private storeService: StoresService) {
+    constructor(private storeService: StoresService,
+        private shopService: ShoppingService,
+        private route: ActivatedRoute,) {
     }
 
     ngOnInit(): void {
@@ -36,19 +39,96 @@ export class GoShoppingComponent implements OnInit {
     pageLoaded(args: EventData): void {
         this.slayout = args.object;
 
-        this.storeService.getItemsAiles().then((itemAisles: Array<any>) => {
-            this.aisles = itemAisles;
-
-            this.getLayoutImage().then((imgSrc) => {
+        this.getData().then((store: any) => {
+            this.aisles = store.aisles;
+            this.getImagefromURL(store.layoutUrl).then((imgSrc) => {
                 this.imgSrc = imgSrc;
                 let placeholder = new Placeholder();
-
+    
                 if (isAndroid) placeholder.setNativeView(this.getLayoutViewAndroid());
-
-                this.slayout.insertChild(placeholder,0);
-                this.items = itemAisles;
+    
+                this.slayout.insertChild(placeholder, 0);
+    
+                this.aisles.forEach((aisle: any) => {
+                    aisle.i.forEach((item: any) => {
+                        this.items.push(item);
+                    });
+                });
             });
         });
+    }
+
+    public getData(): Promise<any> {
+        let aisles = [];
+        let enterance: any, exit: any;
+        let goShoppingItems = this.shopService.getGoShoppingItems();
+
+        return new Promise((resolve) => {
+            this.storeService.getStore(this.shopService.getSelectedStoreId()).subscribe((data: any) => {
+                let store = data.data.storeById;
+                let storeAisles = store.aisles;
+                console.log(storeAisles);
+
+                for (let i = 0; i < storeAisles.length; i++) {
+                    if (storeAisles[i].aisleId == "entrance") enterance = storeAisles[i];
+                    else if (storeAisles[i].aisleId == "checkout") exit = storeAisles[i];
+                    else {
+                        let aItems = storeAisles[i].items;
+                    
+                        for (let j = 0; j < goShoppingItems.length; j++) {
+                            if (aItems.indexOf(goShoppingItems[j]) > -1) {
+                                if (aisles.length === 0 || aisles[length-1].aisleId !== storeAisles[i].aisleId) {
+                                    aisles.push(storeAisles.aisleId);
+                                    aisles[length-1]['i'] = [goShoppingItems[j]];
+                                } else aisles[length-1].i.push(goShoppingItems[j]);
+                            }
+                        }
+                    }
+                }
+    
+                aisles.unshift(enterance);
+                aisles.push(exit);
+    
+                store.aisles = aisles;
+                // console.log(store);
+                resolve(store);
+            });
+        });
+        // return new Promise((resolve) => {
+        //     resolve([{
+        //         id: "entrance",
+        //         coords: [143, 720]
+        //     },
+        //     {
+        //         item: "1",
+        //         id: "1",
+        //         coords: [67, 157]
+        //     },
+        //     {
+        //         item: "2",
+        //         id: "2",
+        //         coords: [493, 100]
+        //     },
+        //     {
+        //         item: "3",
+        //         id: "3",
+        //         coords: [440, 285]
+        //     },
+        //     {
+        //         item: "4",
+        //         id: "4",
+        //         coords: [440, 480]
+        //     },
+        //     {
+        //         item: "5",
+        //         id: "5",
+        //         coords: [843, 427]
+        //     },
+        //     {
+        //         id: "checkout",
+        //         coords: [1080, 750]
+        //     }]);
+        // });
     }
 
     getLayoutViewAndroid(): android.widget.ImageView {
@@ -62,7 +142,7 @@ export class GoShoppingComponent implements OnInit {
         );
 
         this.aisles.forEach(aisle => {
-            this.addNodeToCanvasAndroid(aisle.coords[0], aisle.coords[1], 40, canvas);
+            this.addNodeToCanvasAndroid(aisle.position.xPos, aisle.position.yPos, 40, canvas);
         });
 
         this.drawPaths(canvas);
@@ -79,21 +159,20 @@ export class GoShoppingComponent implements OnInit {
         canvas.drawCircle(x, y, size, paint);
     }
 
-    drawLine(x1: number, y1: number, x2: number, y2: number, canvas: android.graphics.Canvas): void {
+    drawLine(pos1: any, pos2: any, canvas: android.graphics.Canvas): void {
         let paint = new android.graphics.Paint();
         paint.setARGB(255, 0, 0, 255);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(10);
         paint.setStyle(android.graphics.Paint.Style.STROKE)
-        canvas.drawLine(x1,y1,x2,y2,paint);
+        canvas.drawLine(pos1.xPos, pos1.yPos, pos2.xPos, pos2.yPos, paint);
     }
 
     drawPaths(canvas: android.graphics.Canvas): void {
         this.sortAisles(0, this.aisles.length-1);
 
         for (let i = 0; i < this.aisles.length-1; i++)
-            this.drawLine(this.aisles[i].coords[0], this.aisles[i].coords[1],
-                this.aisles[i+1].coords[0], this.aisles[i+1].coords[1], canvas);
+            this.drawLine(this.aisles[i].position, this.aisles[i+1].position, canvas);
     }
 
     /**
@@ -145,9 +224,7 @@ export class GoShoppingComponent implements OnInit {
         let disArr = [];
 
         for (let i = startIndex; i < this.aisles.length-1; i++) {
-            let dis = this.calculateDis(
-                this.aisles[index].coords[0], this.aisles[index].coords[1],
-                this.aisles[i].coords[0], this.aisles[i].coords[1]);
+            let dis = this.calculateDis(this.aisles[index].position, this.aisles[i].position);
             disArr.push([dis, i]);
         }
 
@@ -160,11 +237,11 @@ export class GoShoppingComponent implements OnInit {
         this.aisles[ind2] = temp
     }
 
-    calculateDis(x1: number, y1: number, x2: number, y2: number): number {
-        return Math.sqrt(Math.pow(x1-x2, 2)+Math.pow(y1-y2, 2));
+    calculateDis(pos1: any, pos2: any): number {
+        return Math.sqrt(Math.pow(pos1.xPos - pos2.xPos, 2) + Math.pow(pos1.yPos - pos2.yPos, 2));
     }
 
-    getLayoutImage(): Promise<ImageSource> {
-        return ImageSource.fromUrl('https://storage.googleapis.com/myshopr-api.appspot.com/store_layout.png');
+    getImagefromURL(url: string): Promise<ImageSource> {
+        return ImageSource.fromUrl(url);
     }
 }
