@@ -43,7 +43,7 @@ export class ViewShopListComponent implements OnInit {
     }
 
     addItem(): void {
-        this.list.items.push("");
+        this.list.items.unshift("");
     }
 
     saveList(): void {

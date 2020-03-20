@@ -27,6 +27,7 @@ export class ShoppingService {
     }
 
     setGoShoppingItems(items: Array<any>) {
+        console.log("LEN: " + items.length);
         this.goShoppingItems = items;
     }
 

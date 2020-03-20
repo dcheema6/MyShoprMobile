@@ -35,20 +35,12 @@ export class ItemMapperComponent implements OnInit {
         sideDrawer.showDrawer();
     }
 
-    onListItemSelect(index: number) {
-        if (!this.selectedItems){
-            this.selectedItems = [];
-        } else {
-            this.selectedItems.push(this.mappedItemList[index]);
-        }
-    }
-
-    onListItemUnSelect(index: number, isSelected: boolean) {
+    onListItemTap(index: number, isSelected: boolean) {
         if (!this.selectedItems){
             this.selectedItems = [];
         }
 
-        if (isSelected) { // if selected then deselect
+        if (isSelected) {
             this.selectedItems.splice(this.selectedItems.indexOf(this.mappedItemList[index]), 1);
         } else {
             this.selectedItems.push(this.mappedItemList[index]);
@@ -66,7 +58,7 @@ export class ItemMapperComponent implements OnInit {
             if (this.productList && this.productList.length > 0) {
                 this.productList.forEach((product: any) => {
                     // This is a list of items
-                    if (product && product.name && shopitem.toLowerCase().includes(product.name.toLowerCase())){
+                    if (product && product.name && product.name.toLowerCase().includes(shopitem.toLowerCase())){
                         // This mapped list is the list of items now ready for the map builder
                         this.mappedItemList.push(product);
                     }

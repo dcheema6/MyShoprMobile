@@ -42,7 +42,7 @@ export class ViewRecipeComponent implements OnInit {
     }
 
     addNew(): void {
-        this.recipe[this.selectedTab].push('');
+        this.recipe[this.selectedTab].unshift('');
     }
 
     update(selTabInd: number, index: number, args: any) {

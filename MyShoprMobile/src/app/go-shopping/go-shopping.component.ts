@@ -67,68 +67,32 @@ export class GoShoppingComponent implements OnInit {
             this.storeService.getStore(this.shopService.getSelectedStoreId()).subscribe((data: any) => {
                 let store = data.data.storeById;
                 let storeAisles = store.aisles;
-                console.log(storeAisles);
 
                 for (let i = 0; i < storeAisles.length; i++) {
                     if (storeAisles[i].aisleId == "entrance") enterance = storeAisles[i];
                     else if (storeAisles[i].aisleId == "checkout") exit = storeAisles[i];
-                    else {
-                        let aItems = storeAisles[i].items;
                     
-                        for (let j = 0; j < goShoppingItems.length; j++) {
-                            if (aItems.indexOf(goShoppingItems[j]) > -1) {
-                                if (aisles.length === 0 || aisles[length-1].aisleId !== storeAisles[i].aisleId) {
-                                    aisles.push(storeAisles.aisleId);
-                                    aisles[length-1]['i'] = [goShoppingItems[j]];
-                                } else aisles[length-1].i.push(goShoppingItems[j]);
-                            }
+                    let aItems = storeAisles[i].items;
+
+                    for (let j = 0; j < goShoppingItems.length; j++) {
+
+                        if (aItems.indexOf(goShoppingItems[j].sku) > -1) {
+                            if (aisles.length === 0 || aisles[aisles.length-1].aisleId !== storeAisles[i].aisleId) {
+                                aisles.push(storeAisles[i]);
+                                aisles[aisles.length-1]['i'] = [goShoppingItems[j]];
+                            } else aisles[aisles.length-1].i.push(goShoppingItems[j]);
                         }
                     }
                 }
-    
-                aisles.unshift(enterance);
-                aisles.push(exit);
+                
+                if(enterance) aisles.unshift(enterance);
+                if(exit) aisles.push(exit);
     
                 store.aisles = aisles;
-                // console.log(store);
+                aisles.forEach(item=>console.log("item ",item.i))
                 resolve(store);
             });
         });
-        // return new Promise((resolve) => {
-        //     resolve([{
-        //         id: "entrance",
-        //         coords: [143, 720]
-        //     },
-        //     {
-        //         item: "1",
-        //         id: "1",
-        //         coords: [67, 157]
-        //     },
-        //     {
-        //         item: "2",
-        //         id: "2",
-        //         coords: [493, 100]
-        //     },
-        //     {
-        //         item: "3",
-        //         id: "3",
-        //         coords: [440, 285]
-        //     },
-        //     {
-        //         item: "4",
-        //         id: "4",
-        //         coords: [440, 480]
-        //     },
-        //     {
-        //         item: "5",
-        //         id: "5",
-        //         coords: [843, 427]
-        //     },
-        //     {
-        //         id: "checkout",
-        //         coords: [1080, 750]
-        //     }]);
-        // });
     }
 
     getLayoutViewAndroid(): android.widget.ImageView {
@@ -204,7 +168,7 @@ export class GoShoppingComponent implements OnInit {
         let nextIndex = endIndex; // stores the index with maximum bias
 
         // O(n)
-        for (let i=0; i<cAisleDisArr.length; i++) {
+        for (let i = 0; i < cAisleDisArr.length; i++) {
             let bias = lAisleDisArr[i][0] // More bias the furthur away from last aisle
                 - cAisleDisArr[i][0]; // More bias the closer to the curr aisle
 

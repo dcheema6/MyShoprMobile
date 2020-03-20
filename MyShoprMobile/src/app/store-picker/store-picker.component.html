@@ -19,13 +19,10 @@
     <StackLayout row="1" class="hr"></StackLayout>
     <ListView row="2" [items]="availableStoresList" class="list-group">
         <ng-template let-store="item" let-i="index" let-odd="odd" let-even="even">
-            <StackLayout (tap)="setStore(i)" class="list-group-item">
+            <StackLayout (tap)="setStore(i)" [nsRouterLink]="['/item-map']" class="list-group-item">
                 <Label [text]="store.name" class="list-group-item-text"></Label>
                 <Label [text]="store.address" class="list-group-item-text"></Label>
             </StackLayout>
         </ng-template>
     </ListView>
-    <StackLayout row="3">
-        <Button text="Continue" [nsRouterLink]="['/item-map']" class="-outline -rounded-lg" verticalAlignment="bottom"></Button>
-    </StackLayout>
 </GridLayout>
