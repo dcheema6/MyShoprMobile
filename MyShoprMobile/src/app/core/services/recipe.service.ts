@@ -32,6 +32,8 @@ export class RecipeService {
                     recipeList {
                         _id
                         name
+                        ingredients
+                        instructions
                     }
                 }
             }`

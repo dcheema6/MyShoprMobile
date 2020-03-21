@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit {
                 } else if (listId == 1) {
                     let id = this.recipes[index]._id;
                     this.recipes.splice(index, 1);
-                    this.recipeService.deleteRecipe(this.currUserId, id).subscribe(() => {
+                    this.recipeService.deleteRecipe(this.currUserId, this.recipes).subscribe(() => {
                     });
                 }
             }
