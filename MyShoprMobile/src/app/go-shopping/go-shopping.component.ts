@@ -117,41 +117,6 @@ export class GoShoppingComponent implements OnInit {
                 resolve(store);
             });
         });
-        // return new Promise((resolve) => {
-        //     resolve([{
-        //         id: "entrance",
-        //         coords: [143, 720]
-        //     },
-        //     {
-        //         item: "1",
-        //         id: "1",
-        //         coords: [67, 157]
-        //     },
-        //     {
-        //         item: "2",
-        //         id: "2",
-        //         coords: [493, 100]
-        //     },
-        //     {
-        //         item: "3",
-        //         id: "3",
-        //         coords: [440, 285]
-        //     },
-        //     {
-        //         item: "4",
-        //         id: "4",
-        //         coords: [440, 480]
-        //     },
-        //     {
-        //         item: "5",
-        //         id: "5",
-        //         coords: [843, 427]
-        //     },
-        //     {
-        //         id: "checkout",
-        //         coords: [1080, 750]
-        //     }]);
-        // });
     }
 
     getLayoutViewAndroid(): android.widget.ImageView {
@@ -163,33 +128,30 @@ export class GoShoppingComponent implements OnInit {
 
         this.sortAislesByTravelOrder(0, this.aisles.length-1);
 
-        this.drawPaths(40, canvas);
+        this.drawPaths(canvas);
         nativeView.setImageBitmap(bitmap);
         return nativeView;
     }
 
-    drawPaths(offset: number, canvas: android.graphics.Canvas): void {
-        let size = 40;
+    drawPaths(canvas: android.graphics.Canvas): void {
+        let size = 45;
 
-        this.aisles.forEach(aisle => {
-            this.drawNode(aisle.position.xPos, aisle.position.yPos, size, canvas);
-        });
-
-        for (let i = 0; i < this.aisles.length-1; i++) {
+        for (let i = 0; i < this.aisles.length; i++) {
+            this.drawNode(this.aisles[i].position, size, canvas);
             this.drawLine(this.aisles[i].position, this.aisles[i+1].position, size, canvas);
         }
     }
 
-    drawNode(x: number, y: number, size: number, canvas: android.graphics.Canvas): void {
+    drawNode(pos: any, size: number, canvas: android.graphics.Canvas): void {
         let paint = new android.graphics.Paint();
         paint.setARGB(255, 0, 0, 255);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(10);
         paint.setStyle(android.graphics.Paint.Style.STROKE)
-        canvas.drawCircle(x, y, size, paint);
+        canvas.drawCircle(pos.xPos, pos.yPos, size, paint);
     }
 
-    drawLine(pos1: any, pos2: any, offset, canvas: android.graphics.Canvas): void {
+    drawLine(pos1: any, pos2: any, offset: number, canvas: android.graphics.Canvas): void {
         let paint = new android.graphics.Paint();
         paint.setARGB(255, 0, 0, 255);
         paint.setAntiAlias(true);
@@ -229,8 +191,8 @@ export class GoShoppingComponent implements OnInit {
         if (currIndex >= endIndex) return;
 
         // O(n)
-        let cAisleDisArr = this.getDisToAsile(currIndex, currIndex+1);
-        let lAisleDisArr = this.getDisToAsile(endIndex, currIndex+1);
+        let cAisleDisArr = this.getAllDisToAsile(currIndex, currIndex+1);
+        let lAisleDisArr = this.getAllDisToAsile(endIndex, currIndex+1);
 
         let maxBias = null;
         let nextIndex = endIndex; // stores the index with maximum bias
@@ -252,7 +214,7 @@ export class GoShoppingComponent implements OnInit {
     }
 
     // Returns array of [distance, aisleIndex] sorted by distance for all aisleIndex in indexsToBeTraversed
-    getDisToAsile(index: number, startIndex: number): Array<Array<number>> {
+    getAllDisToAsile(index: number, startIndex: number): Array<Array<number>> {
         let disArr = [];
 
         for (let i = startIndex; i < this.aisles.length-1; i++) {
