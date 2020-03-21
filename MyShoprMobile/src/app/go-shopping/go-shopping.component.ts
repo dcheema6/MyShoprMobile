@@ -138,7 +138,7 @@ export class GoShoppingComponent implements OnInit {
 
         for (let i = 0; i < this.aisles.length; i++) {
             this.drawNode(this.aisles[i].position, size, canvas);
-            this.drawLine(this.aisles[i].position, this.aisles[i+1].position, size, canvas);
+            if(i+1 < this.aisles.length) this.drawLine(this.aisles[i].position, this.aisles[i+1].position, size, canvas);
         }
     }
 
