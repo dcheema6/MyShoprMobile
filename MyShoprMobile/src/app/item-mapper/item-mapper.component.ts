@@ -14,7 +14,7 @@ export class ItemMapperComponent implements OnInit {
     shoppingList: any;
     mappedItemList: any;
     productList: any;
-    selectedItems: Array<any>;
+    selectedItems: Array<any> = [];
 
     constructor(private routerExtension: RouterExtensions,
         private shopServ: ShoppingService) {
@@ -36,10 +36,6 @@ export class ItemMapperComponent implements OnInit {
     }
 
     onListItemTap(index: number, isSelected: boolean) {
-        if (!this.selectedItems){
-            this.selectedItems = [];
-        }
-
         if (isSelected) {
             this.selectedItems.splice(this.selectedItems.indexOf(this.mappedItemList[index]), 1);
         } else {
@@ -48,6 +44,7 @@ export class ItemMapperComponent implements OnInit {
     }
 
     buildMap() {
+        if (this.selectedItems.length === 0) return;
         this.shopServ.setGoShoppingItems(this.selectedItems);
         this.routerExtension.navigate(['/goshop']);
     }
