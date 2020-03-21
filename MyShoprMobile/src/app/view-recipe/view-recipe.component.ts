@@ -73,7 +73,5 @@ export class ViewRecipeComponent implements OnInit {
     onTabChange(args: any): void {
         if (args.object.selectedIndex == 0) this.selectedTab = 'ingredients';
         else if (args.object.selectedIndex == 1) this.selectedTab = 'instructions';
-        console.log(this.selectedTab);
-        console.log(this.recipe);
     }
 }

@@ -73,7 +73,6 @@ export class ViewShopListComponent implements OnInit {
     }
 
     searchRecipes(args: any): void {
-        console.log(args.object.text);
         this.recipes = [];
         if (!args.object.text || args.object.text === '') return;
         // TODO: make sure search string is query safe
