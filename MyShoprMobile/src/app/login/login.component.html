@@ -29,8 +29,7 @@
             <StackLayout class="hr-light"></StackLayout>
         </StackLayout>
         <StackLayout *ngIf="!isLoggingIn" class="input-field">
-            <TextField class="input" hint="Your Name" secure="true" autocorrect="false"
-                autocapitalizationType="none" [(ngModel)]="user.displayName"></TextField>
+            <TextField class="input" hint="Your Name" autocorrect="false" [(ngModel)]="user.displayName"></TextField>
             <StackLayout class="hr-light"></StackLayout>
         </StackLayout>
 

@@ -39,20 +39,26 @@ export class LoginComponent implements OnInit {
         }
 
         if (this.isLoggingIn) {
-            this.authService.signIn(this.user.email, this.user.password).then((user) => {
+            console.log("Trying", this.user);
+            this.authService.signInWithEmailAndPassword(this.user.email, this.user.password).then((user) => {
+                console.log("Trying", user);
                 this.user = new User();
             }).catch((err)=>{
+                console.log(err.code, err.message);
                 alert({ message: "Wrong email or password provided." });
             });
         } else if (this.user.displayName) {
             this.userService.getUserByEmail(this.user.email).subscribe((data: any) => {
-                if (data.data.userMany,length === 0) this.userService.createNewUser(this.user).subscribe(() => {
-                    this.authService.signUp(this.user.email, this.user.password).then((user) => {
-                        this.user = new User();
-                    }).catch((err) => {
-                        alert({ message: "Something went wrong." });
-                    });;
-                });
+                if (!data.data.userMany || data.data.userMany.length === 0) {
+                    this.userService.createNewUser(this.user).subscribe(() => {
+                        this.authService.createUserWithEmailAndPassword(this.user.email, this.user.password)
+                        .then((user) => {
+                            this.user = new User();
+                        }).catch((err) => {
+                            alert({ message: "Something went wrong." });
+                        });;
+                    });
+                }
                 else alert({ message: "User with provided email already exists." });
             });
         } else alert({ message: "Please provide your name to sign up." });
