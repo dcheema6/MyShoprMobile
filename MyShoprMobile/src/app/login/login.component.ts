@@ -47,7 +47,11 @@ export class LoginComponent implements OnInit {
                 console.log(err.code, err.message);
                 alert({ message: "Wrong email or password provided." });
             });
-        } else if (this.user.displayName) {
+        } else if (this.user.password.length < 6) {
+            alert({ message: "Password should be atleast 6 charachters." });
+        } else if (!this.user.displayName) {
+            alert({ message: "Please provide your name to sign up." });
+        } else {
             this.userService.getUserByEmail(this.user.email).subscribe((data: any) => {
                 if (!data.data.userMany || data.data.userMany.length === 0) {
                     this.userService.createNewUser(this.user).subscribe(() => {
@@ -61,7 +65,7 @@ export class LoginComponent implements OnInit {
                 }
                 else alert({ message: "User with provided email already exists." });
             });
-        } else alert({ message: "Please provide your name to sign up." });
+        }
     }
 
     forgotPassword() {
