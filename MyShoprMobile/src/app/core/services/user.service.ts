@@ -25,10 +25,15 @@ export class UserService {
 
     createNewUser(user: User) {
         return this.http.post('https://myshopr-api.appspot.com/api', {
-            query: `{
-                userMany(filter: {
-                    email: "${}"
-                }) {
+            query: `mutation {
+                userCreateOne(record: {
+                    email: "${user.email}",
+                    displayName: "${user.displayName}",
+                    recipeList: [],
+                    shoppingLists: []
+                })
+                recordId
+                record {
                     _id
                     email
                     displayName
