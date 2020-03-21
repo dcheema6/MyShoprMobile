@@ -4,6 +4,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
 import { filter, map } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
+
 import { FirebaseAuthService } from "./core/auth/firebase-auth.service";
 import { UserService } from "./core/services/user.service";
 
@@ -52,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.currentUser.email = user.email;
                 this.currentUser.displayName = "NEED TO UPDATE";
             }
-        })
+        });
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {

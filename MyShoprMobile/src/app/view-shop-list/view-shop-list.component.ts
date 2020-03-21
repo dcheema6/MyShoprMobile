@@ -59,10 +59,12 @@ export class ViewShopListComponent implements OnInit {
     goShop(): void {
         this.shopService.saveShoppingList(this.currUserId, this.lists).subscribe(() => {
             this.shopService.setSelectedList(this.list);
-            this.routerExtensions.navigate(['store-picker'], {
-                transition: { name: "fade" }
-            });
+            this.routerExtensions.navigate(['store-picker'], { transition: { name: "fade" } });
         });
+    }
+
+    onBack(): void {
+        this.routerExtensions.navigate(['dashboard'], { transition: { name: "fade" } });
     }
 
     updateItem(index: number, args: any): void {

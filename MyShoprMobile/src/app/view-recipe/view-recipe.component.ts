@@ -41,6 +41,10 @@ export class ViewRecipeComponent implements OnInit {
         if (!this.recipe['instructions']) this.recipe['instructions'] = [];
     }
 
+    onBack(): void {
+        this.routerExtensions.navigate(['dashboard'], { transition: { name: "fade" } });
+    }
+
     addNew(): void {
         this.recipe[this.selectedTab].unshift('');
     }
