@@ -2,8 +2,10 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
-import { filter, map } from "rxjs/operators";
+import { filter } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
+
+import { User } from "./core/models/user.model";
 
 import { FirebaseAuthService } from "./core/auth/firebase-auth.service";
 import { UserService } from "./core/services/user.service";
@@ -13,13 +15,9 @@ import { UserService } from "./core/services/user.service";
     templateUrl: "app.component.html"
 })
 export class AppComponent implements OnInit, OnDestroy {
-    private _activatedUrl: string;
-    private _sideDrawerTransition: DrawerTransitionBase;
-    public currentUser = {
-        email: '',
-        displayName: null
-    };
-    private userInfo: any;
+    _activatedUrl: string;
+    _sideDrawerTransition: DrawerTransitionBase;
+    user: User = new User();
 
     constructor(
         private router: Router,
@@ -33,25 +31,19 @@ export class AppComponent implements OnInit, OnDestroy {
         this._activatedUrl = "/login";
         this._sideDrawerTransition = new SlideInOnTopTransition();
 
-        this.fbAuth.signInWithEmailAndPassword('a@b.com', 'aaabbb').then(temp => {
-            this.routerExtensions.navigate(['/dashboard'])
-        }).catch(error => { console.log(error) });
-
         this.router.events
             .pipe(filter((event: any) => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
 
         this.fbAuth.getCurrentUserObs().subscribe((user) => {
             if (user && user.email) {
-                this.userServ.getUserData().pipe(map(result => <any>result)).subscribe(result => {
-                    result.data.userMany.forEach(userData => {
-                        if (userData.email === user.email) {
-                            this.userInfo = user;
-                        }
-                    });
+                this.user.email = user.email;
+                this.userServ.getUserByEmail(user.email).subscribe((result: any) => {
+                    this.user._id = result.data.userMany[0]._id;
+                    this.user.displayName = result.data.userMany[0].displayName;
+                    this.userServ.user = this.user;
+                    this.routerExtensions.navigate(['/dashboard']);
                 });
-                this.currentUser.email = user.email;
-                this.currentUser.displayName = "NEED TO UPDATE";
             }
         });
     }
@@ -81,6 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     public signOut() {
         this.fbAuth.signOut().then(() => {
+            this.user = new User();
             console.log("Signed Out, Navigating to Login page");
             this.onNavItemTap('/login');
         }).catch(err => {

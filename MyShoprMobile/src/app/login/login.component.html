@@ -28,6 +28,11 @@
                 autocapitalizationType="none" [(ngModel)]="user.password"></TextField>
             <StackLayout class="hr-light"></StackLayout>
         </StackLayout>
+        <StackLayout *ngIf="!isLoggingIn" class="input-field">
+            <TextField class="input" hint="Your Name" secure="true" autocorrect="false"
+                autocapitalizationType="none" [(ngModel)]="user.displayName"></TextField>
+            <StackLayout class="hr-light"></StackLayout>
+        </StackLayout>
 
         <Button [text]="isLoggingIn ? 'Log In' : 'Sign Up'" (tap)="submit()" class="btn btn-primary m-t-20"></Button>
         <Label *ngIf="isLoggingIn" text="Forgot your password?" (tap)="forgotPassword()"></Label>

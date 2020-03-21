@@ -4,6 +4,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { alert } from "tns-core-modules/ui/dialogs";
 
 import { RecipeService } from "../core/services/recipe.service";
+import { UserService } from "../core/services/user.service";
 
 @Component({
     selector: "ViewRecipe",
@@ -14,17 +15,17 @@ import { RecipeService } from "../core/services/recipe.service";
 export class ViewRecipeComponent implements OnInit {
     recipe: any = { };
     selectedTab = 'ingredients';
-    currUserId: string = "5e7304361c9d44000029227a";
     recipes: Array<any>;
     
     constructor(private route: ActivatedRoute,
         private routerExtensions: RouterExtensions,
-        private recipeService: RecipeService) {
+        private recipeService: RecipeService,
+        private userService: UserService) {
     }
 
     ngOnInit(): void {
         this.recipe['_id'] = this.route.snapshot.params.id;
-        this.recipeService.getRecipe(this.currUserId, this.recipe._id).subscribe((recipes: any) => {
+        this.recipeService.getRecipe(this.userService.user._id, this.recipe._id).subscribe((recipes: any) => {
             this.recipes = recipes.data.userById.recipeList;
             this.recipes.forEach((recipe: any) => {
                 if (recipe._id === this.recipe._id) this.recipe = recipe;
@@ -56,7 +57,7 @@ export class ViewRecipeComponent implements OnInit {
     }
 
     saveRecipe(): void {
-        this.recipeService.saveRecipe(this.currUserId, this.recipes).subscribe((rtnVal) => {
+        this.recipeService.saveRecipe(this.userService.user._id, this.recipes).subscribe((rtnVal) => {
             alert({
                 title: "Saved",
                 message: "Recipe was successfully saved.",

@@ -15,7 +15,7 @@
 </ActionBar>
 
 <GridLayout rows="auto,60,*">
-    <StackLayout row="0" class="c-bg-white" (loaded)="pageLoaded($event)" (pan)="onPan($event)" (pinch)="onZoom($event)"></StackLayout>
+    <StackLayout row="0" height="{{height}}" class="c-bg-white" (loaded)="pageLoaded($event)" (pan)="onPan($event)" (pinch)="onZoom($event)"></StackLayout>
     <GridLayout row="1" columns="*,2*" class="p-10 list-group-item">
         <Label col="0" text="Aisle" textAlignment="center" class="c-bg-white text-primary h2"></Label>
         <Label col="1" text="Item" textAlignment="center" class="list-group-item-text text-danger h2"></Label>

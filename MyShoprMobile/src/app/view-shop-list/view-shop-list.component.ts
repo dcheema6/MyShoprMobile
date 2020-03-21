@@ -5,6 +5,7 @@ import { alert } from "tns-core-modules/ui/dialogs";
 
 import { RecipeService } from "../core/services/recipe.service";
 import { ShoppingService } from "../core/services/shopping.service";
+import { UserService } from "../core/services/user.service";
 
 @Component({
     selector: "ViewShopList",
@@ -14,19 +15,19 @@ import { ShoppingService } from "../core/services/shopping.service";
 export class ViewShopListComponent implements OnInit {
     list: any = { };
     recipes: Array<any> = [];
-    currUserId: string = "5e7304361c9d44000029227a";
     // temp
     lists: Array<any>;
 
     constructor(private route: ActivatedRoute,
         private routerExtensions: RouterExtensions,
         private shopService: ShoppingService,
-        private recipeService: RecipeService) {
+        private recipeService: RecipeService,
+        private userService: UserService) {
     }
 
     ngOnInit(): void {
         this.list['_id'] = this.route.snapshot.params.id;
-        this.shopService.getShoppingList(this.currUserId, this.list._id).subscribe((lists: any) => {
+        this.shopService.getShoppingList(this.userService.user._id, this.list._id).subscribe((lists: any) => {
             this.lists = lists.data.userById.shoppingLists;
             this.lists.forEach((list: any) => {
                 if (list._id === this.list._id) this.list = list;
@@ -47,7 +48,7 @@ export class ViewShopListComponent implements OnInit {
     }
 
     saveList(): void {
-        this.shopService.saveShoppingList(this.currUserId, this.lists).subscribe((rtnVal) => {
+        this.shopService.saveShoppingList(this.userService.user._id, this.lists).subscribe((rtnVal) => {
             alert({
                 title: "Saved",
                 message: "Shopping list was successfully saved.",
@@ -57,7 +58,7 @@ export class ViewShopListComponent implements OnInit {
     }
     
     goShop(): void {
-        this.shopService.saveShoppingList(this.currUserId, this.lists).subscribe(() => {
+        this.shopService.saveShoppingList(this.userService.user._id, this.lists).subscribe(() => {
             this.shopService.setSelectedList(this.list);
             this.routerExtensions.navigate(['store-picker'], { transition: { name: "fade" } });
         });
@@ -76,17 +77,17 @@ export class ViewShopListComponent implements OnInit {
         this.recipes = [];
         if (!args.object.text || args.object.text === '') return;
         // TODO: make sure search string is query safe
-        this.recipeService.searchRecipeByName(this.currUserId, args.object.text).subscribe((recipes: any) => {
-            recipes.data.userById.recipeList.forEach((recipe) => {
+        this.recipeService.searchRecipeByName(this.userService.user._id, args.object.text).subscribe((recipes: any) => {
+            recipes.data.userById.recipeList.forEach((recipe: any) => {
                 if (recipe.name.includes(args.object.text)) this.recipes.push(recipe);
             });
         });
     }
 
-    addRecipeToList(recipe): void {
-        recipe.ingredients.forEach(ingredient => {
+    addRecipeToList(recipe: any): void {
+        recipe.ingredients.forEach((ingredient: any) => {
             let exists = false;
-            this.list.items.forEach(item => {
+            this.list.items.forEach((item: any) => {
                 if (ingredient == item) exists = true;
             });
             if (!exists) this.list.items.unshift(ingredient);

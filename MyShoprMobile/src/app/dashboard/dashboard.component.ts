@@ -5,6 +5,7 @@ import { prompt } from "tns-core-modules/ui/dialogs";
 
 import { RecipeService } from "../core/services/recipe.service";
 import { ShoppingService } from "../core/services/shopping.service";
+import { UserService } from "../core/services/user.service";
 
 @Component({
     selector: "Dashboard",
@@ -20,10 +21,10 @@ import { ShoppingService } from "../core/services/shopping.service";
 export class DashboardComponent implements OnInit {
     lists: Array<any>;
     recipes: Array<any>;
-    currUserId: string = "5e7304361c9d44000029227a";
 
     constructor(private recipeService: RecipeService,
-        private shopService: ShoppingService) {
+        private shopService: ShoppingService,
+        private userService: UserService) {
     }
 
     ngOnInit(): void {
@@ -47,12 +48,12 @@ export class DashboardComponent implements OnInit {
                 if (listId == 0) {
                     let id = this.lists[index]._id;
                     this.lists.splice(index, 1);
-                    this.shopService.deleteShoppingList(this.currUserId, this.lists).subscribe(() => {
+                    this.shopService.deleteShoppingList(this.userService.user._id, this.lists).subscribe(() => {
                     });
                 } else if (listId == 1) {
                     let id = this.recipes[index]._id;
                     this.recipes.splice(index, 1);
-                    this.recipeService.deleteRecipe(this.currUserId, this.recipes).subscribe(() => {
+                    this.recipeService.deleteRecipe(this.userService.user._id, this.recipes).subscribe(() => {
                     });
                 }
             }
@@ -60,13 +61,13 @@ export class DashboardComponent implements OnInit {
     }
 
     getShoppingList(): void {
-        this.shopService.retreiveShoppingLists(this.currUserId).subscribe((lists: any) => {
+        this.shopService.retreiveShoppingLists(this.userService.user._id).subscribe((lists: any) => {
             this.lists = lists.data.userById.shoppingLists;
         });
     }
 
     getRecipeList(): void {
-        this.recipeService.retrieveRecipeList(this.currUserId).subscribe((recp: any) => {
+        this.recipeService.retrieveRecipeList(this.userService.user._id).subscribe((recp: any) => {
             this.recipes = recp.data.userById.recipeList;
         });
     }

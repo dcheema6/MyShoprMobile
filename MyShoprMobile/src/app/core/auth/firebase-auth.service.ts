@@ -32,7 +32,14 @@ export class FirebaseAuthService {
         }
     }
 
-    public signInWithEmailAndPassword(email: string, password: string) {
+    public signUp(email: string, password: string) {
+        return firebase.createUser({
+            email: email,
+            password: password
+        });
+    }
+
+    public signIn(email: string, password: string) {
         return firebase.login({
             type: firebase.LoginType.PASSWORD,
             passwordOptions: {

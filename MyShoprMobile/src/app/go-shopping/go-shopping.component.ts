@@ -18,6 +18,7 @@ import { ShoppingService } from '../core/services/shopping.service';
 })
 export class GoShoppingComponent implements OnInit {
     slayout: any;
+    height: number;
     imgSrc: ImageSource;
     aisles: Array<any>;
     items: Array<any> = [];
@@ -41,6 +42,7 @@ export class GoShoppingComponent implements OnInit {
             this.aisles = store.aisles;
             this.getImagefromURL(store.layoutUrl).then((imgSrc) => {
                 this.imgSrc = imgSrc;
+                this.height = Math.ceil(imgSrc.height/5);
                 let placeholder = new Placeholder();
     
                 if (isAndroid) placeholder.setNativeView(this.getLayoutViewAndroid());
