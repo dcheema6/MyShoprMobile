@@ -6,7 +6,6 @@ import { Placeholder } from "tns-core-modules/ui/placeholder";
 import { isAndroid } from "tns-core-modules/platform/platform";
 import { ad } from "tns-core-modules/utils/utils";
 import { ImageSource } from '@nativescript/core/image-source/image-source';
-import { ActivatedRoute } from "@angular/router";
 
 import { StoresService } from '../core/services/stores.service';
 import { ShoppingService } from '../core/services/shopping.service';
@@ -21,11 +20,10 @@ export class GoShoppingComponent implements OnInit {
     slayout: any;
     imgSrc: ImageSource;
     aisles: Array<any>;
-    items: Array<any>;
+    items: Array<any> = [];
 
     constructor(private storeService: StoresService,
-        private shopService: ShoppingService,
-        private route: ActivatedRoute,) {
+        private shopService: ShoppingService) {
     }
 
     ngOnInit(): void {
@@ -50,15 +48,42 @@ export class GoShoppingComponent implements OnInit {
                 this.slayout.insertChild(placeholder, 0);
     
                 this.aisles.forEach((aisle: any) => {
-                    aisle.i.forEach((item: any) => {
-                        this.items.push(item);
-                    });
+                    if (aisle.i) aisle.i.forEach((item: any) => {
+                            item['aisle'] = aisle.aisleId;
+                            this.items.push(item);
+                        });
+                    else this.items.push({ aisle: aisle.aisleId, name: "" });
                 });
             });
         });
     }
 
-    public getData(): Promise<any> {
+    currScale: number = 1;
+    onZoom(args: any): void {
+        let scale = args.scale * this.currScale;
+        this.slayout.animate({
+            scale: { x: scale, y: scale },
+            duration: 0
+        });
+
+        if (args.state === 3) this.currScale = scale;
+    }
+
+    currDeltaX: number = 0;
+    currDeltaY: number = 0;
+    onPan(args: any): void {
+        let dx = args.deltaX + this.currDeltaX, dy = args.deltaY + this.currDeltaY;
+        if (args.state === 3) {
+            this.currDeltaX = dx;
+            this.currDeltaY = dy;
+        }
+        this.slayout.animate({
+            translate: { x: dx, y: dy},
+            duration: 0
+        });
+    }
+
+    getData(): Promise<any> {
         let aisles = [];
         let enterance: any, exit: any;
         let goShoppingItems = this.shopService.getGoShoppingItems();
@@ -71,7 +96,7 @@ export class GoShoppingComponent implements OnInit {
                 for (let i = 0; i < storeAisles.length; i++) {
                     if (storeAisles[i].aisleId == "entrance") enterance = storeAisles[i];
                     else if (storeAisles[i].aisleId == "checkout") exit = storeAisles[i];
-                    
+
                     let aItems = storeAisles[i].items;
 
                     for (let j = 0; j < goShoppingItems.length; j++) {
@@ -89,10 +114,44 @@ export class GoShoppingComponent implements OnInit {
                 if(exit) aisles.push(exit);
     
                 store.aisles = aisles;
-                aisles.forEach(item=>console.log("item ",item.i))
                 resolve(store);
             });
         });
+        // return new Promise((resolve) => {
+        //     resolve([{
+        //         id: "entrance",
+        //         coords: [143, 720]
+        //     },
+        //     {
+        //         item: "1",
+        //         id: "1",
+        //         coords: [67, 157]
+        //     },
+        //     {
+        //         item: "2",
+        //         id: "2",
+        //         coords: [493, 100]
+        //     },
+        //     {
+        //         item: "3",
+        //         id: "3",
+        //         coords: [440, 285]
+        //     },
+        //     {
+        //         item: "4",
+        //         id: "4",
+        //         coords: [440, 480]
+        //     },
+        //     {
+        //         item: "5",
+        //         id: "5",
+        //         coords: [843, 427]
+        //     },
+        //     {
+        //         id: "checkout",
+        //         coords: [1080, 750]
+        //     }]);
+        // });
     }
 
     getLayoutViewAndroid(): android.widget.ImageView {

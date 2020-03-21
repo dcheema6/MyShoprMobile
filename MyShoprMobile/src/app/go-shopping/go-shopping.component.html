@@ -13,13 +13,21 @@
     </ActionItem>
     <Label text="Go Shopping"></Label>
 </ActionBar>
-<StackLayout class="page" orientation="vertical" width="100%" height="100%">
-    <StackLayout class="canvas" (loaded)="pageLoaded($event)"></StackLayout>
-    <ListView height="100%" [items]="items" separatorColor="#000080" backgroundColor="lightgray">
-        <ng-template let-item="item">
-            <StackLayout>
-                <Label [text]="item.name"></Label>
-            </StackLayout>
-        </ng-template>
-    </ListView>
-</StackLayout>
+
+<GridLayout rows="auto,60,*">
+    <StackLayout row="0" class="bg-midnight" (loaded)="pageLoaded($event)" (pan)="onPan($event)" (pinch)="onZoom($event)"></StackLayout>
+    <GridLayout row="1" columns="*,2*" class="p-10 list-group-item">
+        <Label col="0" text="Aisle" textAlignment="center" class="c-bg-white text-primary h2"></Label>
+        <Label col="1" text="Item" textAlignment="center" class="list-group-item-text text-danger h2"></Label>
+    </GridLayout>
+    <StackLayout row="2">
+        <ListView [items]="items" class="list-group">
+            <ng-template let-item="item">
+                <GridLayout columns="*,2*" class="list-group-item">
+                    <Label col="0" [text]="item.aisle" class="c-bg-white h3"></Label>
+                    <Label col="1" [text]="item.name" class="list-group-item-text h3"></Label>
+                </GridLayout>
+            </ng-template>
+        </ListView>
+    </StackLayout>
+</GridLayout>
