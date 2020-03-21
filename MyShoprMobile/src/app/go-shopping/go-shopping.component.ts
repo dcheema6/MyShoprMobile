@@ -159,21 +159,28 @@ export class GoShoppingComponent implements OnInit {
         nativeView.setScaleType(android.widget.ImageView.ScaleType.FIT_CENTER);
 
         let bitmap: android.graphics.Bitmap = this.imgSrc.android.copy(android.graphics.Bitmap.Config.ARGB_8888, true);
-
         let canvas = new android.graphics.Canvas(bitmap);
-        nativeView.setMaxHeight(bitmap.getHeight()
-        );
 
-        this.aisles.forEach(aisle => {
-            this.addNodeToCanvasAndroid(aisle.position.xPos, aisle.position.yPos, 40, canvas);
-        });
+        this.sortAislesByTravelOrder(0, this.aisles.length-1);
 
-        this.drawPaths(canvas);
+        this.drawPaths(40, canvas);
         nativeView.setImageBitmap(bitmap);
         return nativeView;
     }
 
-    addNodeToCanvasAndroid(x: number, y: number, size: number, canvas: android.graphics.Canvas): void {
+    drawPaths(offset: number, canvas: android.graphics.Canvas): void {
+        let size = 40;
+
+        this.aisles.forEach(aisle => {
+            this.drawNode(aisle.position.xPos, aisle.position.yPos, size, canvas);
+        });
+
+        for (let i = 0; i < this.aisles.length-1; i++) {
+            this.drawLine(this.aisles[i].position, this.aisles[i+1].position, size, canvas);
+        }
+    }
+
+    drawNode(x: number, y: number, size: number, canvas: android.graphics.Canvas): void {
         let paint = new android.graphics.Paint();
         paint.setARGB(255, 0, 0, 255);
         paint.setAntiAlias(true);
@@ -182,20 +189,22 @@ export class GoShoppingComponent implements OnInit {
         canvas.drawCircle(x, y, size, paint);
     }
 
-    drawLine(pos1: any, pos2: any, canvas: android.graphics.Canvas): void {
+    drawLine(pos1: any, pos2: any, offset, canvas: android.graphics.Canvas): void {
         let paint = new android.graphics.Paint();
         paint.setARGB(255, 0, 0, 255);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(10);
         paint.setStyle(android.graphics.Paint.Style.STROKE)
-        canvas.drawLine(pos1.xPos, pos1.yPos, pos2.xPos, pos2.yPos, paint);
+        let offPos = this.getOffsetPos(pos1, pos2, offset);
+        canvas.drawLines(offPos, paint);
     }
 
-    drawPaths(canvas: android.graphics.Canvas): void {
-        this.sortAisles(0, this.aisles.length-1);
-
-        for (let i = 0; i < this.aisles.length-1; i++)
-            this.drawLine(this.aisles[i].position, this.aisles[i+1].position, canvas);
+    getOffsetPos(pos1: any, pos2: any, offset: number): Array<number> {
+        let dx = pos2.xPos - pos1.xPos, dy = pos2.yPos - pos1.yPos;
+        let dis = this.calculateDis(pos1, pos2);
+        let x1 = pos1.xPos + dx * offset/dis, y1 = pos1.yPos + dy * offset/dis;
+        let x2 = pos2.xPos - dx * offset/dis, y2 = pos2.yPos - dy * offset/dis;
+        return [ x1, y1, x2, y2 ];
     }
 
     /**
@@ -203,7 +212,7 @@ export class GoShoppingComponent implements OnInit {
      *  Heuristic search, time Complexity: O(n^2), space complexity: n
      *  n = itemAisleArr.length
      *  */
-    sortAisles(startInd: number, endInd: number) {
+    sortAislesByTravelOrder(startInd: number, endInd: number) {
         this.swapAisles(endInd, this.aisles.length-1);
         this.swapAisles(startInd, 0);
         this.sortAisleHelper(0);
