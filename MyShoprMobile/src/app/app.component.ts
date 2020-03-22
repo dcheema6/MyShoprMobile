@@ -19,8 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
     _sideDrawerTransition: DrawerTransitionBase;
     user: User = new User();
 
-    constructor(
-        private router: Router,
+    constructor(private router: Router,
         private routerExtensions: RouterExtensions,
         private fbAuth: FirebaseAuthService,
         private userServ: UserService) {

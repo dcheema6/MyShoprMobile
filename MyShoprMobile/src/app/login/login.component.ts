@@ -39,9 +39,7 @@ export class LoginComponent implements OnInit {
         }
 
         if (this.isLoggingIn) {
-            console.log("Trying", this.user);
             this.authService.signInWithEmailAndPassword(this.user.email, this.user.password).then((user) => {
-                console.log("Trying", user);
                 this.user = new User();
             }).catch((err)=>{
                 console.log(err.code, err.message);

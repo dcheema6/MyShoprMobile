@@ -14,8 +14,8 @@ import { UserService } from "../core/services/user.service";
 })
 export class ViewRecipeComponent implements OnInit {
     recipe: any = { };
-    selectedTab = 'ingredients';
     recipes: Array<any>;
+    tabNames = ['ingredients', 'instructions'];
     
     constructor(private route: ActivatedRoute,
         private routerExtensions: RouterExtensions,
@@ -43,17 +43,15 @@ export class ViewRecipeComponent implements OnInit {
     }
 
     onBack(): void {
-        this.routerExtensions.navigate(['dashboard'], { transition: { name: "fade" } });
+        this.routerExtensions.backToPreviousPage();
     }
 
-    addNew(): void {
-        this.recipe[this.selectedTab].unshift('');
+    addNew(tabIndex: number): void {
+        this.recipe[this.tabNames[tabIndex]].unshift('');
     }
 
-    update(selTabInd: number, index: number, args: any) {
-        if ((selTabInd == 1 && this.selectedTab == 'ingredients') ||
-            (selTabInd == 2 && this.selectedTab == 'instructions')) return;
-        this.recipe[this.selectedTab][index] = args.object.text;
+    update(tabIndex: number, index: number, args: any) {
+        this.recipe[this.tabNames[tabIndex]][index] = args.object.text;
     }
 
     saveRecipe(): void {
@@ -66,12 +64,7 @@ export class ViewRecipeComponent implements OnInit {
         });
     }
 
-    delete(index: number): void {
-        this.recipe[this.selectedTab].splice(index, 1);
-    }
-
-    onTabChange(args: any): void {
-        if (args.object.selectedIndex == 0) this.selectedTab = 'ingredients';
-        else if (args.object.selectedIndex == 1) this.selectedTab = 'instructions';
+    delete(tabIndex: number, index: number): void {
+        this.recipe[this.tabNames[tabIndex]].splice(index, 1);
     }
 }

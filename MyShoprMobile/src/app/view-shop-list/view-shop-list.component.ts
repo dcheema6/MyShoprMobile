@@ -65,7 +65,7 @@ export class ViewShopListComponent implements OnInit {
     }
 
     onBack(): void {
-        this.routerExtensions.navigate(['dashboard'], { transition: { name: "fade" } });
+        this.routerExtensions.backToPreviousPage();
     }
 
     updateItem(index: number, args: any): void {
