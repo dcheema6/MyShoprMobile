@@ -11,11 +11,7 @@ import { UserService } from "../core/services/user.service";
     selector: "Dashboard",
     moduleId: module.id,
     templateUrl: "./dashboard.component.html",
-    styleUrls: ["dashboard.component.scss"],
-    providers: [
-        RecipeService,
-        ShoppingService,
-    ]
+    styleUrls: ["dashboard.component.scss"]
 })
 
 export class DashboardComponent implements OnInit {
@@ -28,8 +24,8 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getRecipeList();
-        this.getShoppingList();
+        this.lists = this.userService.user.shoppingLists;
+        this.recipes = this.userService.user.recipeList;
     }
 
     onDrawerButtonTap(): void {
@@ -46,29 +42,15 @@ export class DashboardComponent implements OnInit {
         }).then((data) => {
             if (data.result) {
                 if (listId == 0) {
-                    let id = this.lists[index]._id;
                     this.lists.splice(index, 1);
                     this.shopService.deleteShoppingList(this.userService.user._id, this.lists).subscribe(() => {
                     });
                 } else if (listId == 1) {
-                    let id = this.recipes[index]._id;
                     this.recipes.splice(index, 1);
                     this.recipeService.deleteRecipe(this.userService.user._id, this.recipes).subscribe(() => {
                     });
                 }
             }
-        });
-    }
-
-    getShoppingList(): void {
-        this.shopService.retreiveShoppingLists(this.userService.user._id).subscribe((lists: any) => {
-            this.lists = lists.data.userById.shoppingLists;
-        });
-    }
-
-    getRecipeList(): void {
-        this.recipeService.retrieveRecipeList(this.userService.user._id).subscribe((recp: any) => {
-            this.recipes = recp.data.userById.recipeList;
         });
     }
 }

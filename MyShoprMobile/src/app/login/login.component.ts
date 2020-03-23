@@ -28,11 +28,11 @@ export class LoginComponent implements OnInit {
         sideDrawer.showDrawer();
     }
 
-    toggleForm() {
+    toggleForm(): void {
         this.isLoggingIn = !this.isLoggingIn;
     }
 
-    submit() {
+    submit(): void {
         if (!this.user.email || !this.user.password) {
             alert({ message: "Please provide both an email address and password." });
             return;

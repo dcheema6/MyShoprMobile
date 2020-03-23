@@ -36,12 +36,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.fbAuth.getCurrentUserObs().subscribe((user) => {
             if (user && user.email) {
-                this.user.email = user.email;
                 this.userServ.getUserByEmail(user.email).subscribe((result: any) => {
+                    this.user.email = user.email;
                     this.user._id = result.data.userMany[0]._id;
                     this.user.displayName = result.data.userMany[0].displayName;
+                    this.user.recipeList = result.data.userMany[0].recipeList;
+                    this.user.shoppingLists = result.data.userMany[0].shoppingLists;
                     this.userServ.user = this.user;
-                    this.routerExtensions.navigate(['/dashboard']);
+                    this.routerExtensions.navigate(['dashboard']);
                 });
             }
         });

@@ -3,8 +3,8 @@ export class User {
     displayName: string = "";
     email: string = "";
     password: string;
-    shoppingLists: Array<ShoppingList>;
-    recipeList: Array<Recipe>;
+    shoppingLists: Array<any>;
+    recipeList: Array<any>;
 }
 
 export class ShoppingList {

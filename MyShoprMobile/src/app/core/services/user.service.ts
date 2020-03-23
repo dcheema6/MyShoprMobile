@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { User } from "../models/user.model";
 
 @Injectable()
@@ -18,6 +18,17 @@ export class UserService {
                     _id
                     email
                     displayName
+                    recipeList {
+                        _id
+                        name
+                        ingredients
+                        instructions
+                    }
+                    shoppingLists {
+                        _id
+                        name
+                        items
+                    }
                 }
             }`
         });
@@ -37,6 +48,8 @@ export class UserService {
                     _id
                     email
                     displayName
+                    recipeList
+                    shoppingLists
                 }
             }`
         });

@@ -9,8 +9,7 @@ import { UserService } from "../core/services/user.service";
 @Component({
     selector: "ViewRecipe",
     moduleId: module.id,
-    templateUrl: "./view-recipe.component.html",
-    providers: [ RecipeService ]
+    templateUrl: "./view-recipe.component.html"
 })
 export class ViewRecipeComponent implements OnInit {
     recipe: any = { };
@@ -25,17 +24,15 @@ export class ViewRecipeComponent implements OnInit {
 
     ngOnInit(): void {
         this.recipe['_id'] = this.route.snapshot.params.id;
-        this.recipeService.getRecipe(this.userService.user._id, this.recipe._id).subscribe((recipes: any) => {
-            this.recipes = recipes.data.userById.recipeList;
-            this.recipes.forEach((recipe: any) => {
-                if (recipe._id === this.recipe._id) this.recipe = recipe;
-            });
-
-            if (this.recipe._id == -1) {
-                delete this.recipe['_id'];
-                this.recipes.push(this.recipe);
-            }
+        this.recipes = this.userService.user.recipeList;
+        this.recipes.forEach((recipe: any) => {
+            if (recipe._id === this.recipe._id) this.recipe = recipe;
         });
+
+        if (this.recipe._id == -1) {
+            delete this.recipe['_id'];
+            this.recipes.push(this.recipe);
+        }
 
         if (!this.recipe['name']) this.recipe['name'] = 'NewRecipeName';
         if (!this.recipe['ingredients']) this.recipe['ingredients'] = [];
