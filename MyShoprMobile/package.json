@@ -1,49 +1,31 @@
 {
-  "nativescript": {
-    "id": "com.mdmj.MyShoprMobile",
-    "tns-ios": {
-      "version": "6.4.2"
-    },
-    "tns-android": {
-      "version": "6.4.1"
-    }
-  },
-  "description": "NativeScript Application",
-  "license": "UNLICENSED",
-  "repository": "https://github.com/MrNorthmore/MyShoprMobile.git",
+  "name": "MyShoprMobileReact",
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "lint": "tslint \"src/**/*.ts\""
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "@angular/animations": "~8.2.0",
-    "@angular/common": "~8.2.0",
-    "@angular/compiler": "~8.2.0",
-    "@angular/core": "~8.2.0",
-    "@angular/forms": "~8.2.0",
-    "@angular/platform-browser": "~8.2.0",
-    "@angular/platform-browser-dynamic": "~8.2.0",
-    "@angular/router": "~8.2.0",
-    "@nativescript/theme": "~2.3.0",
-    "nativescript-angular": "~8.21.0",
-    "nativescript-drop-down": "^5.0.4",
-    "nativescript-plugin-firebase": "^10.5.0",
-    "nativescript-ui-sidedrawer": "~8.0.0",
-    "reflect-metadata": "~0.1.12",
-    "rxjs": "^6.5.4",
-    "tns-core-modules": "~6.4.0",
-    "tns-platform-declarations": "^6.4.2",
-    "zone.js": "~0.9.1"
+    "react": "16.11.0",
+    "react-native": "0.62.1",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "~8.2.0",
-    "@ngtools/webpack": "^9.0.5",
-    "codelyzer": "~4.5.0",
-    "nativescript-dev-webpack": "~1.5.0",
-    "node-sass": "^4.7.1",
-    "tslint": "~5.19.0",
-    "typescript": "~3.5.3"
+    "@babel/core": "^7.6.2",
+    "@babel/runtime": "^7.6.2",
+    "@react-native-community/eslint-config": "^0.0.5",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.5.1",
+    "jest": "^24.9.0",
+    "metro-react-native-babel-preset": "^0.58.0",
+    "react-test-renderer": "16.11.0"
   },
-  "gitHead": "d8bdf0799a219051f28f8abd7c258d2bf2fce6e1",
-  "readme": "README.md",
-  "author": "MDMJ Capstone Group 2020"
+  "jest": {
+    "preset": "react-native"
+  }
 }
