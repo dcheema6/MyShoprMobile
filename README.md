@@ -16,9 +16,9 @@ Don't forget to run `npm install` in MyShoperMobile folder
 2. Using nativescript preview function as follows:
 > `npm start`
 3. Running Local iOS Environment:
-> `npm start ios`
+> `npm run ios`
 4. Running Local Android:
-> `npm start android`
+> `npm run android`
 
 ## Hosting Environments
 MongoDB Atlas (Cloud Database): https://cloud.mongodb.com/
