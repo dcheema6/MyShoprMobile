@@ -9,6 +9,8 @@ Install Node.js found here:
 Follow the react-native full-setup found here:
 > https://reactnative.dev/docs/environment-setup
 
+Don't forget to run `npm install` in MyShoperMobile folder 
+
 ## Running Local Environment
 1. Begin by opening a command prompt at the project level folder
 2. Using nativescript preview function as follows:
